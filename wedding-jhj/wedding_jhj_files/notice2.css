@@ -1,0 +1,47 @@
+/* #pro_mode .notice_wrap{margin-top: 100px;} */
+#pro_mode .notice_inner{padding: 70px 40px 80px 40px;}
+#pro_mode .notice_inner .theme_tit {
+  font-size: 17px;
+  color: #f0b4b4;
+  font-family: 'DancingScript' !important;
+  display: inline-block;
+  margin-bottom: 20px;
+  letter-spacing: 1px;
+}
+#pro_mode .notice_inner .notice_main {
+  text-align: center;
+}
+#pro_mode .notice_inner .notice_main .tab_tit {
+  font-size: 1rem;
+  border-bottom: 1px solid #e0e0e0;
+  width: 100%;
+  display: inline-block;
+  padding-bottom: 10px;
+}
+#pro_mode .notice_inner .notice_main .tab_img {
+  width: 100%;
+  height: auto;
+  border-radius: 5px;
+  overflow: hidden;
+  margin-top: 20px;
+}
+#pro_mode .notice_inner .notice_main .tab_img img {
+  width: 100%;
+  display: block;
+}
+#pro_mode .notice_inner .notice_main .tab_txt {
+  text-align: center;
+  line-height: 20px;
+  /* color: #838383; */
+  font-size: 0.9rem;
+  margin-top: 15px;
+  white-space: pre-line;
+}
+#pro_mode .notice_inner .notice_main .tab_main2,
+#pro_mode .notice_inner .notice_main .tab_main3 {
+  margin-top: 40px;
+}
+#pro_mode .notice_inner .view_2,
+#pro_mode .notice_inner .view_3 {
+  display: none;
+}

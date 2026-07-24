@@ -1,0 +1,74 @@
+/* #pro_mode .profile_wrap .profile_inner .theme_tit{font-family: 'DancingScript' !important;  margin-bottom: 25px;  display: inline-block;  letter-spacing: 1px;}
+#pro_mode .profile_wrap .profile_inner .pro_text_wrap .groom_name{font-size: 13px;  color: #658fe7;  margin-right: 3px;}
+#pro_mode .profile_wrap .profile_inner .pro_text_wrap .bride_name{font-size: 13px;color: #f288d5;  margin-right: 3px;}
+#pro_mode .profile_wrap .gr_tit_wrap{display: flex;justify-content: center;margin-bottom: 7px; align-items: center;}
+#pro_mode .pro_img .profile_wrap .pro_text_wrap .gr_tit_wrap .groom_name{font-size: 13px;color: #83afe5;margin-right: 5px;}
+#pro_mode .profile_wrap .br_tit_wrap{ display: flex;justify-content: center;margin-bottom: 7px; align-items: center;}
+#pro_mode .pro_img .profile_wrap .pro_text_wrap .br_tit_wrap .bride_name{font-size: 13px;color: #f09499;margin-right: 5px;}
+#pro_mode .profile_wrap .pro_text_wrap .gr_text{line-height: 20px; font-size: 14px; color: #5c5c5c;}
+#pro_mode .profile_wrap .pro_text_wrap .br_text{line-height: 20px; font-size: 14px; color: #5c5c5c;}
+#pro_mode .pro_img .profile_content .pro_img_box{margin-bottom: 20PX;} */
+
+
+#pro_mode .profile_wrap .profile_inner .theme_tit {
+    font-family: 'DancingScript' !important;
+    margin-bottom: 25px;
+    display: inline-block;
+    letter-spacing: 1px;
+}
+
+#pro_mode .profile_wrap .profile_inner .pro_text_wrap .groom_name {
+    font-size: 13px;
+    color: #658fe7;
+    margin-right: 3px;
+}
+
+#pro_mode .profile_wrap .profile_inner .pro_text_wrap .bride_name {
+    font-size: 13px;
+    color: #f288d5;
+    margin-right: 3px;
+}
+
+#pro_mode .profile_wrap .gr_tit_wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 7px;
+    align-items: center;
+}
+
+#pro_mode .pro_img .profile_wrap .pro_text_wrap .gr_tit_wrap .groom_name {
+    font-size: 13px;
+    color: #83afe5;
+    margin-right: 5px;
+}
+
+#pro_mode .profile_wrap .br_tit_wrap {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 7px;
+    align-items: center;
+}
+
+#pro_mode .pro_img .profile_wrap .pro_text_wrap .br_tit_wrap .bride_name {
+    font-size: 13px;
+    color: #f09499;
+    margin-right: 5px;
+}
+
+#pro_mode .profile_wrap .pro_text_wrap .gr_text {
+    line-height: 20px;
+    font-size: 0.9rem;
+    color: #5c5c5c;
+}
+
+#pro_mode .profile_wrap .pro_text_wrap .br_text {
+    line-height: 20px;
+    font-size: 0.9rem;
+    color: #5c5c5c;
+}
+
+#pro_mode .pro_img .profile_content .pro_img_box {
+    margin-bottom: 20PX;
+    margin: 0px auto;
+    margin-bottom: 20px;
+}

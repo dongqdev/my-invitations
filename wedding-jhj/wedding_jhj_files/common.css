@@ -1,0 +1,107 @@
+* {margin:0; padding: 0; box-sizing: border-box;font-weight: normal;font-family: 'Pre-M';}
+@font-face {
+    font-family: 'Pre-L';
+    src: url("/storefarm/card/font/Pretendard-Light.woff2") format("woff2"),
+        url("/storefarm/card/font/Pretendard-Light.woff") format("woff");
+    font-style: normal; font-weight: normal;
+}
+@font-face {
+    font-family: 'Pre-M';
+    src: url("/storefarm/card/font/Pretendard-Medium.woff2") format("woff2"),
+        url("/storefarm/card/font/Pretendard-Medium.woff") format("woff");
+    font-style: normal; font-weight: normal;
+}
+@font-face {
+    font-family: 'Pre-R';
+    src: url("/storefarm/card/font/Pretendard-Regular.woff2") format("woff2"),
+        url("/storefarm/card/font/Pretendard-Regular.woff") format("woff");
+    font-style: normal; font-weight: normal;
+}
+@font-face {
+    font-family: 'Pre-B';
+    src: url("/storefarm/card/font/Pretendard-Bold.woff2") format("woff2"),
+        url("/storefarm/card/font/Pretendard-Bold.woff") format("woff");
+    font-style: normal; font-weight: normal;
+}
+ul,li{list-style: none}
+a{color: #000; text-decoration: none;}
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed,
+figure, figcaption, footer, header, hgroup,
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {margin: 0;padding: 0;border: 0;	font-size: 100%;vertical-align: baseline;}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure,
+footer, header, hgroup, menu, nav, section {display: block;}
+body {line-height: 1; overflow-x: hidden;}
+ol, ul {	list-style: none;}
+blockquote, q {	quotes: none;}
+blockquote:before, blockquote:after,
+q:before, q:after {	content: '';	content: none;}
+table {	border-collapse: collapse;	border-spacing: 0;}
+::selection {background-color: #f0e9d2;color: #000;	}
+*::-webkit-scrollbar { width: 8px; }
+*::-webkit-scrollbar-track { background-color: #fafafa; border-radius: 100px; }
+*::-webkit-scrollbar-thumb { background-color: #babfc3; border-radius: 100px; }
+* { scrollbar-color: #dddddd transparent; scrollbar-width: none;}
+*::-webkit-scrollbar-thumb { box-shadow: inset 2px 2px 5px 0 rgba(#fff, 0.5); border-radius: 100px; }
+section {}
+.inner {width: 800px;margin:0 auto;}
+input.g_input_checkbox {display: none;}
+.g_check {display: inline-block; width: 16px; height: 16px; border: 1px solid #dddddd; margin-right: 3px;  vertical-align: middle; cursor: pointer; text-align: center; border-radius: 4px;}
+.g_check i {opacity: 0; color: #97bde5;}
+.g_check_txt {font-size: 14px; cursor: pointer;  cursor: pointer;}
+input.g_input_checkbox:checked + label.g_check {border: 1px solid #97bde5; border-radius: 4px;}
+input.g_input_checkbox:checked + label.g_check i {opacity: 1;}
+#card_header {border-bottom: 1px solid #ddd;}
+#card_header .inner {height: 60px; width: 1300px; padding: 0 0 0 50px;}
+
+#card_header .inner h1 {
+  line-height: 58px;
+  position: relative;
+}
+#card_header .inner h1 img {
+  display: inline-block;
+  width: 100px;
+  vertical-align: middle;
+}
+#card_header .inner h1 .plus_logo{
+  position: absolute;
+  left: 72px;
+  top: 30px;
+  width:55px;
+}
+
+#card_header .inner span:nth-of-type(2) {display: none;}
+#card_header .inner span:nth-of-type(1) {background: #97bde5; color: #fff;}
+.video_inner_wrap {display: none;}
+
+#card_header .inner .btn_go{padding: 0px 20px; cursor: auto}
+#card_header .inner .btn_go .go_wrap a{padding: 10px; background-color: #97bde5;border-radius: 5px; position: relative; font-size: 12px; color: #fff}
+#card_header .inner .btn_go .go_wrap a:nth-child(1){margin-right:10px;}
+#card_header .inner .btn_go .go_wrap i{color: #fff; vertical-align: middle;font-size: 17px;margin-right: 5px;}
+
+@media screen and (max-width:1200px){
+  .inner  {width: 100%;}
+   #card_header .inner {width: 100%;}
+   #card_header .inner span:nth-of-type(1) {margin-right: 0;}
+   #card_header .inner span:nth-of-type(2) {display: block; background: #f1f1f1;}
+}
+@media screen and (max-width:767px){
+  #card_header .inner span.save,
+  #card_header .inner span.preview {position: fixed; bottom: 0; width: 50%; z-index: 4; height: 60px; text-align: center; font-size: 14px !important; border-top: 1px solid #ddd;}
+  #card_header .inner span:nth-of-type(1) {right: 0;}
+  #card_header .inner span:nth-of-type(2) {left: 0;  background: #ababab; color: #fff;}
+
+  #card_header .inner .btn_go .go_wrap a{background-color: #97bde5}
+  #card_header .inner .btn_go .go_wrap a font{display: none;}
+  #card_header .inner .btn_go .go_wrap a i{margin-right: 0}
+}

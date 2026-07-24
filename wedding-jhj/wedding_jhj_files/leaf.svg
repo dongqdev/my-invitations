@@ -1,0 +1,143 @@
+<svg id="그룹_34" data-name="그룹 34" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="94.02" height="138.26" viewBox="0 0 94.02 138.26">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1.666" y1="-3.034" x2="0.306" y2="1.082" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#fff7b8"/>
+      <stop offset="0" stop-color="#e6c684"/>
+      <stop offset="0.228" stop-color="#c09947"/>
+      <stop offset="0.414" stop-color="#e9c577"/>
+      <stop offset="0.586" stop-color="#9e6f06"/>
+      <stop offset="1" stop-color="#e5c98d"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-2" x1="2.317" y1="-2.136" x2="-0.191" y2="1.503" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-3" x1="2.264" y1="-9.828" x2="0.129" y2="2.675" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-4" x1="1.958" y1="-0.355" x2="-0.307" y2="1.075" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-5" x1="5.476" y1="-3.448" x2="-0.926" y2="1.615" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-6" x1="0.909" y1="-2.758" x2="-0.892" y2="12.097" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-7" x1="1.247" y1="-0.413" x2="-3.019" y2="4.532" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-8" x1="6.759" y1="-1.975" x2="-2.135" y2="1.677" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-9" x1="2.683" y1="-4.573" x2="-1.674" y2="5.487" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-10" x1="2.769" y1="-3.929" x2="-0.975" y2="3.232" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-11" x1="6.753" y1="-3.98" x2="-0.884" y2="1.464" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-12" x1="5.314" y1="-1.024" x2="-3.03" y2="1.722" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-13" x1="1.86" y1="-2.203" x2="-2.395" y2="5.781" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-14" x1="4.18" y1="-4.552" x2="-1.671" y2="3.498" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-15" x1="2.747" y1="-3.851" x2="-1.297" y2="3.962" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-16" x1="4.54" y1="-1.665" x2="-2.74" y2="2.231" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-17" x1="1.81" y1="-1.502" x2="-0.821" y2="2.391" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-18" x1="8.113" y1="-16.776" x2="-6.081" y2="15.458" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-19" x1="8.935" y1="-14.685" x2="-7.547" y2="15.005" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-20" x1="10.073" y1="-18.337" x2="-9.906" y2="21.091" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-21" x1="8.699" y1="-17.669" x2="-7.739" y2="18.729" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-22" x1="10.029" y1="-28.698" x2="-10.37" y2="33.743" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-23" x1="10.487" y1="-24.632" x2="-10.94" y2="29.282" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-24" x1="10.094" y1="-23.684" x2="-11.321" y2="30.291" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-25" x1="11.056" y1="-26.098" x2="-10.37" y2="27.89" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-26" x1="11.794" y1="-28.001" x2="-9.629" y2="26.051" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-27" x1="11.129" y1="-26.282" x2="-10.3" y2="27.709" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-28" x1="10.423" y1="-24.514" x2="-10.999" y2="29.474" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-29" x1="8.649" y1="-20.055" x2="-12.779" y2="34.002" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-30" x1="9.695" y1="-22.669" x2="-11.727" y2="31.308" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-31" x1="8.75" y1="-20.304" x2="-12.668" y2="33.686" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-32" x1="15.318" y1="-9.324" x2="-21.08" y2="14.797" xlink:href="#linear-gradient"/>
+    <linearGradient id="linear-gradient-33" x1="3.589" y1="-14.351" x2="-3.215" y2="18.385" xlink:href="#linear-gradient"/>
+  </defs>
+  <g id="그룹_1" data-name="그룹 1">
+    <path id="패스_1" data-name="패스 1" d="M66,138.26a102.543,102.543,0,0,1-43.28-35.1l.75-.53a101.619,101.619,0,0,0,42.9,34.78Z" fill="url(#linear-gradient)"/>
+  </g>
+  <g id="그룹_2" data-name="그룹 2">
+    <path id="패스_2" data-name="패스 2" d="M23.65,104.48l-.9-.8A73.041,73.041,0,0,1,.37,65.8L0,64.18l1.15,1.19C11.81,76.33,21.9,88.52,23.52,103.28ZM1.67,67.24a72.078,72.078,0,0,0,20.78,34.92C20.52,88.75,11.47,77.45,1.67,67.24Z" fill="url(#linear-gradient-2)"/>
+  </g>
+  <g id="그룹_3" data-name="그룹 3">
+    <path id="패스_3" data-name="패스 3" d="M27.93,108.44l-1.06-.1c-10.32-.98-19.43-4.74-25.64-10.6L.14,96.71l1.48.24c10.34,1.66,20.6,4.09,25.66,10.65ZM3.04,98.12c5.78,4.91,13.77,8.14,22.8,9.18C21.02,101.94,12.17,99.66,3.04,98.12Z" fill="url(#linear-gradient-3)"/>
+  </g>
+  <g id="그룹_4" data-name="그룹 4">
+    <path id="패스_4" data-name="패스 4" d="M51.75,130.49C40.54,111,29.81,81.84,42.3,53.58A65.676,65.676,0,0,1,62.37,27.91l.52.76A64.6,64.6,0,0,0,43.13,53.99c-12.31,27.89-1.67,56.74,9.42,76.03Z" fill="url(#linear-gradient-4)"/>
+  </g>
+  <g id="그룹_5" data-name="그룹 5">
+    <path id="패스_5" data-name="패스 5" d="M34.01,115.73l-.43-.28c-2.67-1.71-4.56-4.57-5.94-9a41.119,41.119,0,0,1-1.41-18.38l.2-1.31.66,1.15a65.806,65.806,0,0,1,7.48,19.82c.52,2.55.84,5.22-.33,7.54ZM26.96,89.58a40.153,40.153,0,0,0,1.56,16.6c1.23,3.95,2.87,6.58,5.11,8.19.77-1.96.48-4.25.03-6.45A65.152,65.152,0,0,0,26.96,89.58Z" fill="url(#linear-gradient-5)"/>
+  </g>
+  <g id="그룹_6" data-name="그룹 6">
+    <path id="패스_6" data-name="패스 6" d="M70.29,29.84a51.19,51.19,0,0,1-8.51-.72l-.7-.12.39-.59c2.95-4.49,8.29-7.49,14.65-8.25a35.675,35.675,0,0,1,17.04,2.6l.86.33-.79.49A43.189,43.189,0,0,1,70.29,29.84Zm-7.63-1.51a50.576,50.576,0,0,0,7.63.59A42.663,42.663,0,0,0,91.94,23.3a34.237,34.237,0,0,0-15.71-2.21C70.52,21.76,65.51,24.45,62.66,28.33Z" fill="url(#linear-gradient-6)"/>
+  </g>
+  <g id="그룹_7" data-name="그룹 7">
+    <path id="패스_7" data-name="패스 7" d="M61.37,29.66l.13-1.96c.35-5.41.71-11.01,2.97-16.1A32.871,32.871,0,0,1,73.39.35L73.81,0l.28.48a10.913,10.913,0,0,1,.33,9.25,31.591,31.591,0,0,1-4.85,7.88,101.337,101.337,0,0,0-7.21,10.35ZM73.55,1.43a31.511,31.511,0,0,0-8.24,10.55c-1.94,4.36-2.44,9.16-2.77,13.89,1.97-3.15,4.15-6.02,6.28-8.8a31.125,31.125,0,0,0,4.73-7.66A10.242,10.242,0,0,0,73.55,1.43Z" fill="url(#linear-gradient-7)"/>
+  </g>
+  <g id="그룹_8" data-name="그룹 8">
+    <path id="패스_8" data-name="패스 8" d="M41.97,109.28c-6.5-14.36-2.22-29.76,2.52-40.16l.84.38c-4.66,10.22-8.88,25.34-2.52,39.39Z" fill="url(#linear-gradient-8)"/>
+  </g>
+  <g id="그룹_9" data-name="그룹 9">
+    <path id="패스_9" data-name="패스 9" d="M44.89,69.82l-.2-.33c-.91-1.5-.56-3.58,1.02-6A14.825,14.825,0,0,1,48.77,60a27.845,27.845,0,0,1,4.12-2.65l.22-.12a19.992,19.992,0,0,1,4.03-1.85l.47-.14.11.48a5.805,5.805,0,0,1-.81,3.91A22.562,22.562,0,0,1,45.26,69.68ZM56.88,56.43a21.105,21.105,0,0,0-3.32,1.61l-.17.09a27.611,27.611,0,0,0-4.04,2.58,14.317,14.317,0,0,0-2.87,3.28c-.89,1.36-1.77,3.23-1.18,4.67a21.512,21.512,0,0,0,10.77-9.45A5.7,5.7,0,0,0,56.88,56.43Z" fill="url(#linear-gradient-9)"/>
+  </g>
+  <g id="그룹_10" data-name="그룹 10">
+    <path id="패스_10" data-name="패스 10" d="M39.21,90.47l-.03-.88c-.17-4.25,1.9-9.65,5.4-14.08,1.7-2.16,5.34-5.84,9.9-5.5l.54.04-.13.53c-1.65,6.78-6.41,12.94-14.97,19.36ZM53.84,70.91c-3.91.01-7.03,3.24-8.54,5.17-3.12,3.95-5.06,8.67-5.2,12.56C47.79,82.73,52.18,77.07,53.84,70.91Z" fill="url(#linear-gradient-10)"/>
+  </g>
+  <g id="그룹_11" data-name="그룹 11">
+    <path id="패스_11" data-name="패스 11" d="M52.82,131.38l-.4-.95a32.921,32.921,0,0,1-2.81-13.01c.03-4.95,1.49-9.35,4.13-12.4l.5-.58.28.72c2.03,5.29,4.08,12.18,1.97,18.48a32.638,32.638,0,0,1-2.09,4.57c-.39.75-.78,1.49-1.14,2.25Zm1.12-25.15a18.515,18.515,0,0,0-3.41,11.19,31.451,31.451,0,0,0,2.35,11.7c.23-.45.46-.9.7-1.35a30.51,30.51,0,0,0,2.03-4.43C57.54,117.6,55.81,111.27,53.94,106.23Z" fill="url(#linear-gradient-11)"/>
+  </g>
+  <g id="그룹_12" data-name="그룹 12">
+    <path id="패스_12" data-name="패스 12" d="M37.8,93.5a88.782,88.782,0,0,1-1.12-38.42,62.6,62.6,0,0,1,4.71-15l.82.42c-.11.22-11.1,22.2-3.52,52.77Z" fill="url(#linear-gradient-12)"/>
+  </g>
+  <g id="그룹_13" data-name="그룹 13">
+    <path id="패스_13" data-name="패스 13" d="M41.34,41.51l-.19-.47A12.255,12.255,0,0,1,42.8,28.71a14.25,14.25,0,0,1,10.77-5.55l.56-.02-.09.55A24.093,24.093,0,0,1,41.79,41.27ZM53.03,24.12a13.322,13.322,0,0,0-9.5,5.16,11.343,11.343,0,0,0-1.72,10.93A22.793,22.793,0,0,0,53.03,24.12Z" fill="url(#linear-gradient-13)"/>
+  </g>
+  <g id="그룹_14" data-name="그룹 14">
+    <path id="패스_14" data-name="패스 14" d="M36.12,85.09a46.567,46.567,0,0,0-9.24-17.62l.7-.6a47.739,47.739,0,0,1,9.44,18.02Z" fill="url(#linear-gradient-14)"/>
+  </g>
+  <g id="그룹_15" data-name="그룹 15">
+    <path id="패스_15" data-name="패스 15" d="M24.36,68.57a7.185,7.185,0,0,1-2.54-.47,11.267,11.267,0,0,1-4.47-3.41,18.219,18.219,0,0,1-4.1-14.25l.09-.64.58.29A27.322,27.322,0,0,1,27.67,67.21l.08.33-.28.18A5.867,5.867,0,0,1,24.36,68.57ZM14.09,51.22A17.343,17.343,0,0,0,18.06,64.1a10.432,10.432,0,0,0,4.09,3.14,5.717,5.717,0,0,0,4.53-.13A26.454,26.454,0,0,0,14.09,51.22Z" fill="url(#linear-gradient-15)"/>
+  </g>
+  <g id="그룹_16" data-name="그룹 16">
+    <path id="패스_16" data-name="패스 16" d="M35.97,82.81A122.73,122.73,0,0,1,28.68,45.2l.92-.03A121.558,121.558,0,0,0,36.83,82.5Z" fill="url(#linear-gradient-16)"/>
+  </g>
+  <g id="그룹_17" data-name="그룹 17">
+    <path id="패스_17" data-name="패스 17" d="M37.29,81.41l-.92-.09A52.936,52.936,0,0,1,58.39,43.73l.53.76A52.049,52.049,0,0,0,37.29,81.41Z" fill="url(#linear-gradient-17)"/>
+  </g>
+  <g id="그룹_18" data-name="그룹 18">
+    <path id="패스_18" data-name="패스 18" d="M30.39,61.42a27.208,27.208,0,0,0-3.43-3.88l.63-.67a27.921,27.921,0,0,1,3.55,4.01Z" fill="url(#linear-gradient-18)"/>
+  </g>
+  <g id="그룹_19" data-name="그룹 19">
+    <path id="패스_19" data-name="패스 19" d="M30.79,58.49l-.92-.1c.18-1.64,1.35-3.01,2.38-4.23.18-.21.35-.41.51-.61l.71.59c-.17.21-.35.41-.52.62C31.97,55.93,30.94,57.13,30.79,58.49Z" fill="url(#linear-gradient-19)"/>
+  </g>
+  <g id="그룹_20" data-name="그룹 20">
+    <path id="패스_20" data-name="패스 20" d="M29.95,51.71l-.87-.31a8.069,8.069,0,0,1,2.38-3.41l.59.71A7.068,7.068,0,0,0,29.95,51.71Z" fill="url(#linear-gradient-20)"/>
+  </g>
+  <g id="그룹_21" data-name="그룹 21">
+    <path id="패스_21" data-name="패스 21" d="M29.33,54.51a25.564,25.564,0,0,1-2.96-3.49l.75-.54a25.82,25.82,0,0,0,2.86,3.36Z" fill="url(#linear-gradient-21)"/>
+  </g>
+  <g id="그룹_22" data-name="그룹 22">
+    <path id="패스_22" data-name="패스 22" d="M29.16,48.22a6.656,6.656,0,0,1-2.59-1.72l.68-.63a5.707,5.707,0,0,0,2.23,1.48Z" fill="url(#linear-gradient-22)"/>
+  </g>
+  <g id="그룹_23" data-name="그룹 23">
+    <path id="패스_23" data-name="패스 23" d="M27.79,46.26a1.385,1.385,0,0,0-2.76-.22A1.385,1.385,0,0,0,27.79,46.26Z" fill="url(#linear-gradient-23)"/>
+  </g>
+  <g id="그룹_24" data-name="그룹 24">
+    <path id="패스_24" data-name="패스 24" d="M30.45,44.25a1.385,1.385,0,0,0-2.76-.22A1.385,1.385,0,0,0,30.45,44.25Z" fill="url(#linear-gradient-24)"/>
+  </g>
+  <g id="그룹_25" data-name="그룹 25">
+    <path id="패스_25" data-name="패스 25" d="M27.94,50.85a1.385,1.385,0,0,0-2.76-.22A1.385,1.385,0,0,0,27.94,50.85Z" fill="url(#linear-gradient-25)"/>
+  </g>
+  <g id="그룹_26" data-name="그룹 26">
+    <path id="패스_26" data-name="패스 26" d="M28.35,56.92a1.385,1.385,0,0,0-2.76-.22A1.385,1.385,0,0,0,28.35,56.92Z" fill="url(#linear-gradient-26)"/>
+  </g>
+  <g id="그룹_27" data-name="그룹 27">
+    <path id="패스_27" data-name="패스 27" d="M34.5,54.08a1.384,1.384,0,0,0-2.76-.21A1.384,1.384,0,0,0,34.5,54.08Z" fill="url(#linear-gradient-27)"/>
+  </g>
+  <g id="그룹_28" data-name="그룹 28">
+    <path id="패스_28" data-name="패스 28" d="M33.58,48.12a1.384,1.384,0,0,0-2.76-.21A1.384,1.384,0,0,0,33.58,48.12Z" fill="url(#linear-gradient-28)"/>
+  </g>
+  <g id="그룹_29" data-name="그룹 29">
+    <path id="패스_29" data-name="패스 29" d="M60.01,44.64a1.385,1.385,0,0,0-2.76-.22A1.385,1.385,0,0,0,60.01,44.64Z" fill="url(#linear-gradient-29)"/>
+  </g>
+  <g id="그룹_30" data-name="그룹 30">
+    <path id="패스_30" data-name="패스 30" d="M57.69,52.06a1.385,1.385,0,0,0-2.76-.22A1.385,1.385,0,0,0,57.69,52.06Z" fill="url(#linear-gradient-30)"/>
+  </g>
+  <g id="그룹_31" data-name="그룹 31">
+    <path id="패스_31" data-name="패스 31" d="M54.4,43.23a1.384,1.384,0,0,0-2.76-.21A1.384,1.384,0,0,0,54.4,43.23Z" fill="url(#linear-gradient-31)"/>
+  </g>
+  <g id="그룹_32" data-name="그룹 32">
+    <path id="패스_32" data-name="패스 32" d="M52.58,49.7l-.89-.26a19.031,19.031,0,0,0,.71-5.82l.92.01A19.369,19.369,0,0,1,52.58,49.7Z" fill="url(#linear-gradient-32)"/>
+  </g>
+  <g id="그룹_33" data-name="그룹 33">
+    <path id="패스_33" data-name="패스 33" d="M47.04,56.18l-.49-.78a22.126,22.126,0,0,1,8.5-3.7l.22.9A20.829,20.829,0,0,0,47.04,56.18Z" fill="url(#linear-gradient-33)"/>
+  </g>
+</svg>

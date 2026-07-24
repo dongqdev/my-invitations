@@ -1,0 +1,45 @@
+@font-face {
+  font-family: 'DancingScript';
+  src: url('/storefarm/card/font/DancingScript-VariableFont_wght.TTF') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.section_tit {
+  font-family: 'DancingScript';
+}
+
+#kCalendar {width: 100%; display: inline-block;}
+#kCalendar #header {/*height: 40px;line-height: 0;*/text-align: center;font-size: 18px; margin-bottom: 30px;}
+#kCalendar .button {color: #000; text-decoration: none; display: none;}
+#kCalendar table {width: 100%;height: 250px;}
+#kCalendar caption {display: none;}
+#kCalendar table tr td { position: relative; height: 40px;}
+#kCalendar .sun {text-align: center;color: #cd4747 }
+#kCalendar .mon {text-align: center;}
+#kCalendar .tue {text-align: center;}
+#kCalendar .wed {text-align: center;}
+#kCalendar .thu {text-align: center;}
+#kCalendar .fri {text-align: center;}
+#kCalendar .weddingday {
+  color: #fff; height: 30px; width: 30px; line-height: 30px; border-radius: 100%;
+  position: absolute;  top: 1%;left: 50%;transform: translate(-50%, -30%);
+}
+
+
+.kCalendar {width: 100%; display: inline-block;}
+.kCalendar #header {/*height: 40px;line-height: 0;*/text-align: center;font-size: 18px; margin-bottom: 30px;}
+.kCalendar .button {color: #000; text-decoration: none; display: none;}
+.kCalendar table {width: 100%;height: 250px;}
+.kCalendar caption {display: none;}
+.kCalendar table tr td { position: relative; height: 40px;}
+.kCalendar .sun {text-align: center;color: #cd4747 !important;;}
+.kCalendar .mon {text-align: center;}
+.kCalendar .tue {text-align: center;}
+.kCalendar .wed {text-align: center;}
+.kCalendar .thu {text-align: center;}
+.kCalendar .fri {text-align: center;}
+.kCalendar .weddingday {
+  color: #fff; height: 30px; width: 30px; line-height: 30px; border-radius: 100%;
+  position: absolute;  top: 1%;left: 50%;transform: translate(-50%, -30%);
+}

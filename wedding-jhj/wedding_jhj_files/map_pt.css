@@ -1,0 +1,6 @@
+#invite_wrap .p_is_map{padding-top: 0;}
+#invite_wrap .traffic{display: inline-block;width: 100%;padding-top: 40px; padding-bottom: 40px;}
+#invite_wrap .traffic .way_guide{padding: 0 30px; text-align: left;}
+#invite_wrap .traffic .way_guide .way_txt{font-size: 0.875rem; line-height: 22px; color: #777;  border-top: 1px solid #e4e4e4;margin-bottom: 30px;padding: 15px 10px;overflow-wrap: break-word;}
+#invite_wrap .traffic .way_guide ul li {margin-bottom: 20px;}
+#invite_wrap .traffic .way_guide ul li:last-of-type {margin-bottom: 0;}

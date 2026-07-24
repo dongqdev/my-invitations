@@ -1,0 +1,469 @@
+#pro_mode {
+  text-align: center;
+}
+
+#pro_mode .section_tit {
+  color: #141c2f;
+  font-family: 'DancingScript';
+}
+
+#pro_mode .calendar_inner .kCalendar {
+  padding: 0% 16%;
+}
+
+/* 메인 */
+#pro_mode .main {
+  position: relative;
+}
+
+#pro_mode .main img {
+  width: 100%;
+}
+
+#pro_mode .main img.filter1 {
+  filter: grayscale(100%);
+}
+
+#pro_mode .main img.filter2 {
+  filter: saturate(130%);
+}
+
+#pro_mode .main img.filter3 {
+  filter: brightness(107.5%);
+}
+
+#pro_mode .main img.filter4 {
+  filter: brightness(110%);
+}
+
+#pro_mode .main img.filter5 {
+  filter: brightness(115%);
+}
+
+#pro_mode .main img.filter6 {
+  filter: sepia(15%) saturate(120%);
+}
+
+#pro_mode .main img.filter7 {
+  filter: sepia(22%) saturate(120%);
+}
+
+#pro_mode .main img.filter8 {
+  filter: sepia(30%) saturate(120%);
+}
+
+#pro_mode .main img.filter9 {
+  filter: contrast(107.5%) saturate(120%);
+}
+
+#pro_mode .main img.filter10 {
+  filter: contrast(112%) saturate(120%);
+}
+
+#pro_mode .main img.filter11 {
+  filter: contrast(120%) saturate(120%);
+}
+
+#pro_mode .main img.filter12 {}
+
+#pro_mode .main img.filter13 {}
+
+#pro_mode .main img.filter14 {}
+
+#pro_mode .main .moving {
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+#pro_mode .main_img_wrap {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+/* 이펙트타입 */
+#pro_mode .main_img_wrap .frame {
+  position: absolute;
+  display: block;
+  border: 1px solid #fff;
+  width: 91%;
+  height: 90%;
+  top: 0;
+  transform: translate(5%, 5%);
+  z-index: 1;
+}
+
+#pro_mode .main_img_wrap .effect_place {
+  position: absolute;
+  left: 0;
+  bottom: 0px;
+  display: block;
+  float: left;
+  margin: 0;
+  width: 100%;
+  height: 50px;
+  overflow: hidden;
+}
+
+#pro_mode .main_img_wrap .effect_place .smoke {
+  background-image: url(/storefarm/card/skin/pro_mode/img/white_front.png);
+  width: 100%;
+  height: 165px;
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+}
+
+#pro_mode .main_img_wrap .effect_place svg {
+  position: static;
+}
+
+#pro_mode .main_img_wrap .effect_place svg g.wave1 {
+  animation: wave2 4s linear infinite;
+  animation-delay: -2s
+}
+
+#pro_mode .main_img_wrap .effect_place svg g.wave2 {
+  animation: wave1 4s linear infinite;
+  animation-delay: -2s
+}
+
+#pro_mode .main_img_wrap .effect_place svg g.wave3 {
+  animation: wave2 4s linear infinite;
+  animation-delay: -4s
+}
+
+#pro_mode .main_img_wrap .effect_place2 svg {
+  position: static;
+}
+
+#pro_mode .main_img_wrap .effect_place2 svg g.wave1 {
+  animation: wave2 4s linear infinite;
+  animation-delay: -2s
+}
+
+#pro_mode .main_img_wrap .effect_place2 svg g.wave2 {
+  animation: wave1 4s linear infinite;
+  animation-delay: -2s
+}
+
+#pro_mode .main_img_wrap .effect_place2 svg g.wave3 {
+  animation: wave2 4s linear infinite;
+  animation-delay: -4s
+}
+
+@keyframes wave1 {
+  0% {
+    transform: translate(-93%)
+  }
+
+  100% {
+    transform: translate(00%)
+  }
+}
+
+@keyframes wave0 {
+  0% {
+    transform: translateX(-93%)
+  }
+
+  100% {
+    transform: translateX(0%)
+  }
+}
+
+@keyframes wave2 {
+  0% {
+    transform: translateX(0%)
+  }
+
+  100% {
+    transform: translateX(-93%)
+  }
+}
+
+#pro_mode .main_img_wrap .effect_place2 {
+  position: absolute;
+  left: 0;
+  top: 0px;
+  z-index: 1;
+  display: block;
+  float: left;
+  margin: 0;
+  width: 100%;
+  height: 50px;
+  overflow: hidden;
+  rotate: -180deg;
+}
+
+/* 이거 수정해야함 */
+#pro_mode .main_img_wrap .effect_place2 .smoke {
+  background-image: url(/storefarm/card/skin/pro_mode/img/white_front.png);
+  width: 100%;
+  height: 165px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0
+}
+
+#pro_mode .main_img_wrap .effect_place2 .wave {
+  transform: rotate(-180deg);
+}
+
+#pro_mode .main .main_txt {
+  padding: 30px 0;
+}
+
+#pro_mode .main .main_txt span {
+  font-size: 1.125rem;
+}
+
+#pro_mode .main .main_txt font {
+  font-size: 0.875rem;
+}
+
+#pro_mode .main .main_txt p {
+  display: inline-block;
+  border-bottom: 1px solid #888;
+  padding-bottom: 10px;
+}
+
+#pro_mode .main .bottom_txt {
+  line-height: 20px;
+}
+
+#pro_mode .main .bottom_txt .editor_hall {
+  margin-top: 10px;
+}
+
+/* 인사말 */
+#pro_mode .greeting_inner {
+  padding: 0 !important;
+}
+
+#pro_mode .greeting_inner .greeting_wrapTxt {
+  padding: 40px 16%;
+}
+
+#pro_mode .greeting_inner img {
+  width: 25px;
+}
+
+#pro_mode .greeting_inner span {
+  margin-bottom: 20px;
+  display: inline-block;
+  width: 100%;
+}
+
+#pro_mode .greeting_inner {
+  padding: 40px 16%;
+  line-height: 30px;
+}
+
+#pro_mode #greetingImg_crop {
+  width: 100%;
+}
+
+/* 전화 */
+#pro_mode .call_wrap .call_box_btn p {
+  background-color: #141c2f;
+  color: #fff;
+}
+
+#pro_mode .call_pop_down>p {
+  background-color: #141c2f;
+  color: #fff;
+}
+
+#pro_mode .call_pop_down>p span {
+  color: #fff;
+}
+
+/* 달력 */
+#pro_mode .calendar_inner #kCalendar {
+  padding: 0 16%;
+}
+
+#pro_mode #kCalendar .pro_modeday {
+  background-color: #141c2f;
+}
+
+#pro_mode .remain i {
+  color: #ff4e7f !important;
+  vertical-align: bottom;
+}
+
+/* 지도 */
+#pro_mode .map_inner .map_detail {
+  background-color: #141c2f;
+  color: #fff;
+}
+
+#fall .map_inner .way_guide .way_tit {
+  color: #141c2f;
+}
+
+/* 계좌 */
+/* #pro_mode .account_wrap {background-color: #f2f4f7;} */
+#pro_mode .account_box .account_tit {
+  background-color: #f2f4f7;
+}
+
+/* 방명록 */
+#pro_mode .book_box .book_inner {
+  border: 1px solid #ddd;
+  border-radius: 5px !important;
+}
+
+#pro_mode .book_btn a {
+  background-color: #141c2f;
+  color: #fff;
+  border-radius: 3px;
+}
+
+/* 방명록 상세 */
+#pro_mode .book_wrap .book_title {
+  background-color: #141c2f;
+  color: #fff;
+}
+
+.swiper-button-prev, .swiper-container-rtl .swiper-button-next {
+  background-image: url(/storefarm/card/skin/img/left.svg);
+}
+
+.swiper-button-next, .swiper-container-rtl .swiper-button-prev {
+  background-image: url(/storefarm/card/skin/img/right.svg);
+}
+
+.swiper-button-next, .swiper-button-prev {
+  background-size: 15px;
+  background-repeat: no-repeat;
+}
+
+.swiper-button-next:after, .swiper-button-prev:after {
+  opacity: 0;
+}
+
+/* 참석여부 */
+#pro_mode .attend_inner .check_attend {
+  background-color: #f2f4f7;
+  border-radius: 0;
+}
+
+.offset_7 {
+  position: relative;
+}
+
+.bgm_stop {
+  position: absolute;
+  top: 80px;
+  width: 30%;
+  height: 25%;
+  z-index: 999;
+  transform: translate(120%, 70%);
+}
+
+/* 프로필 */
+#pro_mode .pro_img {
+  display: flex;
+  justify-content: space-evenly;
+  padding: 0px 5%;
+}
+
+#pro_mode .pro_img .profile_wrap {
+  max-width: 150px
+}
+
+#pro_mode .pro_img .profile_content {
+  width: 45%;
+}
+
+#pro_mode .pro_img .pro_img_box {
+  width: 150px;
+  height: 180px;
+  background-color: #ddd;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+#pro_mode .pro_img .pro_img_box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 글귀 */
+#pro_mode .poem_wrapTxt {
+  padding: 0px 60px;
+}
+
+#pro_mode .poem_wrapTxt p {
+  line-height: 30px
+}
+
+/* 오시는길 */
+#invite_wrap .traffic .way_guide .way_tit {
+  display: inline-block;
+  vertical-align: middle;
+  margin: 0 0 10px 0;
+}
+
+#invite_wrap .traffic .way_guide .is_map_icon {
+  display: inline-block;
+  width: 22px;
+  margin-right: 3px;
+}
+
+
+
+/* 선물하기 */
+.market_wrap.no_tit p.nothanks_pop {
+  display: inline-block;
+  line-height: 17px;
+}
+
+.market_wrap.no_tit p.nothanks_txt {
+  display: none;
+}
+
+.market_wrap.no_tit a .nothanks_wrap {
+  display: flex;
+  align-items: center;
+}
+
+.market_wrap.no_tit a .nothanks_wrap img {
+  vertical-align: sub;
+}
+
+.market_wrap.static a .nothanks_wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
+}
+
+.market_wrap.static a .nothanks_wrap img {
+  width: 31px;
+}
+
+.market_wrap.static p.nothanks_pop {
+  display: none;
+}
+
+.market_wrap.static p.nothanks_txt {
+  width: 100%;
+  margin: 5px 0 0;
+  word-break: keep-all;
+  line-height: 18px;
+}

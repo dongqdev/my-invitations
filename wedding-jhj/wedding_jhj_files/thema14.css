@@ -1,0 +1,116 @@
+.thema_14_wrap {
+  position: relative;
+  height: 700px;
+  /* background: #f0f0f0; */
+  margin: 0 auto;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  padding: 50px 35px 30px 35px;
+}
+
+.thema_14_wrap .background_image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+.thema_14_wrap .background_image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.thema_14_wrap .no_image_placeholder {
+  width: 100%;
+  height: 100%;
+  background: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+}
+
+.thema_14_wrap .top_names {
+  width: 100%;
+  z-index: 2;
+  display: flex;
+  justify-content: space-between;
+}
+
+.thema_14_wrap .top_names span {
+  font-family: 'GounBatang' !important;
+}
+
+.thema_14_wrap .gr_name {
+  text-align: left;
+}
+
+.thema_14_wrap .br_name {
+  text-align: right;
+}
+
+.thema_14_wrap .gr_name span,
+.thema_14_wrap .br_name span {
+  color: #000000;
+}
+
+.thema_14_wrap .main_title svg {
+  z-index: 3;
+  width: 230px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.thema_14_wrap .bottom_info {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+  bottom: 5%;
+}
+
+.thema_14_wrap .date_info {
+  margin-bottom: 10px;
+}
+
+#pro_mode .thema_14_wrap .date_info span {
+  font-size: 1.3rem;
+  font-family: 'Abhaya Libre' !important;
+}
+
+.thema_14_wrap .wedding_date {
+  color: #000000;
+}
+
+.thema_14_wrap .place_info {
+  margin-bottom: 0;
+}
+
+.thema_14_wrap .place_info span {
+  font-family: 'GounBatang' !important;
+}
+
+.thema_14_wrap .place_text {
+  color: #000000;
+}
+
+.thema_video_style{
+  width: 100%;
+  min-height: 550px;      /* 네가 원한 최소 700 유지 */
+  overflow: hidden;
+}
+
+.thema_video_style #card_main_video{
+  width: 100%;
+  height: 100%;
+  display: block;
+  /* object-fit: cover; */
+}

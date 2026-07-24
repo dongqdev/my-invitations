@@ -1,0 +1,62 @@
+@font-face {
+    font-family: 'KCC-Sonkeechung';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KCC-Sonkeechung.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.popup-background {position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(0, 0, 0, 0.55); /* 어두운 배경 색상과 투명도 조절 */display: none;z-index: 998; /* 팝업 배경이 팝업창보다 뒤에 나타나도록 설정 */
+}
+ /* 팝업 스타일 */
+#card_editor .interview_pop {position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background-color: #fff; display: none; z-index: 999; width: 500px; height: 80%; overflow-x:hidden; overflow-y: scroll; border-radius: 5px;}
+#card_editor .interview_pop .interview_popTit{display: inline-block;width: 100%;height: 65px;line-height: 65px;  background-color: #000;color: #fff;font-size: 17px; position: relative; font-size: 17px; text-align: center;}
+#card_editor .interview_pop .interview_popTit i{position: absolute; top: 50%; right: 20px; transform: translateY(-50%); font-size: 18px; cursor: pointer; font-size: 18px;}
+#card_editor .interview_pop .interview_txt{padding: 30px 20px 100px;}
+#card_editor .interview_pop .interview_txt span{font-family: 'pre-b'; font-size: 15px;}
+.interview_pop .txt_check{border: 1px solid #ededed;padding: 30px;line-height: 25px;font-size: 15px;  margin-bottom: 20px;  border-radius: 5px;  cursor: pointer;position: relative;}
+#card_editor .interview_pop .txt_check .sample{border-bottom: 1px solid #e9e9e9;padding-bottom: 10px;width: 85%;margin: 0 auto;margin-bottom: 25px;text-align: center;}
+#card_editor .interview_pop .txt_check .sample_q{display: inline-block; margin-bottom: 20px;}
+#card_editor .interview_pop .txt_check .sample_text .sample_q{text-align: center; font-size: 14px;}
+#card_editor .interview_pop .txt_check .sample_text .sample_a{text-align: center; font-size: 14px;}
+#card_editor .interview_pop .txt_check .a_img img{width: 4%; vertical-align: middle;}
+#card_editor .interview_pop .txt_check:hover{background-color: #ededed;}
+
+
+
+/* #pro_mode .interview_wrap{padding: 80px 40px 30px 40px;} */
+#pro_mode .interview_wrap .inter_back{position: fixed;top: 0;left: 0;right: 0;z-index: 100;bottom: 0;background-color: rgba(0, 0, 0, 0.2);display: none;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap{position: fixed;top: 50%;background-color: #fff;left: 50%;transform: translate(-50%, -50%);padding: 30px;width:394px;text-align: left; overflow-x: hidden; overflow-y: scroll; height: 500px; border-radius: 10px;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .inter_box{display: inline-block;width: 100%;margin-top: 40px;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .title_box {text-align: center; }
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .title_box .main_title{color: #f0b4b4; font-size: 14px; display: inline-block;padding-bottom: 10px;font-family: 'DancingScript' !important;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .title_box .sub_title{font-size: 18px; border-bottom: 1px solid #787878; padding-bottom: 20px; }
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap i{position: absolute; top: 6%; right: 6%; cursor: pointer;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .tit_q{margin-bottom: 40px;width: 100%;  text-align: center;padding-top: 0; font-size: 1rem;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .tit_a{ font-size: 0.9rem;  color: #828282; text-align: center; padding-bottom: 40px; border-bottom: 1px solid #ededed;white-space: pre-line; line-height: 16px;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap img{width: 4%; margin-right: 3px;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .groom_box{padding-bottom: 25px;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .groom_box span{font-size: 14px; display: flex; padding-bottom: 10px; align-items: flex-end; color: #4d4d4d;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .groom_box p{font-size: 14px; line-height: 20px; color: #4d4d4d;}
+
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .bride_box span{font-size: 14px; display: flex; padding-bottom: 10px; align-items: flex-end; color: #4d4d4d;}
+#pro_mode .interview_wrap .inter_back .inter_pop_wrap .bride_box p{font-size: 15px; line-height: 20px; color: #292929; text-align: center;}
+
+#pro_mode .interview_wrap .interview_inner .inter_inner_wrap{margin-top: 50px;}
+#pro_mode .interview_wrap .interview_inner .theme_tit{font-size: 17px;  color: #f0b4b4; display: inline-block; margin-bottom: 25px; font-family: 'DancingScript' !important; letter-spacing: 1px;  margin-bottom: 25px ;}
+#pro_mode .interview_wrap .interview_inner .inter_inner_wrap p{line-height: 22px; color: #333;}
+#pro_mode .interview_wrap .interview_inner .inter_inner_wrap .open_interview{
+  padding: 10px; background: #f0b4b4;cursor: pointer; display: inline-block; margin-top: 20px; width: 80%;border-radius: 5px;}
+
+
+
+  @font-face {
+      font-family: 'DancingScript';
+      src: url('/storefarm/card/font/DancingScript-VariableFont_wght.TTF') format('truetype');
+      font-weight: normal;
+      font-style: normal;
+  }
+
+  @media screen and (max-width:767px){
+    #card_editor .interview_pop .txt_check .sample_text .sample_q{text-align: center; font-size: 13px;}
+    #card_editor .interview_pop .txt_check .sample_text .sample_a{text-align: center; font-size: 13px;}
+  }

@@ -1,0 +1,18 @@
+#pro_mode .attend_wrap .attend_inner{padding: 50px 15px;}
+#pro_mode .attend_wrap .attend_inner .check_attend{border-radius: 5px;}
+#invite_wrap .attend_wrap .attend_inner .check_attend i{vertical-align: baseline;}
+
+#invite_wrap .attend_pop_wrap .attend_article .attend_tit p:nth-of-type(2){text-align: center; font-size: 20px;}
+#invite_wrap .attend_pop_wrap .attend_article .attend_tit span{text-align: center;width: 100%; display: inline-block;  margin-top: 7px; font-family:'Pre_R' !important;}
+
+#invite_wrap .attend_pop_wrap .attend_article .attend_check_wrap .groom_bride_box label{font-family: 'Pre_R' !important; padding: 10px 5px; background-color: #f4f4f4;  color: #909090;  border: none;}
+#invite_wrap .attend_pop_wrap .attend_article .attend_check_wrap .groom_bride_box ul li{margin-bottom: 20px;}
+#invite_wrap .attend_pop_wrap .attend_article .attend_check_wrap .groom_bride_box .left{font-family: 'Pre_R' !important; text-align: left; padding-left: 3px;}
+#invite_wrap .attend_pop_wrap .attend_article .attend_check_wrap .groom_bride_box input[type=radio]:checked + label{background-color: #FFF; color: #c49a82; border:1px solid #dbac92;}
+#invite_wrap .attend_pop_wrap .attend_article .attend_check_wrap .groom_bride_box .right span input[type=radio]:checked + label{background-color: #fff; color: #c49a82; font-family: 'Pre_R' !important; border:1px solid #dbac92;}
+#invite_wrap .attend_pop_wrap .attend_article .attend_check_wrap .groom_bride_box input[type=radio]:checked + label i.xi-check-circle{color: #dbac92;}
+#invite_wrap .attend_pop_wrap .attend_article .attend_check_wrap .groom_bride_box #attend_sign{font-family: 'Pre_R' !important; background-color: #151515;}
+#invite_wrap .pop_front_attend .attend_article input{border: 1px solid #e7e7e7; background-color: #fff;}
+#invite_wrap #attend_sign{font-family: 'Pre_R' !important; background-color: #dbac92;}
+
+/* 나중에 important 빼기 */

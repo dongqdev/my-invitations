@@ -1,0 +1,22 @@
+#pro_mode .calendar_inner{padding-top: 80px;}
+#pro_mode .calendar_inner .kCalendar{padding: 0 10%;}
+
+#pro_mode .kCalendar .calendar_inner .kCalendar{padding: 0 15%;}
+#pro_mode .all_wrap .calendar_wrap .p_calendar .tit_pink{display: inline-block;  margin-bottom: 25px; font-family: 'DancingScript' !important; font-size: 17px;letter-spacing: 1px;}
+#kCalendar_theme1 #header{border-bottom: 1px solid #dddddd;  padding-bottom: 20px; margin-bottom: 20px;}
+#kCalendar_theme1 #header #date{font-weight: 500;font-size: 18PX;}
+#kCalendar_theme1 #header #date font{font-weight: 500;font-size: 18px;}
+#kCalendar_theme1 table tbody{border-bottom: 1px solid #dddddd;}
+/* #kCalendar_theme1 .cal_week{ color: #333;} */
+#kCalendar_theme1 .sun.cal_week{color: #cd4747 !important;}
+/* #kCalendar_theme1 .sat{color: #1978c5;} */
+/* #kCalendar_theme1 .sun,#kCalendar_theme1 .mon,#kCalendar_theme1 .tue,#kCalendar_theme1 .wed,#kCalendar_theme1 .thu,#kCalendar_theme1 .fri,#kCalendar_theme1 .sat{color: #686868;} */
+
+
+
+@font-face {
+    font-family: 'DancingScript';
+    src: url('/storefarm/card/font/DancingScript-VariableFont_wght.TTF') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}

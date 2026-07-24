@@ -1,0 +1,10 @@
+#invite_wrap .remain{margin-top: 25px;}
+#pro_mode .dday_wrap{margin-bottom: 40px;;}
+
+#dday_theme4{display: flex; justify-content: center; width: 100%;}
+#dday_theme4 .of{margin-top: 1rem;}
+#dday_theme4 .days_wrap{width: 16%; border-radius: 5px;  padding: 15px 5px;  margin: 0 10px; display: flex;  align-items: flex-end;}
+#dday_theme4 .days_wrap span{ font-size: 1.1rem;  display: inline-block;  margin-right: 5px; }
+#dday_theme4 .days_wrap p{/*font-size: 13px;*/ }
+#dday_theme{margin-top: 25px; color: #585858; /* font-size: 14px;*/}
+/* #dday_theme #wd_d-day {font-size: 14px;} */

@@ -1,0 +1,3 @@
+#pro_mode .guest_book_inner{padding: 50px 0;}
+#pro_mode .guest_book_inner .book_box .book_inner:first-of-type{border-radius: 10px;}
+#pro_mode .guest_book_inner .book_box .book_btn a{border-radius: 5px;}

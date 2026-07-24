@@ -1,0 +1,28 @@
+#pro_mode .ending_wrap .ending_inner {
+  position: relative;
+  padding: 0;
+  display: flex;
+  margin-bottom: 40px;
+}
+
+#pro_mode .ending_wrap .ending_inner img {
+  width: 100%;
+}
+
+#pro_mode .ending_wrap .ending_inner div {
+  position: absolute;
+  left: 0;
+  width: 100%;
+}
+
+#pro_mode .ending_wrap .ending_inner div.skin_ending_bg {
+  height: 100%;
+  top: 0;
+  z-index: 1;
+}
+
+#pro_mode .ending_wrap .ending_inner div.skin_ending_txt {
+  z-index: 2;
+  padding: 0 5%;
+  letter-spacing: 1px;
+}
