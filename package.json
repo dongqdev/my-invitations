@@ -1,0 +1,12 @@
+{
+  "name": "my-invitations",
+  "version": "1.0.0",
+  "description": "Mobile invitation archiver",
+  "main": "index.js",
+  "scripts": {
+    "download": "node scripts/download_resources.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
