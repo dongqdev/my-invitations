@@ -5,15 +5,17 @@ import type { WeddingAccounts } from '@/lib/accountTypes';
 import { saveAccounts } from '@/lib/accountStore';
 import { getCustomDir, resolveInvitationSlug } from '@/lib/slug';
 import { renderInvitationHtml } from '@/lib/renderInvitationHtml';
+import { publishStaticPage } from '@/lib/gitPublish';
 
 /**
  * 미리보기 화면의 '확정' 버튼이 호출하는 지점 — 정적 페이지 생성 파이프라인
- * (harness-8lh.5.2)의 실제 구현.
+ * (harness-8lh.5.2)과 git commit/push(harness-8lh.5.3)의 실제 구현.
  *
  * 흐름: 요청 바디 검증 → 슬러그 확정(`resolveInvitationSlug`) → 계좌 정보가 있으면
  * git 워크트리 밖에 별도 저장(`saveAccounts`) → 정적 HTML 조립(`renderInvitationHtml`)
- * → `custom/<slug>/index.html`에 씀. git add/commit/push는 이 라우트의 책임이 아니다
- * (harness-8lh.5.3).
+ * → `custom/<slug>/index.html`에 씀 → `publishStaticPage`로 그 파일을 git
+ * commit+push. push 대상 저장소/원격/브랜치/토큰은 전부 `lib/gitPublish.ts`가
+ * 환경변수에서 읽으므로 이 라우트는 무엇을(경로/메시지) 커밋할지만 안다.
  */
 
 interface ConfirmRequestBody {
@@ -156,6 +158,7 @@ export async function POST(request: Request) {
   });
 
   const targetDir = path.join(getCustomDir(), slug);
+  const relativePath = `custom/${slug}/index.html`;
   try {
     await fs.mkdir(targetDir, { recursive: true });
     await fs.writeFile(path.join(targetDir, 'index.html'), html, 'utf-8');
@@ -167,8 +170,17 @@ export async function POST(request: Request) {
     );
   }
 
-  return NextResponse.json(
-    { status: 'ok', slug, path: `custom/${slug}/index.html` },
-    { status: 200 },
-  );
+  let commitSha: string;
+  try {
+    const result = await publishStaticPage(relativePath, `chore(invite): publish ${slug}`);
+    commitSha = result.commitSha;
+  } catch (error) {
+    console.error('정적 페이지 git publish 실패', error);
+    return NextResponse.json(
+      { error: '정적 페이지를 git에 게시하는 중 오류가 발생했습니다.' },
+      { status: 500 },
+    );
+  }
+
+  return NextResponse.json({ status: 'ok', slug, path: relativePath, commitSha }, { status: 200 });
 }
