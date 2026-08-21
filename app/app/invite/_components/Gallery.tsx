@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import type { InvitationViewData } from './types';
+import { useInViewAnimation } from './useInViewAnimation';
 import styles from './Gallery.module.css';
 
 export type GalleryProps = Pick<InvitationViewData, 'galleryImageUrls'>;
@@ -24,6 +25,7 @@ export default function Gallery({ galleryImageUrls }: GalleryProps) {
   // 라이트박스가 열리기 직전에 포커스가 있던(=클릭한) 썸네일 인덱스. 닫힐 때
   // 그 썸네일로 포커스를 되돌리기 위해 openIndex가 null로 바뀌기 전 값을 들고 있는다.
   const lastOpenIndexRef = useRef<number | null>(null);
+  const { ref: sectionRef, inView } = useInViewAnimation<HTMLElement>();
 
   useEffect(() => {
     if (openIndex === null) return;
@@ -55,7 +57,11 @@ export default function Gallery({ galleryImageUrls }: GalleryProps) {
   }
 
   return (
-    <section className={styles.section} aria-label="갤러리">
+    <section
+      ref={sectionRef}
+      className={`${styles.section} ${inView ? styles.inView : ''}`}
+      aria-label="갤러리"
+    >
       <p className={styles.label}>갤러리</p>
 
       <div className={styles.grid}>

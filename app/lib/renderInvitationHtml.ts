@@ -133,6 +133,26 @@ body {
   display: block;
 }
 
+/* ---------- 등장 애니메이션(IntersectionObserver, CLIENT_SCRIPT) ---------- */
+/* 히어로를 제외한 5개 섹션(초대문구/혼주/갤러리/계좌/하단바) 공통. React쪽
+   InviteMessage.module.css 등과 동일한 타이밍(240ms ease-out)·이동값(12px). */
+.invite-message, .parents, .gallery, .account, .bottom-bar {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 240ms ease-out, transform 240ms ease-out;
+}
+.invite-message.in-view, .parents.in-view, .gallery.in-view, .account.in-view, .bottom-bar.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .invite-message, .parents, .gallery, .account, .bottom-bar {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
 /* ---------- InviteMessage ---------- */
 .invite-message { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 48px 32px 56px; text-align: center; }
 .invite-message-title { margin: 0; font-family: var(--font-display); font-size: 17px; font-weight: 700; line-height: 1.6; color: var(--color-ink); letter-spacing: 0.02em; }
@@ -266,6 +286,53 @@ const CLIENT_SCRIPT = `
 
   function qs(selector, root) { return (root || document).querySelector(selector); }
   function qsa(selector, root) { return Array.prototype.slice.call((root || document).querySelectorAll(selector)); }
+
+  /* ---------- 섹션 등장 애니메이션 ----------
+     React쪽 useInViewAnimation과 동일한 동작: 뷰포트에 처음 들어오는 순간 'in-view'
+     클래스를 붙이고(fade+translateY(12px), CSS의 .invite-message 등 규칙 참고) 그
+     즉시 옵저버를 끊는다(재진입마다 반복 재생하지 않음). IntersectionObserver 자체가
+     없는 환경에서는 즉시 모든 섹션에 'in-view'를 붙여 영원히 숨겨진 채로 남는 사고를
+     막는다. 이미 뷰포트 안에 있는 상태로 로드되면 옵저버의 최초 콜백이 그 즉시
+     isIntersecting: true로 오므로 별도 분기 없이 바로 보인다. prefers-reduced-motion은
+     CSS 쪽(@media (prefers-reduced-motion: reduce))이 담당한다(트랜지션 자체를
+     무력화하고 항상 보이는 상태로 강제). */
+  var revealSectionSelectors = ['.invite-message', '.parents', '.gallery', '.account'];
+
+  if (typeof IntersectionObserver === 'undefined') {
+    revealSectionSelectors.concat(['.bottom-bar']).forEach(function (selector) {
+      var el = qs(selector);
+      if (el) el.classList.add('in-view');
+    });
+  } else {
+    var revealObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -10% 0px' });
+
+    revealSectionSelectors.forEach(function (selector) {
+      var el = qs(selector);
+      if (el) revealObserver.observe(el);
+    });
+
+    /* bottom-bar는 position: fixed로 화면 하단에 고정되어 스크롤로 뷰포트에
+       "들어오는" 순간이 없다 — 위 옵저버의 하단 -10% 여백 안에 갇혀 영원히
+       감지되지 않을 수 있으므로, 여백 없는(threshold 0) 별도 옵저버로 마운트
+       즉시 감지되게 한다(React쪽 BottomBar.tsx와 동일한 이유). */
+    var bottomBarObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          bottomBarObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0, rootMargin: '0px' });
+    var bottomBarEl = qs('.bottom-bar');
+    if (bottomBarEl) bottomBarObserver.observe(bottomBarEl);
+  }
 
   /* ---------- 계좌 아코디언 ---------- */
   var slug = document.body.getAttribute('data-slug') || '';

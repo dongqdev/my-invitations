@@ -1,4 +1,7 @@
+'use client';
+
 import type { InvitationViewData } from './types';
+import { useInViewAnimation } from './useInViewAnimation';
 import styles from './ParentsSection.module.css';
 
 export type ParentsSectionProps = Pick<
@@ -20,8 +23,14 @@ export default function ParentsSection({
   brideFatherName,
   brideMotherName,
 }: ParentsSectionProps) {
+  const { ref, inView } = useInViewAnimation<HTMLElement>();
+
   return (
-    <section className={styles.section} aria-label="혼주 안내">
+    <section
+      ref={ref}
+      className={`${styles.section} ${inView ? styles.inView : ''}`}
+      aria-label="혼주 안내"
+    >
       <div className={styles.columns}>
         <div className={styles.column}>
           <p className={styles.columnTitle}>신랑측 혼주</p>

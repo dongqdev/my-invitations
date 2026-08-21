@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { BankAccountInfo, WeddingAccounts } from '@/lib/accountTypes';
+import { useInViewAnimation } from './useInViewAnimation';
 import styles from './AccountSection.module.css';
 
 type AccountSide = 'groom' | 'bride';
@@ -86,6 +87,7 @@ export default function AccountSection({
   // 그 카드에만 뜨도록 side/entry 단위가 아니라 entry.key 단위로 추적한다.
   const [copiedKey, setCopiedKey] = useState<string | null>(null);
   const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const { ref: sectionRef, inView } = useInViewAnimation<HTMLElement>();
 
   useEffect(() => {
     return () => {
@@ -126,7 +128,11 @@ export default function AccountSection({
   }
 
   return (
-    <section className={styles.section} aria-label="계좌 안내">
+    <section
+      ref={sectionRef}
+      className={`${styles.section} ${inView ? styles.inView : ''}`}
+      aria-label="계좌 안내"
+    >
       <p className={styles.label}>계좌 안내</p>
       <p className={styles.hint}>마음 전하실 곳을 안내해 드려요</p>
 

@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { useInViewAnimation } from './useInViewAnimation';
 import styles from './BottomBar.module.css';
 
 /**
@@ -18,6 +19,14 @@ import styles from './BottomBar.module.css';
 export default function BottomBar() {
   const [copied, setCopied] = useState(false);
   const resetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // `position: fixed`로 화면 하단에 고정되어 있어 다른 섹션과 달리 "스크롤해서
+  // 뷰포트에 들어오는" 순간이 없다 — 다른 섹션의 기본 옵션(rootMargin: -10%)을
+  // 그대로 쓰면 바 전체가 그 여백대 안에 갇혀 영원히 감지되지 않을 수 있으므로,
+  // 여백 없이(threshold 0) 마운트 즉시 감지되게 한다.
+  const { ref: barRef, inView } = useInViewAnimation<HTMLDivElement>({
+    threshold: 0,
+    rootMargin: '0px',
+  });
 
   useEffect(() => {
     return () => {
@@ -38,7 +47,7 @@ export default function BottomBar() {
   }
 
   return (
-    <div className={styles.bar}>
+    <div ref={barRef} className={`${styles.bar} ${inView ? styles.inView : ''}`}>
       <div className={styles.inner}>
         <span className={styles.toast} data-visible={copied} aria-live="polite">
           {copied ? '링크가 복사되었습니다' : ''}

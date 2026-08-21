@@ -1,4 +1,7 @@
+'use client';
+
 import type { InvitationViewData } from './types';
+import { useInViewAnimation } from './useInViewAnimation';
 import styles from './InviteMessage.module.css';
 
 export type InviteMessageProps = Pick<InvitationViewData, 'title' | 'content'>;
@@ -9,12 +12,20 @@ export type InviteMessageProps = Pick<InvitationViewData, 'title' | 'content'>;
  * 본문은 하객이 폼에서 입력한 줄바꿈을 그대로 보존해야 한다. plain text의 `\n`은 HTML에서
  * 기본적으로 무시되므로, 줄 단위로 split 해서 각 줄을 `<p>`로 렌더링한다(마크다운 등 추가
  * 파싱은 하지 않음 — 순수 줄바꿈 보존만 담당).
+ *
+ * 뷰포트에 들어올 때 fade+translateY(12px)로 등장한다(`useInViewAnimation` 참고,
+ * 히어로를 제외한 나머지 섹션과 동일 패턴).
  */
 export default function InviteMessage({ title, content }: InviteMessageProps) {
   const lines = content.split('\n');
+  const { ref, inView } = useInViewAnimation<HTMLElement>();
 
   return (
-    <section className={styles.section} aria-label="초대 문구">
+    <section
+      ref={ref}
+      className={`${styles.section} ${inView ? styles.inView : ''}`}
+      aria-label="초대 문구"
+    >
       {title && <p className={styles.title}>{title}</p>}
       <div className={styles.body}>
         {lines.map((line, index) => (

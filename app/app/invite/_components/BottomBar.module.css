@@ -10,6 +10,16 @@
   background: var(--color-surface);
   padding: 12px max(20px, env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom))
     max(20px, env(safe-area-inset-right));
+  opacity: 0;
+  transform: translateY(12px);
+  transition:
+    opacity 240ms ease-out,
+    transform 240ms ease-out;
+}
+
+.bar.inView {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .inner {
@@ -80,5 +90,11 @@
   .copyButton,
   .toast {
     transition-duration: 0.01ms;
+  }
+
+  .bar {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
