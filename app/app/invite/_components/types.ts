@@ -22,4 +22,15 @@ export interface InvitationViewData {
   weddingDateTime: string;
   groomName: string;
   brideName: string;
+  /**
+   * 초대 문구 섹션의 짧은 제목(예: "저희 결혼합니다"). 폼(`app/create`)의 "제목" 필드
+   * 그대로 받는다 — 뷰어 전용 가공 없이 그대로 표시.
+   */
+  title: string;
+  /**
+   * 초대 문구 본문. 폼의 "내용" 필드 그대로 받는다. 하객이 직접 입력한 줄바꿈(`\n`)을
+   * 그대로 보존해서 렌더링해야 하므로(`InviteMessage` 참고), 여기서 트림·정규화하지
+   * 않는다 — 있는 그대로 전달.
+   */
+  content: string;
 }

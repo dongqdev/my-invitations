@@ -1,4 +1,5 @@
 import Hero from '../_components/Hero';
+import InviteMessage from '../_components/InviteMessage';
 import type { InvitationViewData } from '../_components/types';
 import styles from './page.module.css';
 
@@ -16,6 +17,10 @@ const DEMO_DATA: InvitationViewData = {
   weddingDateTime: '2026-11-08T12:30',
   groomName: '김민준',
   brideName: '이서연',
+  title: '저희 결혼합니다',
+  // 줄바꿈 보존 확인용으로 일부러 여러 줄 + 빈 줄을 섞은 더미 문구.
+  content:
+    '하나님의 사랑 가운데 만난 두 사람이\n이제 평생의 동행이 되고자 합니다.\n\n소중한 날 함께해 주시면 큰 기쁨이 되겠습니다.',
 };
 
 export default function InvitePreviewPage() {
@@ -27,6 +32,7 @@ export default function InvitePreviewPage() {
         groomName={DEMO_DATA.groomName}
         brideName={DEMO_DATA.brideName}
       />
+      <InviteMessage title={DEMO_DATA.title} content={DEMO_DATA.content} />
     </main>
   );
 }
