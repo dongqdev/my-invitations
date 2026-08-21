@@ -67,9 +67,11 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
     setConfirmState('loading');
     try {
       // M5(정적 페이지 생성 + R2 업로드 + 배포) 파이프라인을 트리거하는 지점.
-      // M5가 아직 구현되지 않아 /api/confirm 은 현재 스텁 응답만 돌려준다 —
-      // 실제 파이프라인 연동은 M5 완료 후 이 fetch 호출은 그대로 두고 서버
-      // 쪽 라우트(app/app/api/confirm/route.ts)만 채우면 된다.
+      // 이미지 업로드(R2)는 InvitationForm.tsx의 handleSubmit에서 이미 끝났으므로
+      // 여기 도달한 시점에 mainImagePreviewUrl/galleryImages[].previewUrl은 R2
+      // 공개 URL이다(harness-8lh.5.2). 서버(app/app/api/confirm/route.ts)가
+      // 슬러그 확정 → 계좌 별도 저장 → custom/<slug>/index.html 정적 생성까지
+      // 수행한다.
       const response = await fetch('/api/confirm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -169,7 +171,10 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
 
         {confirmState === 'done' && (
           <p className={styles.confirmStatusDone} role="status">
-            확정 요청을 접수했어요. (다음 단계 파이프라인은 준비 중이에요)
+            {/* 정적 페이지 생성(harness-8lh.5.2)까지는 이 요청 안에서 끝나지만, git
+                commit/push로 실제 공개 링크가 살아나는 건 harness-8lh.5.3의 몫이라
+                여기서 "링크가 발급됐다"고 단정하지 않는다. */}
+            확정 요청을 접수했어요. 잠시 후 청첩장 링크가 발급돼요.
           </p>
         )}
         {confirmState === 'error' && (
