@@ -1,150 +1,117 @@
 .page {
-  --background: #fafafa;
-  --foreground: #fff;
-
-  --text-primary: #000;
-  --text-secondary: #666;
-
-  --button-primary-hover: #383838;
-  --button-secondary-hover: #f2f2f2;
-  --button-secondary-border: #ebebeb;
+  /* app/create/InvitationForm.module.css, app/invite/layout.module.css 와 같은
+     팔레트(따뜻한 크림 배경 + 잉크색 + 금색 포인트) — 새 디자인 시스템을 만들지
+     않고 나머지 앱과 톤을 맞춘다. */
+  --color-bg: #fbf7f0;
+  --color-surface: #ffffff;
+  --color-ink: #2b2a26;
+  --color-ink-soft: #6b6558;
+  --color-ink-faint: #8f8878;
+  --color-gold: #b98b4e;
+  --color-border: #e6ddc9;
+  --color-border-strong: #d5c9ac;
+  --shadow-card: 0 1px 2px rgba(43, 42, 38, 0.04), 0 24px 60px -28px rgba(43, 42, 38, 0.22);
 
   display: flex;
-  flex: 1;
+  min-height: 100vh;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-family: var(--font-geist-sans);
-  background-color: var(--background);
+  background: var(--color-bg);
+  background-image:
+    radial-gradient(circle at 14% 10%, rgba(185, 139, 78, 0.1), transparent 42%),
+    radial-gradient(circle at 86% 90%, rgba(185, 139, 78, 0.08), transparent 45%);
+  color: var(--color-ink);
+  color-scheme: light;
+  font-family: var(--font-body), 'Apple SD Gothic Neo', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  padding: 24px;
 }
 
-.main {
+.card {
   display: flex;
-  flex: 1;
   width: 100%;
-  max-width: 800px;
+  max-width: 400px;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: space-between;
-  background-color: var(--foreground);
-  padding: 120px 60px;
-}
-
-.intro {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  text-align: left;
-  gap: 24px;
-}
-
-.intro h1 {
-  max-width: 320px;
-  font-size: 40px;
-  font-weight: 600;
-  line-height: 48px;
-  letter-spacing: -2.4px;
-  text-wrap: balance;
-  color: var(--text-primary);
-}
-
-.intro p {
-  max-width: 440px;
-  font-size: 18px;
-  line-height: 32px;
-  text-wrap: balance;
-  color: var(--text-secondary);
-}
-
-.intro a {
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.ctas {
-  display: flex;
-  flex-direction: row;
-  width: 100%;
-  max-width: 440px;
-  gap: 16px;
-  font-size: 14px;
-}
-
-.ctas a {
-  display: flex;
-  justify-content: center;
   align-items: center;
-  height: 40px;
-  padding: 0 16px;
-  border-radius: 128px;
-  border: 1px solid transparent;
-  transition: 0.2s;
-  cursor: pointer;
-  width: fit-content;
-  font-weight: 500;
+  text-align: center;
+  gap: 4px;
+  padding: 56px 32px 40px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 24px;
+  box-shadow: var(--shadow-card);
 }
 
-a.primary {
-  background: var(--text-primary);
-  color: var(--background);
-  gap: 8px;
+.eyebrow {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  color: var(--color-gold);
 }
 
-a.secondary {
-  border-color: var(--button-secondary-border);
+.title {
+  margin: 14px 0 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(24px, 6.4vw, 30px);
+  font-weight: 700;
+  line-height: 1.45;
+  color: var(--color-ink);
 }
 
-/* Enable hover only on non-touch devices */
+.subtitle {
+  max-width: 30ch;
+  margin: 12px 0 0;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-ink-soft);
+}
+
+.divider {
+  width: 40px;
+  height: 1px;
+  margin: 28px 0 24px;
+  background: var(--color-border-strong);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 52px;
+  border-radius: 999px;
+  background: var(--color-gold);
+  color: var(--color-surface);
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
+}
+
+.cta:active {
+  transform: scale(0.98);
+}
+
 @media (hover: hover) and (pointer: fine) {
-  a.primary:hover {
-    background: var(--button-primary-hover);
-    border-color: transparent;
-  }
-
-  a.secondary:hover {
-    background: var(--button-secondary-hover);
-    border-color: transparent;
+  .cta:hover {
+    background: color-mix(in srgb, var(--color-gold) 88%, black);
   }
 }
 
-@media (max-width: 600px) {
-  .main {
-    padding: 48px 24px;
+@media (max-width: 420px) {
+  .card {
+    padding: 48px 24px 32px;
+    border-radius: 20px;
   }
 
-  .intro {
-    gap: 16px;
+  .divider {
+    margin: 24px 0 20px;
   }
-
-  .intro h1 {
-    font-size: 32px;
-    line-height: 40px;
-    letter-spacing: -1.92px;
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .logo {
-    filter: invert();
-  }
-
-  .page {
-    --background: #000;
-    --foreground: #000;
-
-    --text-primary: #ededed;
-    --text-secondary: #999;
-
-    --button-primary-hover: #ccc;
-    --button-secondary-hover: #1a1a1a;
-    --button-secondary-border: #1a1a1a;
-  }
-}
-
-.code {
-  font-family: var(--font-geist-mono);
-  font-size: 0.9em;
-  background: color-mix(in srgb, currentColor 8%, transparent);
-  padding: 0.1em 0.4em;
-  border-radius: 6px;
 }
