@@ -199,7 +199,9 @@ body {
 .gallery-expanded-img { display: block; max-width: 100%; max-height: 100%; object-fit: contain; cursor: default; }
 
 /* ---------- AccountSection ---------- */
-.account { padding: 40px 32px 56px; border-top: 1px solid var(--color-border); }
+/* AccountSection.module.css .section과 동일한 근거: 크림 배경보다 한 톤 진한
+   배경으로 스크롤 리듬에 브레이크를 준다(harness-4vc.4.4). */
+.account { background: #f3ead9; padding: 40px 32px 56px; border-top: 1px solid var(--color-border); }
 .account-label { margin: 0 0 8px; font-family: var(--font-display); font-style: italic; font-size: 15px; font-weight: 400; letter-spacing: 0.04em; color: var(--color-gold); text-align: center; }
 .account-hint { margin: 0 0 20px; font-size: 13px; color: var(--color-ink-faint); text-align: center; }
 .account-button-row { display: flex; flex-direction: column; gap: 10px; }
@@ -255,7 +257,14 @@ body {
   border-top: 1px solid var(--color-border); background: var(--color-surface);
   padding: 12px max(20px, env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom)) max(20px, env(safe-area-inset-right));
 }
-.bottom-bar-inner { position: relative; width: 100%; max-width: 480px; }
+.bottom-bar-inner { display: flex; align-items: center; gap: 14px; width: 100%; max-width: 480px; }
+/* BottomBar.module.css .brand과 동일: 버튼 옆의 미묘한 서비스명 워드마크(harness-4vc.4.4). */
+.bottom-bar-brand {
+  flex: none; font-family: var(--font-display), serif; font-style: italic;
+  font-size: 11px; font-weight: 400; letter-spacing: 0.12em; color: var(--color-ink-faint);
+  white-space: nowrap;
+}
+.bottom-bar-button-wrap { position: relative; flex: 1; min-width: 0; }
 .bottom-bar-copy-btn {
   width: 100%; min-height: 52px; border: 0; border-radius: 12px;
   background: var(--color-gold); color: #fff;
@@ -672,8 +681,11 @@ function renderBottomBar(): string {
   return [
     '<div class="bottom-bar">',
     '<div class="bottom-bar-inner">',
+    '<span class="bottom-bar-brand" aria-hidden="true">MY INVITATIONS</span>',
+    '<div class="bottom-bar-button-wrap">',
     '<span class="bottom-bar-toast" data-visible="false" aria-live="polite"></span>',
     '<button type="button" class="bottom-bar-copy-btn">링크 복사</button>',
+    '</div>',
     '</div>',
     '</div>',
   ].join('');

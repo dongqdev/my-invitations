@@ -23,9 +23,31 @@
 }
 
 .inner {
-  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
   width: 100%;
   max-width: 480px;
+}
+
+/* 버튼 왼쪽의 작은 서비스명 워드마크. 정보가 아니라 장식이므로 aria-hidden(TSX
+   쪽에서 처리)이고, 여기서는 시각적으로만 존재감을 준다 — 과하게 채우지 않도록
+   본문보다 작은 크기 + faint 톤 + 넓은 자간으로 미묘하게 둔다. */
+.brand {
+  flex: none;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  color: var(--color-ink-faint);
+  white-space: nowrap;
+}
+
+.buttonWrap {
+  position: relative;
+  flex: 1;
+  min-width: 0;
 }
 
 .copyButton {

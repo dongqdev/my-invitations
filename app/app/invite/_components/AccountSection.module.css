@@ -1,4 +1,11 @@
 .section {
+  /* 크림 배경(--color-bg: #fbf7f0)보다 한 톤 진한 배경 — 계좌 섹션이 액션이 필요한
+     핵심 지점이라 스크롤 리듬에 시각적 브레이크를 준다(harness-4vc.4.4). 팔레트에서
+     파생한 값(--color-border: #e6ddc9와 --color-bg 사이 톤)이라 기존 크림/골드
+     분위기를 벗어나지 않는다. 안의 accountCard는 여전히 --color-bg를 쓰므로, 이
+     섹션 안에서는 카드가 배경보다 밝아져 아코디언을 펼쳤을 때 카드가 한 번 더
+     떠 보이는 효과가 겹친다. */
+  background: #f3ead9;
   padding: 40px 32px 56px;
   border-top: 1px solid var(--color-border);
   opacity: 0;
