@@ -23,6 +23,16 @@ export interface InvitationViewData {
   groomName: string;
   brideName: string;
   /**
+   * 신랑측/신부측 아버지·어머니 성함. 폼(`app/create/types.ts`)의
+   * `ParentInfo.name`(각 `ParentKey`별)을 그대로 받는다 — 계좌 정보(`ParentInfo.account`)는
+   * 이 뷰 데이터 타입에 포함하지 않는다. 계좌는 harness-8lh.4의 별도 API로 fetch할
+   * 예정이라(`ParentsSection` 범위 밖) 확정 뷰 데이터와 섞지 않는 편이 맞다.
+   */
+  groomFatherName: string;
+  groomMotherName: string;
+  brideFatherName: string;
+  brideMotherName: string;
+  /**
    * 초대 문구 섹션의 짧은 제목(예: "저희 결혼합니다"). 폼(`app/create`)의 "제목" 필드
    * 그대로 받는다 — 뷰어 전용 가공 없이 그대로 표시.
    */
