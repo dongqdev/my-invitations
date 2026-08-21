@@ -11,6 +11,7 @@ import {
 import { isReadyToSubmit, toSummaryMessages, validateInvitationForm } from './validation';
 import { GalleryUpload, MainImageUpload } from './ImageUploads';
 import ParentAccountFields from './ParentAccountFields';
+import { uploadImageFile } from './uploadImage';
 import styles from './InvitationForm.module.css';
 
 const REQUIRED_FIELD_COUNT = 6;
@@ -59,6 +60,8 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
   const [formData, setFormData] = useState<InvitationFormData>(createEmptyInvitationFormData);
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitCount, setSubmitCount] = useState(0);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   const formDataRef = useRef(formData);
 
@@ -126,13 +129,43 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
     setFormData((prev) => ({ ...prev, [key]: next }));
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setSubmitAttempted(true);
     setSubmitCount((count) => count + 1);
 
-    if (Object.keys(validateInvitationForm(formData)).length === 0) {
-      onSubmitSuccess(formData);
+    if (Object.keys(validateInvitationForm(formData)).length !== 0) return;
+    if (!formData.mainImage) return; // 위 검증에서 이미 걸러지지만 아래 타입 좁히기용
+
+    setUploadError(null);
+    setUploading(true);
+    try {
+      // 대표 이미지 + 갤러리 이미지를 R2에 업로드하고 그 공개 URL로 미리보기 URL을
+      // 교체한다 — 이후 미리보기(InvitationPreview)는 blob URL이 아니라 이 R2 URL을 쓴다.
+      const [mainImageUrl, galleryUrls] = await Promise.all([
+        uploadImageFile(formData.mainImage),
+        Promise.all(formData.galleryImages.map((image) => uploadImageFile(image.file))),
+      ]);
+
+      if (formData.mainImagePreviewUrl) URL.revokeObjectURL(formData.mainImagePreviewUrl);
+      formData.galleryImages.forEach((image) => URL.revokeObjectURL(image.previewUrl));
+
+      const uploaded: InvitationFormData = {
+        ...formData,
+        mainImagePreviewUrl: mainImageUrl,
+        galleryImages: formData.galleryImages.map((image, index) => ({
+          ...image,
+          previewUrl: galleryUrls[index],
+        })),
+      };
+
+      setFormData(uploaded);
+      onSubmitSuccess(uploaded);
+    } catch (error) {
+      console.error('이미지 업로드 실패', error);
+      setUploadError('이미지 업로드에 실패했어요. 잠시 후 다시 시도해주세요.');
+    } finally {
+      setUploading(false);
     }
   }
 
@@ -341,17 +374,24 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
 
           <div className={styles.submitBar}>
             <p className={styles.submitHelper}>
-              {readyToSubmit
-                ? '모든 필수 항목을 입력했어요.'
-                : `필수 항목 ${REQUIRED_FIELD_COUNT - completedCount}개가 더 필요해요.`}
+              {uploading
+                ? '이미지를 업로드하는 중이에요…'
+                : readyToSubmit
+                  ? '모든 필수 항목을 입력했어요.'
+                  : `필수 항목 ${REQUIRED_FIELD_COUNT - completedCount}개가 더 필요해요.`}
             </p>
+            {uploadError && (
+              <p role="alert" className={styles.fieldError}>
+                {uploadError}
+              </p>
+            )}
             <button
               type="submit"
               className={styles.submitButton}
-              disabled={!readyToSubmit}
-              aria-disabled={!readyToSubmit}
+              disabled={!readyToSubmit || uploading}
+              aria-disabled={!readyToSubmit || uploading}
             >
-              미리보기로 이동
+              {uploading ? '업로드하는 중…' : '미리보기로 이동'}
             </button>
           </div>
         </form>

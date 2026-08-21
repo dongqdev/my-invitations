@@ -1,9 +1,11 @@
 /**
  * 청첩장 입력 폼의 상태 형태.
  *
- * 이후 태스크(미리보기, R2 업로드, 정적 생성 파이프라인)가 이 형태를 그대로
- * 이어받아 사용할 수 있도록 export 한다. 이미지 필드는 이 태스크(입력 폼 UI)
- * 범위에서는 로컬 File 객체 + 미리보기 URL로만 다루고, 실제 업로드는 다루지 않는다.
+ * 이후 태스크(정적 생성 파이프라인)가 이 형태를 그대로 이어받아 사용할 수 있도록 export
+ * 한다. 이미지 필드는 선택 직후에는 로컬 File 객체 + blob 미리보기 URL을 담고 있다가,
+ * 폼 제출(R2 업로드) 시점에 `mainImagePreviewUrl`/`GalleryImage.previewUrl`이 R2 공개
+ * URL로 교체된다(InvitationForm.tsx의 handleSubmit 참고) — 이후 미리보기는 그 필드를
+ * blob/공개 URL 구분 없이 그대로 렌더링한다.
  */
 
 export interface BankAccount {
