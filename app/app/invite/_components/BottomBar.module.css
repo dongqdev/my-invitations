@@ -1,0 +1,84 @@
+.bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  border-top: 1px solid var(--color-border);
+  background: var(--color-surface);
+  padding: 12px max(20px, env(safe-area-inset-left)) calc(12px + env(safe-area-inset-bottom))
+    max(20px, env(safe-area-inset-right));
+}
+
+.inner {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+}
+
+.copyButton {
+  width: 100%;
+  min-height: 52px;
+  border: 0;
+  border-radius: 12px;
+  background: var(--color-gold);
+  color: #fff;
+  font-family: var(--font-body), 'Apple SD Gothic Neo', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    filter 160ms ease-out,
+    transform 120ms ease-out;
+}
+
+.copyButton:hover {
+  filter: brightness(1.06);
+}
+
+.copyButton:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.copyButton:active {
+  transform: scale(0.98);
+}
+
+/* AccountSection.module.css의 .copyToast와 동일한 패턴(opacity+translateY 트랜지션,
+   data-visible 토글, aria-live=polite). 버튼 바로 위 가운데에 뜨는 알약형 배지로
+   표시한다 — 하단 바가 얇아서 버튼 옆에 텍스트를 붙일 공간이 마땅치 않다. */
+.toast {
+  position: absolute;
+  left: 50%;
+  bottom: calc(100% + 10px);
+  display: block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-bg);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, 4px);
+  opacity: 0;
+  transition:
+    opacity 180ms ease-out,
+    transform 180ms ease-out;
+}
+
+.toast[data-visible='true'] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .copyButton,
+  .toast {
+    transition-duration: 0.01ms;
+  }
+}

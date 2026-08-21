@@ -1,3 +1,4 @@
+import BottomBar from '../_components/BottomBar';
 import Gallery from '../_components/Gallery';
 import Hero from '../_components/Hero';
 import InviteMessage from '../_components/InviteMessage';
@@ -14,6 +15,10 @@ import styles from './page.module.css';
  * 아코디언 / 하단바)은 이 라우트(`app/app/invite/preview/page.tsx`)에 자신의 섹션을
  * `<Hero .../>` 아래로 계속 이어 붙이면 된다 — 데모용 더미 데이터는 이 파일의
  * `DEMO_DATA`를 확장해서 공유한다.
+ *
+ * `BottomBar`(harness-0i2.5.1)는 `position: fixed`로 화면 하단에 고정되므로 문서
+ * 흐름 마지막에 붙여도 무방하다 — 대신 `<main>`에 하단 패딩(`page.module.css`)을 줘서
+ * 고정바가 계좌 아코디언 등 마지막 섹션 콘텐츠를 가리지 않게 한다.
  */
 const DEMO_DATA: InvitationViewData = {
   mainImageUrl: '/demo/sample-main.svg',
@@ -57,6 +62,7 @@ export default function InvitePreviewPage() {
       />
       <Gallery galleryImageUrls={DEMO_DATA.galleryImageUrls} />
       <DemoAccountSection />
+      <BottomBar />
     </main>
   );
 }
