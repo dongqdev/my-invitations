@@ -57,9 +57,66 @@ function getToken(): string | undefined {
   return process.env.GIT_PUBLISH_TOKEN || process.env.GITHUB_TOKEN || undefined;
 }
 
+/**
+ * `text`에서 실제 토큰 값(있으면)과, `https://<자격증명>@host/...` 형태의 URL
+ * 어디서든 자격증명 부분을 마스킹한다. 토큰 리터럴 치환과 URL 패턴 치환을
+ * 둘 다 거는 이유: (1) push URL에 인라인된 토큰은 리터럴 치환으로 확실히
+ * 잡히고, (2) git이 에러 메시지에서 URL을 재구성하거나 우리가 모르는 다른
+ * 경로로 자격증명이 섞여 들어오는 경우까지 URL 패턴 치환이 방어망 역할을
+ * 한다.
+ */
+function maskSecrets(text: string, token: string | undefined): string {
+  let masked = text;
+  if (token) {
+    masked = masked.split(token).join('***');
+  }
+  masked = masked.replace(/https:\/\/[^\s@/]+@/g, 'https://***@');
+  return masked;
+}
+
+type ExecFileError = Error & {
+  cmd?: string;
+  stdout?: string;
+  stderr?: string;
+  code?: number | string;
+  killed?: boolean;
+  signal?: string | null;
+};
+
+/**
+ * execFile 실패 시 던져지는 에러(`.message`/`.cmd`/`.stdout`/`.stderr`/`.stack`
+ * 전부)에서 토큰이 인라인된 push URL이 그대로 노출되지 않도록, 마스킹된
+ * 값들로 채운 새 Error를 만들어 반환한다. 호출자는 원본 대신 이 에러를
+ * 던져야 한다 — 그래야 `/api/confirm`의 `console.error`가 로깅해도 서버
+ * 로그에 실제 PAT이 남지 않는다.
+ */
+function maskTokenInError(error: unknown, token: string | undefined): Error {
+  if (!(error instanceof Error)) {
+    return new Error(maskSecrets(String(error), token));
+  }
+  const rich = error as ExecFileError;
+  const masked = new Error(maskSecrets(error.message, token)) as ExecFileError;
+  masked.name = error.name;
+  masked.stack = error.stack ? maskSecrets(error.stack, token) : error.stack;
+  if (typeof rich.cmd === 'string') masked.cmd = maskSecrets(rich.cmd, token);
+  if (typeof rich.stdout === 'string') masked.stdout = maskSecrets(rich.stdout, token);
+  if (typeof rich.stderr === 'string') masked.stderr = maskSecrets(rich.stderr, token);
+  if (rich.code !== undefined) masked.code = rich.code;
+  if (rich.killed !== undefined) masked.killed = rich.killed;
+  if (rich.signal !== undefined) masked.signal = rich.signal;
+  return masked;
+}
+
 async function git(repoPath: string, args: string[]): Promise<string> {
-  const { stdout } = await execFileAsync('git', ['-C', repoPath, ...args]);
-  return stdout.trim();
+  try {
+    const { stdout } = await execFileAsync('git', ['-C', repoPath, ...args]);
+    return stdout.trim();
+  } catch (error) {
+    // push 인자에 토큰 인라인 URL이 들어갈 수 있으므로(withInlineToken), 모든
+    // git 호출 실패를 여기서 일괄 마스킹한다 — 어느 하위 명령이 실패하든
+    // 호출자에게는 항상 토큰이 제거된 에러만 전파된다.
+    throw maskTokenInError(error, getToken());
+  }
 }
 
 /**
