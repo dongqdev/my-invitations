@@ -46,7 +46,16 @@ function Section({
   );
 }
 
-export default function InvitationForm() {
+interface InvitationFormProps {
+  /**
+   * 필수 항목이 모두 채워진 상태로 제출됐을 때 호출된다. 이 시점의 폼
+   * 상태(File 객체·blob 미리보기 URL 포함)를 그대로 넘긴다 — 실제 화면
+   * 전환(미리보기 표시)은 호출하는 쪽(page.tsx)의 책임이다.
+   */
+  onSubmitSuccess: (data: InvitationFormData) => void;
+}
+
+export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps) {
   const [formData, setFormData] = useState<InvitationFormData>(createEmptyInvitationFormData);
   const [submitAttempted, setSubmitAttempted] = useState(false);
   const [submitCount, setSubmitCount] = useState(0);
@@ -72,7 +81,6 @@ export default function InvitationForm() {
   const showFieldErrors = submitAttempted;
   const summaryMessages = showFieldErrors ? toSummaryMessages(errors) : [];
   const hasVisibleErrors = summaryMessages.length > 0;
-  const submitSucceeded = submitAttempted && !hasVisibleErrors;
 
   useEffect(() => {
     if (submitCount > 0 && summaryRef.current) {
@@ -124,10 +132,7 @@ export default function InvitationForm() {
     setSubmitCount((count) => count + 1);
 
     if (Object.keys(validateInvitationForm(formData)).length === 0) {
-      // 실제 제출/미리보기 전환은 harness-8lh.2.2(미리보기 태스크)에서 연결된다.
-      // 이 태스크에서는 폼 상태(InvitationFormData)를 완성해 전달할 준비가
-      // 됐다는 것만 확인한다.
-      console.info('invitation form ready', formData);
+      onSubmitSuccess(formData);
     }
   }
 
@@ -159,12 +164,6 @@ export default function InvitationForm() {
                 <li key={message}>{message}</li>
               ))}
             </ul>
-          </div>
-        )}
-
-        {submitSucceeded && (
-          <div className={styles.successBanner} role="status">
-            필수 정보를 모두 입력했어요. 다음 단계(미리보기)는 곧 이어집니다.
           </div>
         )}
 

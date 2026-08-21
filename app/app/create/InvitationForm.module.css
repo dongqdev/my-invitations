@@ -119,17 +119,6 @@
   color: var(--color-ink);
 }
 
-.successBanner {
-  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, var(--color-border));
-  background: var(--color-success-bg);
-  color: var(--color-success-text);
-  border-radius: var(--radius-inner);
-  padding: 14px 18px;
-  margin-bottom: 28px;
-  font-size: 14px;
-  font-weight: 500;
-}
-
 /* ---------- Form / sections ---------- */
 
 .form {
