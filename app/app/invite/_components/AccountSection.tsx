@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { BankAccountInfo, WeddingAccounts } from './accountTypes';
 import styles from './AccountSection.module.css';
 
@@ -82,6 +82,29 @@ export default function AccountSection({
   const [accounts, setAccounts] = useState<WeddingAccounts | null>(null);
   const [status, setStatus] = useState<'idle' | 'loading' | 'error'>('idle');
   const [openSide, setOpenSide] = useState<AccountSide | null>(null);
+  // 방금 복사된 카드의 key. 카드가 여러 장 동시에 펼쳐지므로 "복사됨" 피드백이 클릭한
+  // 그 카드에만 뜨도록 side/entry 단위가 아니라 entry.key 단위로 추적한다.
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+  const copyResetTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (copyResetTimer.current !== null) clearTimeout(copyResetTimer.current);
+    };
+  }, []);
+
+  async function handleCopy(entry: AccountEntry) {
+    try {
+      await navigator.clipboard.writeText(entry.info.accountNumber);
+    } catch {
+      // 클립보드 API가 없거나(구형 브라우저) 권한이 없는 환경 — 조용히 무시한다.
+      // 이 앱 규모에서는 별도 폴리필/알림을 두지 않는다.
+      return;
+    }
+    if (copyResetTimer.current !== null) clearTimeout(copyResetTimer.current);
+    setCopiedKey(entry.key);
+    copyResetTimer.current = setTimeout(() => setCopiedKey(null), 1600);
+  }
 
   async function ensureAccountsLoaded() {
     if (accounts !== null || status === 'loading') return;
@@ -171,8 +194,24 @@ export default function AccountSection({
                       <li key={entry.key} className={styles.accountCard}>
                         <p className={styles.accountLabel}>{entry.label}</p>
                         <p className={styles.accountBank}>{entry.info.bank}</p>
-                        <p className={styles.accountNumber}>{entry.info.accountNumber}</p>
+                        <div className={styles.accountNumberRow}>
+                          <p className={styles.accountNumber}>{entry.info.accountNumber}</p>
+                          <button
+                            type="button"
+                            className={styles.copyButton}
+                            onClick={() => void handleCopy(entry)}
+                          >
+                            계좌번호 복사
+                          </button>
+                        </div>
                         <p className={styles.accountHolder}>예금주 {entry.info.holder}</p>
+                        <span
+                          className={styles.copyToast}
+                          data-visible={copiedKey === entry.key}
+                          aria-live="polite"
+                        >
+                          {copiedKey === entry.key ? '복사됨' : ''}
+                        </span>
                       </li>
                     ))}
                   </ul>
