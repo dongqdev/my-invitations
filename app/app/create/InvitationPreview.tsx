@@ -1,8 +1,41 @@
 'use client';
 
 import { useState } from 'react';
-import type { InvitationFormData } from './types';
+import type { WeddingAccounts } from '@/lib/accountTypes';
+import type { InvitationFormData, ParentInfo } from './types';
 import styles from './InvitationPreview.module.css';
+
+/**
+ * 부모님 계좌 정보(`ParentInfo.account`)를 `/api/confirm`이 받는 `WeddingAccounts`
+ * 형태로 바꾼다. `app/create/validation.ts`의 `validateParentGroup`과 동일한 규칙 —
+ * 네 칸(성함/은행/예금주/계좌번호)이 전부 채워진 그룹만 계좌로 포함한다. 폼 제출
+ * 시점에 이미 이 검증을 통과했어야 하지만(반쯤 채워진 그룹은 제출 자체가 막힘),
+ * 여기서도 다시 확인해 방어적으로 걸러낸다 — 실수로 빈 계좌 오브젝트가 저장소에
+ * 들어가는 일을 막기 위함.
+ */
+function buildAccountsPayload(data: InvitationFormData): WeddingAccounts {
+  const accounts: WeddingAccounts = {};
+
+  (
+    [
+      ['groomFather', data.groomFather],
+      ['groomMother', data.groomMother],
+      ['brideFather', data.brideFather],
+      ['brideMother', data.brideMother],
+    ] as Array<[keyof WeddingAccounts, ParentInfo]>
+  ).forEach(([key, parent]) => {
+    const { bank, holder, accountNumber } = parent.account;
+    if (bank.trim() && holder.trim() && accountNumber.trim()) {
+      accounts[key] = {
+        bank: bank.trim(),
+        holder: holder.trim(),
+        accountNumber: accountNumber.trim(),
+      };
+    }
+  });
+
+  return accounts;
+}
 
 interface InvitationPreviewProps {
   data: InvitationFormData;
@@ -42,9 +75,17 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           title: data.title,
+          content: data.content,
           groomName: data.groomName,
           brideName: data.brideName,
           weddingDateTime: data.weddingDateTime,
+          mainImageUrl: data.mainImagePreviewUrl,
+          galleryImageUrls: data.galleryImages.map((image) => image.previewUrl),
+          groomFatherName: data.groomFather.name,
+          groomMotherName: data.groomMother.name,
+          brideFatherName: data.brideFather.name,
+          brideMotherName: data.brideMother.name,
+          accounts: buildAccountsPayload(data),
         }),
       });
       if (!response.ok) throw new Error(`unexpected status ${response.status}`);

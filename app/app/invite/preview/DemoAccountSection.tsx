@@ -1,7 +1,7 @@
 'use client';
 
 import AccountSection from '../_components/AccountSection';
-import type { WeddingAccounts } from '../_components/accountTypes';
+import type { WeddingAccounts } from '@/lib/accountTypes';
 
 /**
  * `/invite/preview`(서버 컴포넌트)에서 `AccountSection`(클라이언트 컴포넌트)에 mock

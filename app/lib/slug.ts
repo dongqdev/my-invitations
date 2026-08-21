@@ -93,8 +93,16 @@ export async function resolveSlug(baseSlug: string, checkExists: SlugExistsCheck
  * 만든다) — 그 경우 항상 "존재하지 않음"으로 취급한다. 저장 위치는
  * `app/lib/accountStore.ts`와 같은 패턴으로 환경변수(`MY_INVITATIONS_CUSTOM_DIR`)로
  * 재정의할 수 있게 해서 테스트에서 임시 디렉터리를 가리킬 수 있게 한다.
+ *
+ * `process.cwd()` 기반 기본값은 Next.js 프로세스가 항상 `app/` 안에서
+ * 실행된다는 가정에 의존한다(`npm run dev`/`build`/`start`는 전부 `app/`
+ * 디렉터리 안에서 실행하는 게 Next.js의 표준 컨벤션이고, 루트
+ * `repos.json`의 게이트도 `cd app && npm run build`로 이 가정을 그대로 쓴다).
+ * 이 함수를 export해서 정적 페이지 생성(harness-8lh.5.2, `/api/confirm`)이
+ * 슬러그 충돌 검사와 **동일한 계산 결과**로 `custom/<slug>/index.html`을 쓰게
+ * 한다 — 검사와 쓰기가 서로 다른 경로를 가리키면 충돌 검사가 무의미해진다.
  */
-function getCustomDir(): string {
+export function getCustomDir(): string {
   return process.env.MY_INVITATIONS_CUSTOM_DIR ?? path.join(process.cwd(), '..', 'custom');
 }
 

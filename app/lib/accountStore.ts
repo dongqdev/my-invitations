@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import type { BankAccountInfo, ParentAccountKey, WeddingAccounts } from './accountTypes';
 
 /**
  * 계좌 정보(신랑/신부 본인 + 혼주 4그룹) 저장소.
@@ -19,32 +20,12 @@ import path from 'path';
  * 재정의할 수 있다(테스트 등).
  *
  * 서버 전용 모듈이다 — 클라이언트 컴포넌트에서 import하지 말 것(Node `fs` API를 쓴다).
+ * 타입(`BankAccountInfo`/`WeddingAccounts`/`ParentAccountKey`)은 순수 타입이라
+ * 클라이언트 컴포넌트도 쓸 수 있게 `./accountTypes`로 분리돼 있다 — 이 파일은 재수출만
+ * 한다(기존 `from '@/lib/accountStore'` import를 깨지 않기 위함).
  */
 
-export interface BankAccountInfo {
-  bank: string;
-  holder: string;
-  accountNumber: string;
-}
-
-export type ParentAccountKey = 'groomFather' | 'groomMother' | 'brideFather' | 'brideMother';
-
-/**
- * 슬러그(신랑_신부이름) 하나에 대한 계좌 정보 묶음. 신랑/신부 본인 계좌와 혼주 4그룹
- * 전부 선택 항목이다 — 공개하지 않기로 한 항목은 필드째 생략(undefined)한다. 슬러그
- * 생성 규칙 자체는 harness-8lh.5.1의 몫이라 여기서는 이미 만들어진 문자열 키로만
- * 다룬다.
- */
-export interface WeddingAccounts {
-  /** 신랑 본인 계좌 */
-  groom?: BankAccountInfo;
-  /** 신부 본인 계좌 */
-  bride?: BankAccountInfo;
-  groomFather?: BankAccountInfo;
-  groomMother?: BankAccountInfo;
-  brideFather?: BankAccountInfo;
-  brideMother?: BankAccountInfo;
-}
+export type { BankAccountInfo, ParentAccountKey, WeddingAccounts };
 
 const DEFAULT_STORE_DIR = '/root/.my-invitations-accounts';
 

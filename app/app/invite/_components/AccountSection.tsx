@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import type { BankAccountInfo, WeddingAccounts } from './accountTypes';
+import type { BankAccountInfo, WeddingAccounts } from '@/lib/accountTypes';
 import styles from './AccountSection.module.css';
 
 type AccountSide = 'groom' | 'bride';
