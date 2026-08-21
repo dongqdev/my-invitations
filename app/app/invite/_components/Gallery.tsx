@@ -56,7 +56,7 @@ export default function Gallery({ galleryImageUrls }: GalleryProps) {
 
   return (
     <section className={styles.section} aria-label="갤러리">
-      <p className={styles.label}>GALLERY</p>
+      <p className={styles.label}>갤러리</p>
 
       <div className={styles.grid}>
         {galleryImageUrls.map((url, index) => (

@@ -5,10 +5,11 @@
 
 .label {
   margin: 0 0 20px;
-  font-family: var(--font-body), 'Apple SD Gothic Neo', sans-serif;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.28em;
+  font-family: var(--font-display), serif;
+  font-style: italic;
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
   color: var(--color-gold);
   text-align: center;
 }
@@ -30,6 +31,8 @@
   cursor: pointer;
   aspect-ratio: 1 / 1;
   overflow: hidden;
+  outline: 1px solid oklch(0 0 0 / 0.1);
+  outline-offset: -1px;
 }
 
 .thumbButton:focus-visible {

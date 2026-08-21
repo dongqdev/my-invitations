@@ -127,7 +127,7 @@ export default function AccountSection({
 
   return (
     <section className={styles.section} aria-label="계좌 안내">
-      <p className={styles.label}>ACCOUNT</p>
+      <p className={styles.label}>계좌 안내</p>
       <p className={styles.hint}>마음 전하실 곳을 안내해 드려요</p>
 
       <div className={styles.buttonRow}>

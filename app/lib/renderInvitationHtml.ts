@@ -152,9 +152,9 @@ body {
 
 /* ---------- Gallery ---------- */
 .gallery { padding: 40px 32px 56px; border-top: 1px solid var(--color-border); }
-.gallery-label { margin: 0 0 20px; font-family: var(--font-body); font-size: 13px; font-weight: 600; letter-spacing: 0.28em; color: var(--color-gold); text-align: center; }
+.gallery-label { margin: 0 0 20px; font-family: var(--font-display); font-style: italic; font-size: 15px; font-weight: 400; letter-spacing: 0.04em; color: var(--color-gold); text-align: center; }
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-.gallery-thumb-btn { display: block; padding: 0; border: 0; margin: 0; background: var(--color-border); cursor: pointer; aspect-ratio: 1 / 1; overflow: hidden; }
+.gallery-thumb-btn { display: block; padding: 0; border: 0; margin: 0; background: var(--color-border); cursor: pointer; aspect-ratio: 1 / 1; overflow: hidden; outline: 1px solid rgba(0, 0, 0, 0.1); outline-offset: -1px; }
 .gallery-thumb-btn:focus-visible { outline: 2px solid var(--color-gold); outline-offset: -2px; }
 .gallery-thumb-img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 200ms ease-out; }
 .gallery-thumb-btn:hover .gallery-thumb-img, .gallery-thumb-btn:focus-visible .gallery-thumb-img { transform: scale(1.04); }
@@ -166,7 +166,7 @@ body {
 
 /* ---------- AccountSection ---------- */
 .account { padding: 40px 32px 56px; border-top: 1px solid var(--color-border); }
-.account-label { margin: 0 0 8px; font-family: var(--font-body); font-size: 13px; font-weight: 600; letter-spacing: 0.28em; color: var(--color-gold); text-align: center; }
+.account-label { margin: 0 0 8px; font-family: var(--font-display); font-style: italic; font-size: 15px; font-weight: 400; letter-spacing: 0.04em; color: var(--color-gold); text-align: center; }
 .account-hint { margin: 0 0 20px; font-size: 13px; color: var(--color-ink-faint); text-align: center; }
 .account-button-row { display: flex; flex-direction: column; gap: 10px; }
 .account-toggle-btn {
@@ -538,7 +538,7 @@ function renderGallery(data: RenderInvitationHtmlInput): string {
 
   return [
     '<section class="gallery" aria-label="갤러리">',
-    '<p class="gallery-label">GALLERY</p>',
+    '<p class="gallery-label">갤러리</p>',
     `<div class="gallery-grid">${thumbs}</div>`,
     '<div class="gallery-overlay" data-open="false" role="dialog" aria-modal="true" aria-label="갤러리 사진 확대 보기">',
     '<button type="button" class="gallery-close-btn" aria-label="확대 보기 닫기">',
@@ -579,7 +579,7 @@ function renderAccountSection(): string {
 
   return [
     '<section class="account" aria-label="계좌 안내">',
-    '<p class="account-label">ACCOUNT</p>',
+    '<p class="account-label">계좌 안내</p>',
     '<p class="account-hint">마음 전하실 곳을 안내해 드려요</p>',
     `<div class="account-button-row">${buttons}</div>`,
     panels,
