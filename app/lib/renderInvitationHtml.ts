@@ -20,7 +20,24 @@ import { formatWeddingDateTime } from '../app/invite/_components/formatWeddingDa
  * acceptance를 코드 형태로 보장하기 위해, 애초에 이 함수의 시그니처에 계좌 필드를
  * 두지 않았다(실수로 넣을 방법 자체가 없게).  계좌는 `AccountSection`과 동일하게
  * 버튼 클릭 시 `/api/accounts/<slug>`를 fetch해서만 얻는다.
+ *
+ * (harness-ixv.1.3) 이 정적 HTML은 GitHub Pages(`blog.dongq.dev`)에서 서빙되지만
+ * 계좌 API는 별도 오리진(`invite.dongq.dev`)의 Next 서버가 서빙한다 — 서로 다른
+ * 오리진이므로 fetch URL을 상대경로로 두면 정적 페이지 자신의 오리진
+ * (`blog.dongq.dev/api/accounts/...`, 존재하지 않음)으로 요청하게 되어 깨진다.
+ * `MY_INVITATIONS_API_BASE_URL` 환경변수(예: `https://invite.dongq.dev`, 다른
+ * `MY_INVITATIONS_*` env와 동일한 접두어 관례 — `publishStatus.ts`의
+ * `MY_INVITATIONS_PUBLISH_BASE_URL` 참고)로 절대 URL의 origin part를 주입한다.
+ * 미설정 시 빈 문자열로 폴백해 기존 상대경로 동작(로컬 개발, 같은 Next 서버)을
+ * 그대로 유지한다. body의 `data-api-base-url` 속성으로 값을 전달해 vanilla
+ * CLIENT_SCRIPT(정적 문자열 상수)가 런타임에 읽어 쓴다 — CLIENT_SCRIPT 자체에
+ * 템플릿 치환을 넣지 않는 이유는 파일 상단 주석대로 백틱/`${}` 충돌을 피하기 위함.
  */
+
+/** 계좌 API 절대 URL의 origin part. 미설정 시 빈 문자열(상대경로 폴백). */
+function getApiBaseUrl(): string {
+  return (process.env.MY_INVITATIONS_API_BASE_URL ?? '').replace(/\/$/, '');
+}
 
 export interface RenderInvitationHtmlInput {
   /** URL 슬러그. 계좌 조회 API(`/api/accounts/<slug>`) 호출과 `<title>`에 쓰인다. */
@@ -252,13 +269,14 @@ const CLIENT_SCRIPT = `
 
   /* ---------- 계좌 아코디언 ---------- */
   var slug = document.body.getAttribute('data-slug') || '';
+  var apiBaseUrl = document.body.getAttribute('data-api-base-url') || '';
   var accountsCache = null;
   var accountsPromise = null;
 
   function fetchAccounts() {
     if (accountsCache) return Promise.resolve(accountsCache);
     if (accountsPromise) return accountsPromise;
-    accountsPromise = fetch('/api/accounts/' + encodeURIComponent(slug))
+    accountsPromise = fetch(apiBaseUrl + '/api/accounts/' + encodeURIComponent(slug))
       .then(function (response) {
         if (!response.ok) throw new Error('status ' + response.status);
         return response.json();
@@ -601,7 +619,7 @@ export function renderInvitationHtml(data: RenderInvitationHtmlInput): string {
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet" />
 <style>${CSS}</style>
 </head>
-<body data-slug="${escapeAttr(data.slug)}">
+<body data-slug="${escapeAttr(data.slug)}" data-api-base-url="${escapeAttr(getApiBaseUrl())}">
 <div class="page-scope">
 <main class="page">
 ${renderHero(data)}
