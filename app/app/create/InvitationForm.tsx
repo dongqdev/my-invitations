@@ -183,10 +183,18 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
             아래 정보를 채우면 청첩장 미리보기로 이어집니다. 계좌 정보는 공개하고 싶은 분만
             입력하셔도 괜찮아요.
           </p>
-          <p className={styles.progress} aria-live="polite">
-            <span className={styles.progressCount}>{completedCount}</span>
-            <span> / {REQUIRED_FIELD_COUNT} 필수 항목 완료</span>
-          </p>
+          <div className={styles.progressWrap}>
+            <p className={styles.progress} aria-live="polite">
+              <span className={styles.progressCount}>{completedCount}</span>
+              <span> / {REQUIRED_FIELD_COUNT} 필수 항목 완료</span>
+            </p>
+            <div className={styles.progressBarTrack} aria-hidden="true">
+              <div
+                className={styles.progressBarFill}
+                style={{ width: `${(completedCount / REQUIRED_FIELD_COUNT) * 100}%` }}
+              />
+            </div>
+          </div>
         </header>
 
         {showFieldErrors && hasVisibleErrors && (
