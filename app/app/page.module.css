@@ -17,6 +17,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  gap: 28px;
   background: var(--color-bg);
   background-image:
     radial-gradient(circle at 14% 10%, rgba(185, 139, 78, 0.1), transparent 42%),
@@ -27,6 +28,69 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   padding: 24px;
+}
+
+/* ---------- 청첩장 미리보기 목업 ---------- */
+/* Hero.module.css(.imageFrame/.divider/.names)의 구조를 미니어처로 재해석 —
+   "이 서비스가 실제로 만들어주는 결과물"을 카드 위에서 먼저 보여준다. */
+
+.preview {
+  width: clamp(148px, 42vw, 176px);
+}
+
+.previewCard {
+  padding: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 16px;
+  box-shadow: var(--shadow-card);
+  /* 실제로 놓인 인쇄물처럼 살짝 기울여 카드와 구분되는 물성을 준다. */
+  transform: rotate(-3deg);
+}
+
+.previewImageFrame {
+  position: relative;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border-radius: 8px;
+  background: var(--color-border);
+  outline: 1px solid oklch(0 0 0 / 0.1);
+  outline-offset: -1px;
+}
+
+.previewImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.previewInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 10px 4px 2px;
+}
+
+.previewNames {
+  font-family: var(--font-display), serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  color: var(--color-ink);
+}
+
+.previewDivider {
+  width: 22px;
+  height: 1px;
+  background: var(--color-border-strong);
+}
+
+.previewDate {
+  font-size: 10px;
+  letter-spacing: 0.03em;
+  color: var(--color-ink-soft);
 }
 
 .card {
@@ -106,6 +170,10 @@
 }
 
 @media (max-width: 420px) {
+  .page {
+    gap: 22px;
+  }
+
   .card {
     padding: 48px 24px 32px;
     border-radius: 20px;
