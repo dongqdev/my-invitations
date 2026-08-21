@@ -226,7 +226,7 @@ body {
 .account-status, .account-status-error { margin: 0; padding: 14px 4px; font-size: 14px; color: var(--color-ink-soft); }
 .account-status-error { color: #b3413c; }
 .account-list { display: flex; flex-direction: column; gap: 10px; list-style: none; margin: 0 0 12px; padding: 0; }
-.account-card { padding: 16px 18px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-bg); }
+.account-card { padding: 16px 18px; border: 1px solid var(--color-border); border-radius: 10px; background: var(--color-bg); box-shadow: 0 1px 2px rgba(43, 42, 38, 0.04), 0 2px 8px rgba(43, 42, 38, 0.06); }
 .account-card-label { margin: 0 0 6px; font-size: 12px; font-weight: 600; letter-spacing: 0.08em; color: var(--color-ink-faint); text-transform: uppercase; }
 .account-card-bank { margin: 0 0 2px; font-size: 14px; color: var(--color-ink-soft); }
 .account-number-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 0 0 4px; }
