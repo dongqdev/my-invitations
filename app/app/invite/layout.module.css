@@ -1,0 +1,20 @@
+.scope {
+  /* app/create/page.module.css 의 팔레트와 동일 — 폼에서 입력하는 청첩장이 뷰어에서도
+     같은 톤(따뜻한 크림 배경 + 차분한 잉크색 + 금색 포인트)으로 보이도록 맞춘다. */
+  --color-bg: #fbf7f0;
+  --color-surface: #ffffff;
+  --color-ink: #2b2a26;
+  --color-ink-soft: #6b6558;
+  --color-ink-faint: #8f8878;
+  --color-gold: #b98b4e;
+  --color-border: #e6ddc9;
+  --color-border-strong: #d5c9ac;
+
+  min-height: 100vh;
+  background: var(--color-bg);
+  color: var(--color-ink);
+  color-scheme: light;
+  font-family: var(--font-body), 'Apple SD Gothic Neo', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

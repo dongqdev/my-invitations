@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1200" role="img" aria-label="대표 사진 자리 표시자">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e7e0d2" />
+      <stop offset="100%" stop-color="#cfc6b2" />
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="38%" r="60%">
+      <stop offset="0%" stop-color="#fbf7f0" stop-opacity="0.55" />
+      <stop offset="100%" stop-color="#fbf7f0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="900" height="1200" fill="url(#bg)" />
+  <rect width="900" height="1200" fill="url(#glow)" />
+  <g fill="none" stroke="#8f8878" stroke-width="2" opacity="0.55">
+    <path d="M330 760 C330 660 380 590 450 590 C520 590 570 660 570 760" />
+    <circle cx="450" cy="520" r="70" />
+  </g>
+  <text
+    x="450"
+    y="1080"
+    text-anchor="middle"
+    font-family="'Nanum Myeongjo', serif"
+    font-size="30"
+    letter-spacing="8"
+    fill="#6b6558"
+  >
+    SAMPLE PHOTO
+  </text>
+</svg>
