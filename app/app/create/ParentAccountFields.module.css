@@ -95,8 +95,12 @@
 
 .input:focus-visible {
   outline: none;
-  border-color: var(--color-gold);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold) 28%, transparent);
+  /* --color-gold-focus는 InvitationForm.module.css의 .page에서 정의됨 —
+     이 컴포넌트가 그 DOM 하위에서만 렌더링되므로 커스텀 프로퍼티 상속으로
+     그대로 전달된다. WCAG 1.4.11 대비 근거는 InvitationForm.module.css 주석
+     참고. */
+  border-color: var(--color-gold-focus);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-gold-focus) 40%, transparent);
 }
 
 .input[aria-invalid='true'] {
