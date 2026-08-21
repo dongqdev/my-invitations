@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState, type KeyboardEvent } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import type { InvitationViewData } from './types';
 import styles from './Gallery.module.css';
 
@@ -19,6 +19,11 @@ export type GalleryProps = Pick<InvitationViewData, 'galleryImageUrls'>;
  */
 export default function Gallery({ galleryImageUrls }: GalleryProps) {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const thumbButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
+  // 라이트박스가 열리기 직전에 포커스가 있던(=클릭한) 썸네일 인덱스. 닫힐 때
+  // 그 썸네일로 포커스를 되돌리기 위해 openIndex가 null로 바뀌기 전 값을 들고 있는다.
+  const lastOpenIndexRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (openIndex === null) return;
@@ -29,6 +34,18 @@ export default function Gallery({ galleryImageUrls }: GalleryProps) {
 
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [openIndex]);
+
+  // aria-modal="true"는 포커스가 다이얼로그 안에 갇힌다는 약속이므로, 열릴 때
+  // 닫기 버튼으로 포커스를 옮기고 닫힐 때 원래 클릭했던 썸네일로 되돌린다.
+  useEffect(() => {
+    if (openIndex !== null) {
+      lastOpenIndexRef.current = openIndex;
+      closeButtonRef.current?.focus();
+    } else if (lastOpenIndexRef.current !== null) {
+      thumbButtonRefs.current[lastOpenIndexRef.current]?.focus();
+      lastOpenIndexRef.current = null;
+    }
   }, [openIndex]);
 
   if (galleryImageUrls.length === 0) return null;
@@ -46,6 +63,9 @@ export default function Gallery({ galleryImageUrls }: GalleryProps) {
           <button
             key={url + index}
             type="button"
+            ref={(element) => {
+              thumbButtonRefs.current[index] = element;
+            }}
             className={styles.thumbButton}
             onClick={() => setOpenIndex(index)}
             aria-label={`갤러리 사진 ${index + 1}번 확대 보기`}
@@ -69,6 +89,7 @@ export default function Gallery({ galleryImageUrls }: GalleryProps) {
         >
           <button
             type="button"
+            ref={closeButtonRef}
             className={styles.closeButton}
             onClick={() => setOpenIndex(null)}
             aria-label="확대 보기 닫기"
