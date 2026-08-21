@@ -27,24 +27,27 @@ export default function Hero({ mainImageUrl, weddingDateTime, groomName, brideNa
           alt={`신랑 ${groomName}, 신부 ${brideName}의 결혼식 대표 사진`}
           className={styles.image}
         />
-      </div>
 
-      <div className={styles.divider} aria-hidden="true" />
+        {/* 사진 하단부를 어둡게 눌러 그 위에 얹는 흰 텍스트의 대비를 확보한다.
+            사진 밖(나머지 페이지)은 여전히 크림/잉크 톤 그대로다 — 이 그라데이션은
+            사진 영역 안에서만 적용된다. */}
+        <div className={styles.overlay} aria-hidden="true" />
 
-      <div className={styles.details}>
-        <div className={styles.dateBlock}>
-          {formatted && (
-            <time className={styles.dateTime} dateTime={formatted.isoDateTime}>
-              <span className={styles.dateLine}>{formatted.dateLabel}</span>
-              <span className={styles.timeLine}>{formatted.timeLabel}</span>
-            </time>
-          )}
+        <div className={styles.details}>
+          <div className={styles.dateBlock}>
+            {formatted && (
+              <time className={styles.dateTime} dateTime={formatted.isoDateTime}>
+                <span className={styles.dateLine}>{formatted.dateLabel}</span>
+                <span className={styles.timeLine}>{formatted.timeLabel}</span>
+              </time>
+            )}
+          </div>
+
+          <h1 className={styles.names}>
+            <span className={styles.name}>{groomName}</span>
+            <span className={styles.name}>{brideName}</span>
+          </h1>
         </div>
-
-        <h1 className={styles.names}>
-          <span className={styles.name}>{groomName}</span>
-          <span className={styles.name}>{brideName}</span>
-        </h1>
       </div>
     </section>
   );

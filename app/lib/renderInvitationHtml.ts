@@ -103,7 +103,10 @@ body {
 }
 
 /* ---------- Hero ---------- */
-.hero { display: flex; flex-direction: column; }
+/* 성함/날짜를 사진 위 그라데이션 오버레이에 겹쳐 배치한다 — 사진과 텍스트가 완전히
+   분리된 두 블록이던 이전 레이아웃에서 벗어난다(harness-4vc.4.1, Hero.module.css와
+   동일하게 반영). 사진 밖 나머지 페이지는 여전히 크림/잉크 톤 그대로다. */
+.hero { display: flex; flex-direction: column; margin-bottom: 12px; }
 .hero-image-frame {
   position: relative;
   margin: 0 28px;
@@ -115,20 +118,30 @@ body {
   outline-offset: -1px;
 }
 .hero-image { display: block; width: 100%; height: 100%; object-fit: cover; }
-.hero-divider { width: 56px; height: 1px; margin: 28px 28px 0; background: var(--color-border-strong); }
-.hero-details { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; padding: 20px 28px 40px; }
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 42%, rgba(20, 16, 8, 0.72) 100%);
+  pointer-events: none;
+}
+.hero-details {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 16px;
+  padding: 20px 24px 26px;
+}
 .hero-date-block { min-width: 0; }
 .hero-date-time { display: flex; flex-direction: column; gap: 6px; font-family: var(--font-body); }
-.hero-date-line { font-size: 14px; line-height: 1.5; color: var(--color-ink-soft); letter-spacing: 0.01em; }
-.hero-time-line { font-size: 14px; line-height: 1.5; font-weight: 600; color: var(--color-ink); letter-spacing: 0.01em; }
+.hero-date-line { font-size: 14px; line-height: 1.5; color: rgba(255, 255, 255, 0.86); letter-spacing: 0.01em; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
+.hero-time-line { font-size: 14px; line-height: 1.5; font-weight: 600; color: #fff; letter-spacing: 0.01em; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); }
 .hero-names { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; margin: 0; text-align: right; flex-shrink: 0; }
 .hero-name {
   font-family: var(--font-display);
   font-size: clamp(22px, 6.5vw, 28px);
   font-weight: 800;
   line-height: 1.2;
-  color: var(--color-ink);
+  color: #fff;
   letter-spacing: 0.32em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
   margin-right: -0.32em;
   display: block;
 }
@@ -535,14 +548,14 @@ function renderHero(data: RenderInvitationHtmlInput): string {
     '<section class="hero" aria-label="청첩장 대표 정보">',
     '<div class="hero-image-frame">',
     `<img src="${escapeAttr(data.mainImageUrl)}" alt="신랑 ${escapeAttr(data.groomName)}, 신부 ${escapeAttr(data.brideName)}의 결혼식 대표 사진" class="hero-image" />`,
-    '</div>',
-    '<div class="hero-divider" aria-hidden="true"></div>',
+    '<div class="hero-overlay" aria-hidden="true"></div>',
     '<div class="hero-details">',
     `<div class="hero-date-block">${dateBlock}</div>`,
     '<h1 class="hero-names">',
     `<span class="hero-name">${escapeHtml(data.groomName)}</span>`,
     `<span class="hero-name">${escapeHtml(data.brideName)}</span>`,
     '</h1>',
+    '</div>',
     '</div>',
     '</section>',
   ].join('');
