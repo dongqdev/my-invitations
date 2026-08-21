@@ -8,6 +8,8 @@
   --color-primary-dark: #43563a;
   --color-primary-contrast: #fffdf8;
   --color-gold: #b98b4e;
+  --color-accent-groom: var(--color-gold);
+  --color-accent-bride: #b9757f;
   --color-border: #e6ddc9;
   --color-border-strong: #d5c9ac;
   --color-error: #b3261e;
@@ -247,9 +249,16 @@
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: var(--color-gold);
   margin: 0;
   text-transform: uppercase;
+}
+
+.parentGroupTitleGroom {
+  color: var(--color-accent-groom);
+}
+
+.parentGroupTitleBride {
+  color: var(--color-accent-bride);
 }
 
 .parentGrid {

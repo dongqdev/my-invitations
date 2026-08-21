@@ -340,13 +340,16 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
             description="계좌 정보는 선택이지만, 하나라도 입력을 시작하면 네 칸을 모두 채워주세요."
           >
             <div className={styles.parentGroup}>
-              <h3 className={styles.parentGroupTitle}>신랑측</h3>
+              <h3 className={`${styles.parentGroupTitle} ${styles.parentGroupTitleGroom}`}>
+                신랑측
+              </h3>
               <div className={styles.parentGrid}>
                 {(['groomFather', 'groomMother'] as ParentKey[]).map((key) => (
                   <ParentAccountFields
                     key={key}
                     idPrefix={key}
                     label={PARENT_LABELS[key]}
+                    side="groom"
                     value={formData[key]}
                     errors={showFieldErrors ? errors[key] : undefined}
                     onChange={(next) => updateParent(key, next)}
@@ -356,13 +359,16 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
             </div>
 
             <div className={styles.parentGroup}>
-              <h3 className={styles.parentGroupTitle}>신부측</h3>
+              <h3 className={`${styles.parentGroupTitle} ${styles.parentGroupTitleBride}`}>
+                신부측
+              </h3>
               <div className={styles.parentGrid}>
                 {(['brideFather', 'brideMother'] as ParentKey[]).map((key) => (
                   <ParentAccountFields
                     key={key}
                     idPrefix={key}
                     label={PARENT_LABELS[key]}
+                    side="bride"
                     value={formData[key]}
                     errors={showFieldErrors ? errors[key] : undefined}
                     onChange={(next) => updateParent(key, next)}

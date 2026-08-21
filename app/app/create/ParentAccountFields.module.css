@@ -2,7 +2,7 @@
   position: relative;
   min-width: 0;
   margin: 0;
-  padding: 22px 18px 18px;
+  padding: 22px 18px 18px 22px;
   border: 1px solid var(--color-border);
   border-radius: 20px;
   background: var(--color-bg);
@@ -12,18 +12,40 @@
   overflow: hidden;
 }
 
-/* 봉투 리본을 연상시키는 상단 악센트 — 이 섹션이 "마음을 전하는 곳"임을
-   시각적으로 은은하게 표시한다. */
+/* 신랑측/신부측을 구분하는 옅은 배경 틴트. 팔레트를 벗어나지 않도록 각
+   측의 accent 컬러를 배경에 아주 낮은 비율로만 섞는다. */
+.card[data-side='groom'] {
+  background: color-mix(in srgb, var(--color-accent-groom) 5%, var(--color-bg));
+}
+
+.card[data-side='bride'] {
+  background: color-mix(in srgb, var(--color-accent-bride) 5%, var(--color-bg));
+}
+
+/* 좌측 accent bar — 봉투 리본을 연상시키는 악센트를 세로로 세워, 카드를
+   스크롤하며 채우는 동안에도 지금 신랑측/신부측 중 어디인지 계속
+   눈에 들어오게 한다(상단 바는 스크롤하면 화면 밖으로 먼저 벗어난다). */
 .accentBar {
   position: absolute;
   top: 0;
   left: 0;
-  right: 0;
-  height: 4px;
+  bottom: 0;
+  width: 4px;
+}
+
+.card[data-side='groom'] .accentBar {
   background: linear-gradient(
-    90deg,
-    var(--color-gold),
-    color-mix(in srgb, var(--color-gold) 45%, var(--color-primary))
+    180deg,
+    var(--color-accent-groom),
+    color-mix(in srgb, var(--color-accent-groom) 55%, var(--color-bg))
+  );
+}
+
+.card[data-side='bride'] .accentBar {
+  background: linear-gradient(
+    180deg,
+    var(--color-accent-bride),
+    color-mix(in srgb, var(--color-accent-bride) 55%, var(--color-bg))
   );
 }
 

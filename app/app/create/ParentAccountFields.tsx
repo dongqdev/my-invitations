@@ -5,6 +5,11 @@ import styles from './ParentAccountFields.module.css';
 interface ParentAccountFieldsProps {
   idPrefix: string;
   label: string;
+  /**
+   * 신랑측/신부측 구분 — 좌측 accent bar 색상과 카드 배경 틴트에 반영되어,
+   * 4세트를 스크롤하며 채울 때 지금 어느 쪽을 채우고 있는지 한눈에 구분되게 한다.
+   */
+  side: 'groom' | 'bride';
   value: ParentInfo;
   errors?: ParentFieldErrors;
   onChange: (next: ParentInfo) => void;
@@ -19,6 +24,7 @@ interface ParentAccountFieldsProps {
 export default function ParentAccountFields({
   idPrefix,
   label,
+  side,
   value,
   errors,
   onChange,
@@ -32,7 +38,7 @@ export default function ParentAccountFields({
   }
 
   return (
-    <fieldset className={styles.card}>
+    <fieldset className={styles.card} data-side={side}>
       <span className={styles.accentBar} aria-hidden="true" />
       <legend className={styles.legend}>{label}</legend>
 
