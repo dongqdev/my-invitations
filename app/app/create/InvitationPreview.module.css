@@ -254,14 +254,6 @@
   outline-offset: 2px;
 }
 
-.confirmStatusDone {
-  margin: 12px 4px 0;
-  text-align: center;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--color-success-text);
-}
-
 .confirmStatusError {
   margin: 12px 4px 0;
   text-align: center;
@@ -270,14 +262,166 @@
   color: var(--color-error);
 }
 
+/* ---------- 배포 대기 / 링크 복사 (harness-8lh.5.4) ---------- */
+/* git push 이후, GitHub Pages 재빌드로 실제 링크가 열람 가능해질 때까지의
+   상태를 보여준다. 확정 이후에는 actionBar(편집/확정 버튼) 대신 이 패널이
+   같은 자리(sticky bottom 카드)를 차지한다 — 톤은 actionBar와 동일하게
+   맞춘다. */
+.statusPanel {
+  position: sticky;
+  bottom: 16px;
+  margin-top: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-outer);
+  box-shadow: var(--shadow-card);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border-strong);
+  border-top-color: var(--color-primary);
+  animation: spin 800ms linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.statusMessage {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+}
+
+.statusHint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-ink-faint);
+}
+
+/* 링크 복사 / 다시 확인 버튼 — actionBar의 confirmButton/editButton과 같은
+   높이·타이포 규칙을 재사용해서 톤이 갈라지지 않게 한다. */
+.linkCopyButton,
+.retryButton {
+  width: 100%;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: var(--radius-inner);
+  padding: 14px 20px;
+  min-height: 48px;
+  cursor: pointer;
+  border: none;
+  transition:
+    transform 120ms var(--ease-out),
+    background-color 160ms var(--ease-out);
+}
+
+.linkCopyButton {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+.linkCopyButton:hover {
+  background: var(--color-primary-dark);
+}
+
+.retryButton {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  border: 1px solid var(--color-border-strong);
+}
+
+.retryButton:hover {
+  border-color: var(--color-gold);
+}
+
+.linkCopyButton:active,
+.retryButton:active {
+  transform: scale(0.96);
+}
+
+.linkCopyButton:focus-visible,
+.retryButton:focus-visible {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+/* copyToast 패턴(AccountSection/BottomBar와 동일) — opacity+translateY,
+   data-visible 토글, aria-live=polite. 버튼을 감싸는 wrapper를 relative로 두고
+   그 아래에 알약형 배지로 띄운다. AccountSection/BottomBar는 버튼 위에 다른
+   내용이 없어 위쪽에 띄우지만, 여기는 버튼 바로 위에 "청첩장이 배포됐어요!"
+   문구가 있어 위쪽에 띄우면 겹친다 — 그래서 버튼 아래(패널 바깥 여백)로 뺀다. */
+.copyButtonWrap {
+  position: relative;
+  width: 100%;
+}
+
+.copyToast {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  display: block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-bg);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -4px);
+  opacity: 0;
+  transition:
+    opacity 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+
+.copyToast[data-visible='true'] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .editButton,
-  .confirmButton {
+  .confirmButton,
+  .linkCopyButton,
+  .retryButton {
     transition: background-color 160ms var(--ease-out);
   }
 
   .editButton:active,
-  .confirmButton:active:not(:disabled) {
+  .confirmButton:active:not(:disabled),
+  .linkCopyButton:active,
+  .retryButton:active {
     transform: none;
+  }
+
+  .spinner {
+    animation-duration: 1600ms;
+  }
+
+  .copyToast {
+    transition-duration: 0.01ms;
   }
 }
