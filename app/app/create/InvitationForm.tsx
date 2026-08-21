@@ -102,9 +102,9 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
     });
   }
 
-  function handleGalleryAdd(files: FileList) {
+  function handleGalleryAdd(files: File[]) {
     setFormData((prev) => {
-      const additions = Array.from(files).map((file) => ({
+      const additions = files.map((file) => ({
         id: `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`,
         file,
         previewUrl: URL.createObjectURL(file),

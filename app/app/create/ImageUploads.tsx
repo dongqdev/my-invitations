@@ -68,14 +68,18 @@ export function MainImageUpload({ previewUrl, error, onSelect }: MainImageUpload
 
 interface GalleryUploadProps {
   images: GalleryImage[];
-  onAdd: (files: FileList) => void;
+  onAdd: (files: File[]) => void;
   onRemove: (id: string) => void;
 }
 
 export function GalleryUpload({ images, onAdd, onRemove }: GalleryUploadProps) {
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     if (event.target.files && event.target.files.length > 0) {
-      onAdd(event.target.files);
+      // event.target.value를 비우기 전에 FileList를 동기적으로 배열 변환해
+      // 분리(detached)해 둔다 — 그대로 넘기면 onAdd(=handleGalleryAdd)의
+      // setState 함수형 업데이터 안에서 지연 실행되는 Array.from(files)가
+      // 이미 초기화된 input의 라이브 FileList를 참조해 빈 배열이 된다.
+      onAdd(Array.from(event.target.files));
     }
     event.target.value = '';
   }
