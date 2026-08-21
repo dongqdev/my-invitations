@@ -43,4 +43,10 @@ export interface InvitationViewData {
    * 않는다 — 있는 그대로 전달.
    */
   content: string;
+  /**
+   * 갤러리 이미지 URL 목록. 폼(`app/create/types.ts`)의 `GalleryImage[]`(File 객체 +
+   * blob 미리보기)에서 최종 확정된 URL 문자열만 뽑아 순서 그대로 받는다 — 뷰어는 File을
+   * 다룰 필요가 없다. 빈 배열이면 `Gallery` 섹션 자체를 렌더링하지 않는다.
+   */
+  galleryImageUrls: string[];
 }

@@ -1,3 +1,4 @@
+import Gallery from '../_components/Gallery';
 import Hero from '../_components/Hero';
 import InviteMessage from '../_components/InviteMessage';
 import ParentsSection from '../_components/ParentsSection';
@@ -26,6 +27,15 @@ const DEMO_DATA: InvitationViewData = {
   groomMotherName: '박영희',
   brideFatherName: '이정훈',
   brideMotherName: '최미경',
+  galleryImageUrls: [
+    '/demo/sample-gallery-1.svg',
+    '/demo/sample-gallery-2.svg',
+    '/demo/sample-gallery-3.svg',
+    '/demo/sample-gallery-4.svg',
+    '/demo/sample-gallery-5.svg',
+    '/demo/sample-gallery-6.svg',
+    '/demo/sample-gallery-1.svg',
+  ],
 };
 
 export default function InvitePreviewPage() {
@@ -44,6 +54,7 @@ export default function InvitePreviewPage() {
         brideFatherName={DEMO_DATA.brideFatherName}
         brideMotherName={DEMO_DATA.brideMotherName}
       />
+      <Gallery galleryImageUrls={DEMO_DATA.galleryImageUrls} />
     </main>
   );
 }
