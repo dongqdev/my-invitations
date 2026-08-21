@@ -1,0 +1,171 @@
+.section {
+  padding: 40px 32px 56px;
+  border-top: 1px solid var(--color-border);
+}
+
+.label {
+  margin: 0 0 8px;
+  font-family: var(--font-body), 'Apple SD Gothic Neo', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  color: var(--color-gold);
+  text-align: center;
+}
+
+.hint {
+  margin: 0 0 20px;
+  font-size: 13px;
+  color: var(--color-ink-faint);
+  text-align: center;
+}
+
+/* ---------- 토글 버튼 ---------- */
+
+.buttonRow {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toggleButton {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 52px;
+  padding: 14px 18px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: 12px;
+  background: var(--color-surface);
+  color: var(--color-ink);
+  font-family: var(--font-body), 'Apple SD Gothic Neo', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease-out,
+    background-color 160ms ease-out,
+    transform 120ms ease-out;
+}
+
+.toggleButton:hover {
+  border-color: var(--color-gold);
+}
+
+.toggleButton:focus-visible {
+  outline: 2px solid var(--color-gold);
+  outline-offset: 2px;
+}
+
+.toggleButton:active {
+  transform: scale(0.98);
+}
+
+.toggleButton[aria-expanded='true'] {
+  border-color: var(--color-gold);
+  background: var(--color-bg);
+}
+
+.chevron {
+  flex: none;
+  color: var(--color-gold);
+  transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.toggleButton[aria-expanded='true'] .chevron {
+  transform: rotate(180deg);
+}
+
+/* ---------- 아코디언 패널 ---------- */
+/* grid-template-rows 0fr -> 1fr 트릭: 높이를 JS로 재지 않고도 auto-height 콘텐츠를
+   부드럽게 접고 펼 수 있다. transition이라 CSS keyframes와 달리 도중에 다시 클릭해도
+   중단된 지점부터 자연스럽게 역방향으로 이어진다. */
+.panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 240ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.panel[data-open='true'] {
+  grid-template-rows: 1fr;
+}
+
+.panelInner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.panelContent {
+  padding-top: 12px;
+}
+
+.panel:not([data-open='true']) .panelContent {
+  padding-top: 0;
+}
+
+.status,
+.statusError {
+  margin: 0;
+  padding: 14px 4px;
+  font-size: 14px;
+  color: var(--color-ink-soft);
+}
+
+.statusError {
+  color: #b3413c;
+}
+
+.accountList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  list-style: none;
+  margin: 0 0 12px;
+  padding: 0;
+}
+
+.accountCard {
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background: var(--color-bg);
+}
+
+.accountLabel {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--color-ink-faint);
+  text-transform: uppercase;
+}
+
+.accountBank {
+  margin: 0 0 2px;
+  font-size: 14px;
+  color: var(--color-ink-soft);
+}
+
+.accountNumber {
+  margin: 0 0 4px;
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.accountHolder {
+  margin: 0;
+  font-size: 13px;
+  color: var(--color-ink-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .panel,
+  .chevron,
+  .toggleButton {
+    transition-duration: 0.01ms;
+  }
+}

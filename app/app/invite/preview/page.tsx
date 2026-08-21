@@ -3,6 +3,7 @@ import Hero from '../_components/Hero';
 import InviteMessage from '../_components/InviteMessage';
 import ParentsSection from '../_components/ParentsSection';
 import type { InvitationViewData } from '../_components/types';
+import DemoAccountSection from './DemoAccountSection';
 import styles from './page.module.css';
 
 /**
@@ -55,6 +56,7 @@ export default function InvitePreviewPage() {
         brideMotherName={DEMO_DATA.brideMotherName}
       />
       <Gallery galleryImageUrls={DEMO_DATA.galleryImageUrls} />
+      <DemoAccountSection />
     </main>
   );
 }
