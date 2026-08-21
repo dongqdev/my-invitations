@@ -1,0 +1,64 @@
+#!/usr/bin/env sh
+set -e
+
+# 이 레포는 app/ 서브디렉토리에만 Node 프로젝트가 있고, git 훅(core.hooksPath=app/.husky)은
+# 레포 루트를 기준으로 이 스크립트를 실행한다. 항상 레포 루트로 이동한 뒤 app/ 기준
+# 상대경로를 계산한다.
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+cd "$REPO_ROOT"
+
+STAGED_IN_APP="$(git diff --cached --name-only --diff-filter=ACM -- app)"
+
+if [ -z "$STAGED_IN_APP" ]; then
+  echo "husky pre-commit: app/ 아래 변경 없음 — 건너뜁니다."
+  exit 0
+fi
+
+echo "== [1/4] 포매터 (Prettier) =="
+(cd app && npx lint-staged)
+
+echo "== [2/4] 시크릿 패턴 차단 =="
+# lint-staged가 포맷 후 다시 스테이징했을 수 있으니 목록을 새로 읽는다.
+STAGED_IN_APP="$(git diff --cached --name-only --diff-filter=ACM -- app)"
+
+# .env 계열 파일 자체가 스테이징되면 즉시 차단 (.env.example / .env.*.sample 류는 허용)
+for f in $STAGED_IN_APP; do
+  case "$f" in
+    *.env | *.env.* | */.env | */.env.*)
+      case "$f" in
+        *.example | *.sample) ;;
+        *)
+          echo "🛑 커밋 차단: '$f'는 .env 계열 파일입니다 — 실제 값이 담긴 파일은 커밋하면 안 됩니다."
+          exit 1
+          ;;
+      esac
+      ;;
+  esac
+done
+
+# 알려진 키 접두어가 diff에 그대로 추가되면 차단 (Anthropic sk-ant-, AWS/R2 access key 등)
+if git diff --cached -U0 -- app | grep -E '^\+' | grep -qE 'sk-ant-[A-Za-z0-9_-]+|AKIA[0-9A-Z]{16}|(^|[^A-Za-z0-9_])R2_[A-Z_]*(ACCESS|SECRET)[A-Z_]*[[:space:]]*[:=][[:space:]]*.*[A-Za-z0-9]{16,}'; then
+  echo "🛑 커밋 차단: 커밋 diff에서 알려진 비밀 키 패턴(sk-ant-/AKIA.../R2 액세스 키 등)이 발견됐습니다."
+  exit 1
+fi
+
+echo "== [3/4] ESLint (변경된 파일만) =="
+LINT_TARGETS="$(printf '%s\n' "$STAGED_IN_APP" | grep -E '\.(js|jsx|mjs|cjs|ts|tsx)$' | sed 's|^app/||' || true)"
+if [ -n "$LINT_TARGETS" ]; then
+  (cd app && printf '%s\n' "$LINT_TARGETS" | xargs npx eslint)
+fi
+
+echo "== [4/4] 문법 체크 =="
+JS_TARGETS="$(printf '%s\n' "$STAGED_IN_APP" | grep -E '\.(js|mjs|cjs)$' | sed 's|^app/||' || true)"
+if [ -n "$JS_TARGETS" ]; then
+  for f in $JS_TARGETS; do
+    (cd app && node --check "$f")
+  done
+fi
+
+TS_TARGETS="$(printf '%s\n' "$STAGED_IN_APP" | grep -E '\.(ts|tsx)$' || true)"
+if [ -n "$TS_TARGETS" ]; then
+  (cd app && npx tsc --noEmit)
+fi
+
+echo "✔ pre-commit 통과"
