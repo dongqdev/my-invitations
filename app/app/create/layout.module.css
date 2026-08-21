@@ -1,0 +1,6 @@
+.scope {
+  font-family: var(--font-body), 'Apple SD Gothic Neo', sans-serif;
+  color-scheme: light;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}

@@ -1,0 +1,427 @@
+.page {
+  --color-bg: #fbf7f0;
+  --color-surface: #ffffff;
+  --color-ink: #2b2a26;
+  --color-ink-soft: #6b6558;
+  --color-ink-faint: #8f8878;
+  --color-primary: #5f7554;
+  --color-primary-dark: #43563a;
+  --color-primary-contrast: #fffdf8;
+  --color-gold: #b98b4e;
+  --color-border: #e6ddc9;
+  --color-border-strong: #d5c9ac;
+  --color-error: #b3261e;
+  --color-error-bg: #fcecea;
+  --color-success-bg: #eef2e7;
+  --color-success-text: #3f5233;
+  --radius-outer: 24px;
+  --radius-inner: 12px;
+  --shadow-card: 0 1px 2px rgba(43, 42, 38, 0.04), 0 8px 24px -12px rgba(43, 42, 38, 0.12);
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+
+  min-height: 100vh;
+  background: var(--color-bg);
+  background-image:
+    radial-gradient(circle at 12% 8%, rgba(185, 139, 78, 0.08), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(95, 117, 84, 0.08), transparent 45%);
+  color: var(--color-ink);
+  padding: 48px 20px 96px;
+}
+
+.container {
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.eyebrow {
+  font-family: var(--font-body), sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: var(--color-gold);
+  text-transform: uppercase;
+  margin: 0 0 14px;
+}
+
+.pageTitle {
+  font-family: var(--font-display), serif;
+  font-size: clamp(26px, 6vw, 32px);
+  line-height: 1.3;
+  font-weight: 700;
+  margin: 0 0 12px;
+  color: var(--color-ink);
+}
+
+.pageSubtitle {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-ink-soft);
+  margin: 0 0 28px;
+  max-width: 46ch;
+  text-wrap: pretty;
+}
+
+/* ---------- Card ---------- */
+
+.card {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-outer);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+}
+
+.hero {
+  position: relative;
+  aspect-ratio: 4 / 5;
+  background: var(--color-border);
+}
+
+.heroImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.heroPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(160deg, var(--color-border), var(--color-border-strong));
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 28px 24px 22px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    rgba(20, 18, 12, 0.72) 65%,
+    rgba(20, 18, 12, 0.82)
+  );
+  color: #fffdf8;
+}
+
+.heroEyebrow {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  opacity: 0.85;
+}
+
+.heroTitle {
+  margin: 0;
+  font-family: var(--font-display), serif;
+  font-size: clamp(20px, 5vw, 26px);
+  font-weight: 700;
+  line-height: 1.4;
+  text-wrap: balance;
+}
+
+.body {
+  padding: 28px 24px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.names {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-family: var(--font-display), serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--color-ink);
+  text-align: center;
+}
+
+.namesHeart {
+  color: var(--color-gold);
+  font-size: 16px;
+}
+
+.dateTime {
+  margin: 0;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-primary-dark);
+  background: var(--color-success-bg);
+  border-radius: 999px;
+  padding: 8px 16px;
+  align-self: center;
+}
+
+.content {
+  margin: 0;
+  font-size: 14.5px;
+  line-height: 1.85;
+  color: var(--color-ink-soft);
+  white-space: pre-wrap;
+  text-align: center;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+
+.galleryThumb {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radius-inner);
+  outline: 1px solid oklch(0 0 0 / 0.1);
+  outline-offset: -1px;
+}
+
+.note {
+  margin: 20px 4px 0;
+  font-size: 12.5px;
+  color: var(--color-ink-faint);
+  text-align: center;
+}
+
+/* ---------- Actions ---------- */
+
+.actionBar {
+  position: sticky;
+  bottom: 16px;
+  display: flex;
+  gap: 12px;
+  margin-top: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-outer);
+  box-shadow: var(--shadow-card);
+  padding: 14px;
+}
+
+.editButton,
+.confirmButton {
+  flex: 1;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: var(--radius-inner);
+  padding: 14px 20px;
+  min-height: 48px;
+  cursor: pointer;
+  border: none;
+  transition:
+    transform 120ms var(--ease-out),
+    background-color 160ms var(--ease-out),
+    opacity 160ms var(--ease-out);
+}
+
+.editButton {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  border: 1px solid var(--color-border-strong);
+}
+
+.editButton:hover {
+  border-color: var(--color-gold);
+}
+
+.confirmButton {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+.confirmButton:hover:not(:disabled) {
+  background: var(--color-primary-dark);
+}
+
+.confirmButton:active:not(:disabled),
+.editButton:active {
+  transform: scale(0.96);
+}
+
+.confirmButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.editButton:focus-visible,
+.confirmButton:focus-visible {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+.confirmStatusError {
+  margin: 12px 4px 0;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-error);
+}
+
+/* ---------- 배포 대기 / 링크 복사 (harness-8lh.5.4) ---------- */
+/* git push 이후, GitHub Pages 재빌드로 실제 링크가 열람 가능해질 때까지의
+   상태를 보여준다. 확정 이후에는 actionBar(편집/확정 버튼) 대신 이 패널이
+   같은 자리(sticky bottom 카드)를 차지한다 — 톤은 actionBar와 동일하게
+   맞춘다. */
+.statusPanel {
+  position: sticky;
+  bottom: 16px;
+  margin-top: 24px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-outer);
+  box-shadow: var(--shadow-card);
+  padding: 18px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border-strong);
+  border-top-color: var(--color-primary);
+  animation: spin 800ms linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.statusMessage {
+  margin: 0;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+}
+
+.statusHint {
+  margin: 0;
+  font-size: 12px;
+  color: var(--color-ink-faint);
+}
+
+/* 링크 복사 / 다시 확인 버튼 — actionBar의 confirmButton/editButton과 같은
+   높이·타이포 규칙을 재사용해서 톤이 갈라지지 않게 한다. */
+.linkCopyButton,
+.retryButton {
+  width: 100%;
+  font-family: var(--font-body), sans-serif;
+  font-weight: 700;
+  font-size: 15px;
+  border-radius: var(--radius-inner);
+  padding: 14px 20px;
+  min-height: 48px;
+  cursor: pointer;
+  border: none;
+  transition:
+    transform 120ms var(--ease-out),
+    background-color 160ms var(--ease-out);
+}
+
+.linkCopyButton {
+  background: var(--color-primary);
+  color: var(--color-primary-contrast);
+}
+
+.linkCopyButton:hover {
+  background: var(--color-primary-dark);
+}
+
+.retryButton {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  border: 1px solid var(--color-border-strong);
+}
+
+.retryButton:hover {
+  border-color: var(--color-gold);
+}
+
+.linkCopyButton:active,
+.retryButton:active {
+  transform: scale(0.96);
+}
+
+.linkCopyButton:focus-visible,
+.retryButton:focus-visible {
+  outline: 2px solid var(--color-primary-dark);
+  outline-offset: 2px;
+}
+
+/* copyToast 패턴(AccountSection/BottomBar와 동일) — opacity+translateY,
+   data-visible 토글, aria-live=polite. 버튼을 감싸는 wrapper를 relative로 두고
+   그 아래에 알약형 배지로 띄운다. AccountSection/BottomBar는 버튼 위에 다른
+   내용이 없어 위쪽에 띄우지만, 여기는 버튼 바로 위에 "청첩장이 배포됐어요!"
+   문구가 있어 위쪽에 띄우면 겹친다 — 그래서 버튼 아래(패널 바깥 여백)로 뺀다. */
+.copyButtonWrap {
+  position: relative;
+  width: 100%;
+}
+
+.copyToast {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 10px);
+  display: block;
+  padding: 6px 14px;
+  border-radius: 999px;
+  background: var(--color-ink);
+  color: var(--color-bg);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  transform: translate(-50%, -4px);
+  opacity: 0;
+  transition:
+    opacity 180ms var(--ease-out),
+    transform 180ms var(--ease-out);
+}
+
+.copyToast[data-visible='true'] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .editButton,
+  .confirmButton,
+  .linkCopyButton,
+  .retryButton {
+    transition: background-color 160ms var(--ease-out);
+  }
+
+  .editButton:active,
+  .confirmButton:active:not(:disabled),
+  .linkCopyButton:active,
+  .retryButton:active {
+    transform: none;
+  }
+
+  .spinner {
+    animation-duration: 1600ms;
+  }
+
+  .copyToast {
+    transition-duration: 0.01ms;
+  }
+}

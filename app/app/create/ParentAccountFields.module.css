@@ -1,0 +1,101 @@
+.card {
+  position: relative;
+  min-width: 0;
+  margin: 0;
+  padding: 22px 18px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: 20px;
+  background: var(--color-bg);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow: hidden;
+}
+
+/* 봉투 리본을 연상시키는 상단 악센트 — 이 섹션이 "마음을 전하는 곳"임을
+   시각적으로 은은하게 표시한다. */
+.accentBar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(
+    90deg,
+    var(--color-gold),
+    color-mix(in srgb, var(--color-gold) 45%, var(--color-primary))
+  );
+}
+
+.legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  font-family: var(--font-display), serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--color-ink);
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+}
+
+.input {
+  font-family: var(--font-body), sans-serif;
+  font-size: 14px;
+  color: var(--color-ink);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-inner);
+  padding: 10px 12px;
+  min-height: 42px;
+  transition:
+    border-color 160ms var(--ease-out),
+    box-shadow 160ms var(--ease-out);
+}
+
+.input::placeholder {
+  color: var(--color-ink-faint);
+}
+
+.input:hover {
+  border-color: var(--color-gold);
+}
+
+.input:focus-visible {
+  outline: none;
+  border-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 22%, transparent);
+}
+
+.input[aria-invalid='true'] {
+  border-color: var(--color-error);
+}
+
+.fieldError {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--color-error);
+  line-height: 1.5;
+}
+
+.accountRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 420px) {
+  .accountRow {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
