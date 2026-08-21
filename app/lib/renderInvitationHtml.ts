@@ -187,8 +187,9 @@ body {
 .gallery { padding: 40px 32px 56px; border-top: 1px solid var(--color-border); }
 .gallery-label { margin: 0 0 20px; font-family: var(--font-display); font-style: italic; font-size: 15px; font-weight: 400; letter-spacing: 0.04em; color: var(--color-gold); text-align: center; }
 .gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4px; }
-.gallery-thumb-btn { display: block; padding: 0; border: 0; margin: 0; background: var(--color-border); cursor: pointer; aspect-ratio: 1 / 1; overflow: hidden; outline: 1px solid rgba(0, 0, 0, 0.1); outline-offset: -1px; }
+.gallery-thumb-btn { display: block; padding: 0; border: 0; margin: 0; background: var(--color-border); cursor: pointer; aspect-ratio: 1 / 1; overflow: hidden; outline: 1px solid rgba(0, 0, 0, 0.1); outline-offset: -1px; transition: transform 150ms ease-out; }
 .gallery-thumb-btn:focus-visible { outline: 2px solid var(--color-gold); outline-offset: -2px; }
+.gallery-thumb-btn:hover, .gallery-thumb-btn:active { transform: scale(0.97); }
 .gallery-thumb-img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform 200ms ease-out; }
 .gallery-thumb-btn:hover .gallery-thumb-img, .gallery-thumb-btn:focus-visible .gallery-thumb-img { transform: scale(1.04); }
 .gallery-overlay { position: fixed; inset: 0; z-index: 100; display: none; align-items: center; justify-content: center; padding: 24px; background: rgba(0, 0, 0, 0.88); }
@@ -276,7 +277,7 @@ body {
 
 @media (prefers-reduced-motion: reduce) {
   .account-panel, .account-chevron, .account-toggle-btn, .account-copy-btn, .account-copy-toast,
-  .bottom-bar-copy-btn, .bottom-bar-toast, .gallery-thumb-img {
+  .bottom-bar-copy-btn, .bottom-bar-toast, .gallery-thumb-img, .gallery-thumb-btn {
     transition-duration: 0.01ms;
   }
 }

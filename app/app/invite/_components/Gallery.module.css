@@ -43,11 +43,17 @@
   overflow: hidden;
   outline: 1px solid oklch(0 0 0 / 0.1);
   outline-offset: -1px;
+  transition: transform 150ms ease-out;
 }
 
 .thumbButton:focus-visible {
   outline: 2px solid var(--color-gold);
   outline-offset: -2px;
+}
+
+.thumbButton:hover,
+.thumbButton:active {
+  transform: scale(0.97);
 }
 
 .thumbImage {
@@ -121,5 +127,10 @@
     opacity: 1;
     transform: none;
     transition: none;
+  }
+
+  .thumbButton,
+  .thumbImage {
+    transition-duration: 0.01ms;
   }
 }
