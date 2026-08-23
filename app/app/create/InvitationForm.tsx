@@ -16,6 +16,49 @@ import styles from './InvitationForm.module.css';
 
 const REQUIRED_FIELD_COUNT = 8;
 
+/** 카카오(다음) 우편번호 서비스 — https://postcode.map.kakao.com/guide
+ * 별도 API key/도메인 등록 없이 쓸 수 있는 스크립트라 Kakao Maps JS SDK보다
+ * 간단하다. 팝업으로 주소를 검색해 선택하면 예식장 주소 입력칸을 채운다. */
+const DAUM_POSTCODE_SRC = '//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
+
+interface DaumPostcodeResult {
+  address: string;
+  roadAddress: string;
+  jibunAddress: string;
+  buildingName?: string;
+}
+
+declare global {
+  interface Window {
+    daum?: {
+      Postcode: new (options: { oncomplete: (data: DaumPostcodeResult) => void }) => {
+        open: () => void;
+      };
+    };
+  }
+}
+
+let daumPostcodeLoadPromise: Promise<void> | null = null;
+
+/** 스크립트를 한 번만 불러온다 — 이미 불러왔거나(window.daum.Postcode 존재) 불러오는
+ * 중이면 그 Promise를 재사용한다. */
+function loadDaumPostcodeScript(): Promise<void> {
+  if (typeof window !== 'undefined' && window.daum?.Postcode) return Promise.resolve();
+  if (!daumPostcodeLoadPromise) {
+    daumPostcodeLoadPromise = new Promise((resolve, reject) => {
+      const script = document.createElement('script');
+      script.src = DAUM_POSTCODE_SRC;
+      script.onload = () => resolve();
+      script.onerror = () => {
+        daumPostcodeLoadPromise = null; // 실패 시 다음 클릭에서 재시도할 수 있게 초기화
+        reject(new Error('주소 검색 스크립트를 불러오지 못했습니다.'));
+      };
+      document.head.appendChild(script);
+    });
+  }
+  return daumPostcodeLoadPromise;
+}
+
 function countCompletedRequiredFields(data: InvitationFormData): number {
   let count = 0;
   if (data.mainImage) count += 1;
@@ -209,6 +252,7 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
   const [submitCount, setSubmitCount] = useState(0);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
+  const [addressSearchError, setAddressSearchError] = useState<string | null>(null);
   const summaryRef = useRef<HTMLDivElement>(null);
   const formDataRef = useRef(formData);
 
@@ -274,6 +318,25 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
 
   function updateParent(key: ParentKey, next: ParentInfo) {
     setFormData((prev) => ({ ...prev, [key]: next }));
+  }
+
+  async function handleAddressSearch() {
+    setAddressSearchError(null);
+    try {
+      await loadDaumPostcodeScript();
+      new window.daum!.Postcode({
+        oncomplete: (data) => {
+          const base = data.roadAddress || data.jibunAddress || data.address;
+          const address = data.buildingName ? `${base} (${data.buildingName})` : base;
+          updateField('venueAddress', address);
+        },
+      }).open();
+    } catch (error) {
+      console.error('주소 검색 스크립트 로드 실패', error);
+      setAddressSearchError(
+        '주소 검색을 불러오지 못했어요. 잠시 후 다시 시도하거나 직접 입력해주세요.',
+      );
+    }
   }
 
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
@@ -508,18 +571,32 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
               <label htmlFor="venueAddress" className={styles.label}>
                 예식장 주소
               </label>
-              <input
-                id="venueAddress"
-                type="text"
-                value={formData.venueAddress}
-                onChange={(event) => updateField('venueAddress', event.target.value)}
-                placeholder="예: 서울특별시 강남구 테헤란로 000"
-                className={styles.input}
-                aria-invalid={Boolean(showFieldErrors && errors.venueAddress)}
-                aria-describedby={
-                  showFieldErrors && errors.venueAddress ? 'venueAddress-error' : undefined
-                }
-              />
+              <div className={styles.addressRow}>
+                <input
+                  id="venueAddress"
+                  type="text"
+                  value={formData.venueAddress}
+                  onChange={(event) => updateField('venueAddress', event.target.value)}
+                  placeholder="예: 서울특별시 강남구 테헤란로 000"
+                  className={styles.input}
+                  aria-invalid={Boolean(showFieldErrors && errors.venueAddress)}
+                  aria-describedby={
+                    showFieldErrors && errors.venueAddress ? 'venueAddress-error' : undefined
+                  }
+                />
+                <button
+                  type="button"
+                  onClick={handleAddressSearch}
+                  className={styles.addressSearchButton}
+                >
+                  주소 검색
+                </button>
+              </div>
+              {addressSearchError && (
+                <p className={styles.fieldError} role="alert">
+                  {addressSearchError}
+                </p>
+              )}
               {showFieldErrors && errors.venueAddress && (
                 <p id="venueAddress-error" className={styles.fieldError} role="alert">
                   {errors.venueAddress}
