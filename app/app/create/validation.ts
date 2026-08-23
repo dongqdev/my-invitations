@@ -20,6 +20,8 @@ export interface FieldErrors {
   weddingDateTime?: string;
   groomName?: string;
   brideName?: string;
+  venueName?: string;
+  venueAddress?: string;
   groomFather?: ParentFieldErrors;
   groomMother?: ParentFieldErrors;
   brideFather?: ParentFieldErrors;
@@ -28,9 +30,12 @@ export interface FieldErrors {
 
 /**
  * 최상위 필수 항목만 검사한다. 대표 이미지 / 제목 / 내용 / 예식 일시 /
- * 신랑·신부 성함 — 이 여섯 개는 항상 필수다. 제출 버튼 활성화 여부는
- * 이 결과만으로 결정한다(부모님 계좌 섹션은 항목 전체가 선택이므로
- * 버튼을 막지 않는다 — 아래 validateParentGroup 참고).
+ * 신랑·신부 성함 / 예식장 이름·주소 — 이 여덟 개는 항상 필수다. 제출 버튼
+ * 활성화 여부는 이 결과만으로 결정한다(부모님 계좌 섹션은 항목 전체가
+ * 선택이므로 버튼을 막지 않는다 — 아래 validateParentGroup 참고). 예식장
+ * 상세 정보 중 홀/층/지하철/지도좌표는 선택 입력이다 — 지도좌표(위도·경도·
+ * 확대 레벨)가 비어 있으면 지도 없이 텍스트 안내만 노출하는 게 원본
+ * nerdkim 템플릿의 설계다.
  */
 export function validateRequiredFields(data: InvitationFormData): FieldErrors {
   const errors: FieldErrors = {};
@@ -40,6 +45,8 @@ export function validateRequiredFields(data: InvitationFormData): FieldErrors {
   if (!data.weddingDateTime) errors.weddingDateTime = '예식 날짜와 시간을 선택해주세요.';
   if (!data.groomName.trim()) errors.groomName = '신랑 성함을 입력해주세요.';
   if (!data.brideName.trim()) errors.brideName = '신부 성함을 입력해주세요.';
+  if (!data.venueName.trim()) errors.venueName = '예식장 이름을 입력해주세요.';
+  if (!data.venueAddress.trim()) errors.venueAddress = '예식장 주소를 입력해주세요.';
   return errors;
 }
 
@@ -94,6 +101,8 @@ export function toSummaryMessages(errors: FieldErrors): string[] {
   if (errors.weddingDateTime) messages.push(errors.weddingDateTime);
   if (errors.groomName) messages.push(errors.groomName);
   if (errors.brideName) messages.push(errors.brideName);
+  if (errors.venueName) messages.push(errors.venueName);
+  if (errors.venueAddress) messages.push(errors.venueAddress);
   for (const key of PARENT_KEYS) {
     const parentErrors = errors[key as ParentKey];
     if (!parentErrors) continue;

@@ -261,6 +261,13 @@
   line-height: 1.5;
 }
 
+.fieldHelp {
+  margin: -2px 0 2px;
+  font-size: 12.5px;
+  color: var(--color-ink-faint);
+  line-height: 1.6;
+}
+
 .coupleRow {
   display: grid;
   grid-template-columns: 1fr;
@@ -270,6 +277,18 @@
 @media (min-width: 560px) {
   .coupleRow {
     grid-template-columns: 1fr 1fr;
+  }
+}
+
+.venueMapRow {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+@media (min-width: 560px) {
+  .venueMapRow {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

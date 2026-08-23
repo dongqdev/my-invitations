@@ -14,7 +14,7 @@ import ParentAccountFields from './ParentAccountFields';
 import { uploadImageFile } from './uploadImage';
 import styles from './InvitationForm.module.css';
 
-const REQUIRED_FIELD_COUNT = 6;
+const REQUIRED_FIELD_COUNT = 8;
 
 function countCompletedRequiredFields(data: InvitationFormData): number {
   let count = 0;
@@ -24,7 +24,18 @@ function countCompletedRequiredFields(data: InvitationFormData): number {
   if (data.weddingDateTime) count += 1;
   if (data.groomName.trim()) count += 1;
   if (data.brideName.trim()) count += 1;
+  if (data.venueName.trim()) count += 1;
+  if (data.venueAddress.trim()) count += 1;
   return count;
+}
+
+/** 숫자 입력 필드(위도/경도/지도 확대 레벨)는 값이 비어 있으면 0으로 둔다 —
+ * createEmptyInvitationFormData의 기본값과 같은 규약이며, 0은 "미입력"으로
+ * 취급해 지도를 렌더링하지 않는다(원본 nerdkim 설계). */
+function parseOptionalNumber(raw: string): number {
+  if (raw.trim() === '') return 0;
+  const parsed = Number(raw);
+  return Number.isFinite(parsed) ? parsed : 0;
 }
 
 function Section({
@@ -290,6 +301,248 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
                   {errors.weddingDateTime}
                 </p>
               )}
+            </div>
+          </Section>
+
+          <Section
+            title="예식장 정보"
+            description="청첩장 상단과 지도에 노출될 예식장 정보예요. 이름과 주소는 필수예요."
+          >
+            <div className={styles.field}>
+              <label htmlFor="venueName" className={styles.label}>
+                예식장 이름
+              </label>
+              <input
+                id="venueName"
+                type="text"
+                value={formData.venueName}
+                onChange={(event) => updateField('venueName', event.target.value)}
+                placeholder="예: 그랜드 컨벤션센터"
+                className={styles.input}
+                aria-invalid={Boolean(showFieldErrors && errors.venueName)}
+                aria-describedby={
+                  showFieldErrors && errors.venueName ? 'venueName-error' : undefined
+                }
+              />
+              {showFieldErrors && errors.venueName && (
+                <p id="venueName-error" className={styles.fieldError} role="alert">
+                  {errors.venueName}
+                </p>
+              )}
+            </div>
+
+            <div className={styles.coupleRow}>
+              <div className={styles.field}>
+                <label htmlFor="venueHall" className={styles.label}>
+                  홀 이름
+                </label>
+                <input
+                  id="venueHall"
+                  type="text"
+                  value={formData.venueHall}
+                  onChange={(event) => updateField('venueHall', event.target.value)}
+                  placeholder="예: 3층 그랜드홀"
+                  className={styles.input}
+                />
+              </div>
+
+              <div className={styles.field}>
+                <label htmlFor="venueFloor" className={styles.label}>
+                  층 안내
+                </label>
+                <input
+                  id="venueFloor"
+                  type="text"
+                  value={formData.venueFloor}
+                  onChange={(event) => updateField('venueFloor', event.target.value)}
+                  placeholder="예: 지하 1층 주차, 3층 예식"
+                  className={styles.input}
+                />
+              </div>
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="venueAddress" className={styles.label}>
+                예식장 주소
+              </label>
+              <input
+                id="venueAddress"
+                type="text"
+                value={formData.venueAddress}
+                onChange={(event) => updateField('venueAddress', event.target.value)}
+                placeholder="예: 서울특별시 강남구 테헤란로 000"
+                className={styles.input}
+                aria-invalid={Boolean(showFieldErrors && errors.venueAddress)}
+                aria-describedby={
+                  showFieldErrors && errors.venueAddress ? 'venueAddress-error' : undefined
+                }
+              />
+              {showFieldErrors && errors.venueAddress && (
+                <p id="venueAddress-error" className={styles.fieldError} role="alert">
+                  {errors.venueAddress}
+                </p>
+              )}
+            </div>
+
+            <div className={styles.coupleRow}>
+              <div className={styles.field}>
+                <label htmlFor="venueSubway" className={styles.label}>
+                  지하철 안내 (예식장 최인접역)
+                </label>
+                <p className={styles.fieldHelp}>
+                  청첩장 상단 요약에 짧게 노출돼요. 하객 대상 상세 대중교통 안내는 아래
+                  &ldquo;오시는 길 안내&rdquo; 섹션에 따로 입력해요.
+                </p>
+                <input
+                  id="venueSubway"
+                  type="text"
+                  value={formData.venueSubway}
+                  onChange={(event) => updateField('venueSubway', event.target.value)}
+                  placeholder="예: 2호선 강남역 3번 출구에서 도보 5분"
+                  className={styles.input}
+                />
+              </div>
+
+              <div className={styles.field}>
+                <label htmlFor="venueSubwayShort" className={styles.label}>
+                  지하철 안내 축약형
+                </label>
+                <p className={styles.fieldHelp}>지도 근처에 짧게 표시할 한 줄이에요.</p>
+                <input
+                  id="venueSubwayShort"
+                  type="text"
+                  value={formData.venueSubwayShort}
+                  onChange={(event) => updateField('venueSubwayShort', event.target.value)}
+                  placeholder="예: 2호선 강남역"
+                  className={styles.input}
+                />
+              </div>
+            </div>
+
+            <div className={styles.field}>
+              <p className={styles.label}>지도 좌표 (선택)</p>
+              <p className={styles.fieldHelp}>
+                비워두면 지도 없이 주소/지하철 안내 텍스트만 보여줘요. 입력하려면 세 칸을 모두
+                채워주세요.
+              </p>
+              <div className={styles.venueMapRow}>
+                <div className={styles.field}>
+                  <label htmlFor="venueLat" className={styles.label}>
+                    위도
+                  </label>
+                  <input
+                    id="venueLat"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={formData.venueLat === 0 ? '' : formData.venueLat}
+                    onChange={(event) =>
+                      updateField('venueLat', parseOptionalNumber(event.target.value))
+                    }
+                    placeholder="예: 37.4979"
+                    className={styles.input}
+                  />
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor="venueLng" className={styles.label}>
+                    경도
+                  </label>
+                  <input
+                    id="venueLng"
+                    type="number"
+                    step="any"
+                    inputMode="decimal"
+                    value={formData.venueLng === 0 ? '' : formData.venueLng}
+                    onChange={(event) =>
+                      updateField('venueLng', parseOptionalNumber(event.target.value))
+                    }
+                    placeholder="예: 127.0276"
+                    className={styles.input}
+                  />
+                </div>
+                <div className={styles.field}>
+                  <label htmlFor="venueMapZoom" className={styles.label}>
+                    지도 확대 레벨
+                  </label>
+                  <input
+                    id="venueMapZoom"
+                    type="number"
+                    step="1"
+                    inputMode="numeric"
+                    value={formData.venueMapZoom === 0 ? '' : formData.venueMapZoom}
+                    onChange={(event) =>
+                      updateField('venueMapZoom', parseOptionalNumber(event.target.value))
+                    }
+                    placeholder="예: 17"
+                    className={styles.input}
+                  />
+                </div>
+              </div>
+            </div>
+          </Section>
+
+          <Section
+            title="오시는 길 안내"
+            description="하객들에게 보여줄 대중교통·주차·식사 안내 문구예요. 여러 줄로 나눠 적으면 그대로 줄바꿈돼요. 모두 선택 입력이에요."
+          >
+            <div className={styles.field}>
+              <label htmlFor="infoSubway" className={styles.label}>
+                오시는 길 안내 - 지하철
+              </label>
+              <p className={styles.fieldHelp}>
+                위 &ldquo;예식장 정보&rdquo;의 지하철 안내와는 달라요 — 저건 청첩장 상단에 짧게
+                노출되는 요약이고, 여기는 오시는 길 섹션에 들어갈 상세 안내예요.
+              </p>
+              <textarea
+                id="infoSubway"
+                value={formData.infoSubway}
+                onChange={(event) => updateField('infoSubway', event.target.value)}
+                placeholder={'예: 2호선 강남역 3번 출구\n도보 5분 거리예요.'}
+                className={styles.textarea}
+                rows={3}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="infoBus" className={styles.label}>
+                오시는 길 안내 - 버스
+              </label>
+              <textarea
+                id="infoBus"
+                value={formData.infoBus}
+                onChange={(event) => updateField('infoBus', event.target.value)}
+                placeholder={'예: 간선버스 146, 360\n지선버스 3412'}
+                className={styles.textarea}
+                rows={3}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="infoParking" className={styles.label}>
+                오시는 길 안내 - 주차
+              </label>
+              <textarea
+                id="infoParking"
+                value={formData.infoParking}
+                onChange={(event) => updateField('infoParking', event.target.value)}
+                placeholder={'예: 건물 지하 1~3층 주차 가능\n예식 3시간 무료'}
+                className={styles.textarea}
+                rows={3}
+              />
+            </div>
+
+            <div className={styles.field}>
+              <label htmlFor="infoMeal" className={styles.label}>
+                오시는 길 안내 - 식사
+              </label>
+              <textarea
+                id="infoMeal"
+                value={formData.infoMeal}
+                onChange={(event) => updateField('infoMeal', event.target.value)}
+                placeholder={'예: 3층 뷔페 레스토랑\n식사 시간 11:30~14:30'}
+                className={styles.textarea}
+                rows={3}
+              />
             </div>
           </Section>
 
