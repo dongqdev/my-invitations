@@ -6,6 +6,8 @@ import { saveAccounts } from '@/lib/accountStore';
 import { getCustomDir, resolveInvitationSlug } from '@/lib/slug';
 import { generateNerdkimInvitation } from '@/lib/nerdkim/generateInvitation';
 import { publishStaticPage } from '@/lib/gitPublish';
+import { saveInvitationMeta } from '@/lib/invitationMeta';
+import { sendInvitationEmail } from '@/lib/sendInvitationEmail';
 
 /**
  * 미리보기 화면의 '확정' 버튼이 호출하는 지점 — 정적 페이지 생성 파이프라인
@@ -43,6 +45,8 @@ interface ConfirmRequestBody {
   infoBus?: unknown;
   infoParking?: unknown;
   infoMeal?: unknown;
+  /** 확정되면 링크를 받을 이메일. 선택 — 없으면 발송 안 함. */
+  email?: unknown;
   /** 신랑측/신부측 부모님 계좌(4그룹). 전부 선택 — 채워진 그룹만 온다. */
   accounts?: unknown;
 }
@@ -72,8 +76,12 @@ interface ValidatedConfirmData {
   infoBus: string;
   infoParking: string;
   infoMeal: string;
+  /** 형식 검증만 하고 존재 여부 확인은 안 한다 — 발송 실패는 confirm 자체를 막지 않는다. */
+  email: string;
   accounts: WeddingAccounts;
 }
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 function toStr(value: unknown): string {
   return typeof value === 'string' ? value : '';
@@ -157,6 +165,10 @@ function validateBody(body: ConfirmRequestBody): ValidatedConfirmData | null {
     venueLat: toNum(body.venueLat),
     venueLng: toNum(body.venueLng),
     venueMapZoom: toNum(body.venueMapZoom),
+    email:
+      typeof body.email === 'string' && EMAIL_PATTERN.test(body.email.trim())
+        ? body.email.trim()
+        : '',
     infoSubway: toStr(body.infoSubway),
     infoBus: toStr(body.infoBus),
     infoParking: toStr(body.infoParking),
@@ -258,6 +270,33 @@ export async function POST(request: Request) {
       { error: '정적 페이지를 git에 게시하는 중 오류가 발생했습니다.' },
       { status: 500 },
     );
+  }
+
+  // 자동삭제 스케줄러가 참고할 예식일시(+이메일)를 남긴다. 실패해도 확정
+  // 자체는 이미 끝났으므로 응답을 막지 않는다 — best-effort.
+  try {
+    await saveInvitationMeta(slug, {
+      weddingDateTime: data.weddingDateTime,
+      email: data.email || undefined,
+    });
+  } catch (error) {
+    console.error('청첩장 메타(예식일시/이메일) 저장 실패', error);
+  }
+
+  if (data.email) {
+    const pageBaseUrl =
+      process.env.MY_INVITATIONS_PUBLISH_BASE_URL ?? 'https://blog.dongq.dev/my-invitations/custom';
+    void sendInvitationEmail({
+      to: data.email,
+      groomName: data.groomName,
+      brideName: data.brideName,
+      indexUrl: `${pageBaseUrl}/${slug}/`,
+      themeUrls: {
+        main: `${pageBaseUrl}/${slug}/main.html`,
+        developer: `${pageBaseUrl}/${slug}/developer.html`,
+        terminal: `${pageBaseUrl}/${slug}/terminal.html`,
+      },
+    }).catch((error) => console.error('청첩장 이메일 발송 실패(무시)', error));
   }
 
   return NextResponse.json({ status: 'ok', slug, path: relativePath, commitSha }, { status: 200 });

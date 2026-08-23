@@ -88,6 +88,9 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
   // 200을 확인한 그 URL과 일치하게 한다.
   const [publishedUrl, setPublishedUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
+  // 확정되면 링크를 받을 이메일(선택) — 확정 화면에서만 물어본다. 청첩장
+  // 자체와는 무관한 배송용 정보라 InvitationFormData에는 넣지 않는다.
+  const [email, setEmail] = useState('');
 
   const pollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const pollAttemptRef = useRef(0);
@@ -192,6 +195,7 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
           infoBus: data.infoBus,
           infoParking: data.infoParking,
           infoMeal: data.infoMeal,
+          email: email.trim(),
           accounts: buildAccountsPayload(data),
         }),
       });
@@ -274,6 +278,25 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
         <p className={styles.note}>
           계좌 정보 등 나머지 항목은 정식 템플릿(다음 단계) 연결 시 함께 표시돼요.
         </p>
+
+        {(confirmState === 'idle' || confirmState === 'confirming' || confirmState === 'error') && (
+          <div className={styles.emailField}>
+            <label htmlFor="notifyEmail" className={styles.emailLabel}>
+              완성되면 링크 받을 이메일 (선택)
+            </label>
+            <p className={styles.emailHint}>
+              나중에 브라우저에서 Ctrl+S(맥은 Cmd+S)로도 저장할 수 있어요.
+            </p>
+            <input
+              id="notifyEmail"
+              type="email"
+              value={email}
+              onChange={(event) => setEmail(event.target.value)}
+              placeholder="예: name@example.com"
+              className={styles.emailInput}
+            />
+          </div>
+        )}
 
         {(confirmState === 'idle' || confirmState === 'confirming' || confirmState === 'error') && (
           <div className={styles.actionBar}>
