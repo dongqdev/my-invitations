@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import {
   createEmptyInvitationFormData,
   PARENT_LABELS,
@@ -41,20 +41,156 @@ function parseOptionalNumber(raw: string): number {
 function Section({
   title,
   description,
+  icon,
+  accent,
   children,
 }: {
   title: string;
   description?: string;
+  /** 섹션 제목 앞에 놓일 장식용 아이콘. 기능과 무관한 시각 요소라 aria-hidden. */
+  icon?: ReactNode;
+  /** 아이콘 배지 색. 지정하지 않으면 기본(--color-primary)을 쓴다. */
+  accent?: string;
   children: ReactNode;
 }) {
   return (
     <section className={styles.section}>
       <div className={styles.sectionHeading}>
-        <h2 className={styles.sectionTitle}>{title}</h2>
+        <div className={styles.sectionHeadingRow}>
+          {icon && (
+            <span
+              className={styles.sectionIcon}
+              style={accent ? ({ '--color-accent': accent } as CSSProperties) : undefined}
+              aria-hidden="true"
+            >
+              {icon}
+            </span>
+          )}
+          <h2 className={styles.sectionTitle}>{title}</h2>
+        </div>
         {description && <p className={styles.sectionDescription}>{description}</p>}
       </div>
       {children}
     </section>
+  );
+}
+
+/** 아이콘은 전부 장식용(aria-hidden)이며 ImageUploads.tsx의 기존 라인아이콘
+ * 컨벤션(currentColor, strokeWidth 1.5, 24x24 viewBox)을 그대로 따른다. */
+function CalendarIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <rect x="3.5" y="5" width="17" height="15" rx="2.5" />
+      <path d="M3.5 9.5h17M8 3v3.5M16 3v3.5" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function VenueIcon() {
+  return (
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <path d="M12 21s7-6.6 7-12a7 7 0 1 0-14 0c0 5.4 7 12 7 12Z" />
+      <circle cx="12" cy="9" r="2.5" />
+    </svg>
+  );
+}
+
+function RouteIcon() {
+  return (
+    <svg
+      width="17"
+      height="17"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <path d="M4 20 9 4l4 12 3-7 4 11" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function SubwayIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <rect x="5" y="3.5" width="14" height="13" rx="4" />
+      <path d="M5 12.5h14M9 20l-2 2M15 20l2 2" strokeLinecap="round" />
+      <circle cx="9" cy="14.2" r="0.8" fill="currentColor" stroke="none" />
+      <circle cx="15" cy="14.2" r="0.8" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function BusIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <rect x="4" y="4" width="16" height="13" rx="2.5" />
+      <path d="M4 11h16M7 20v-1M17 20v-1" strokeLinecap="round" />
+      <circle cx="8" cy="14" r="0.8" fill="currentColor" stroke="none" />
+      <circle cx="16" cy="14" r="0.8" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function ParkingIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <rect x="4" y="4" width="16" height="16" rx="4" />
+      <path d="M9.5 16V8h3a2.5 2.5 0 0 1 0 5h-3" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function MealIcon() {
+  return (
+    <svg
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.5"
+    >
+      <path
+        d="M7 3v7a2 2 0 0 0 4 0V3M9 10v11M17 3c-1.7 0-3 2-3 5s1.3 5 3 5v8"
+        strokeLinecap="round"
+      />
+    </svg>
   );
 }
 
@@ -280,22 +416,27 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
             </div>
           </Section>
 
-          <Section title="예식 일정">
+          <Section title="예식 일정" icon={<CalendarIcon />}>
             <div className={styles.field}>
               <label htmlFor="weddingDateTime" className={styles.label}>
                 예식 날짜 및 시간
               </label>
-              <input
-                id="weddingDateTime"
-                type="datetime-local"
-                value={formData.weddingDateTime}
-                onChange={(event) => updateField('weddingDateTime', event.target.value)}
-                className={styles.input}
-                aria-invalid={Boolean(showFieldErrors && errors.weddingDateTime)}
-                aria-describedby={
-                  showFieldErrors && errors.weddingDateTime ? 'weddingDateTime-error' : undefined
-                }
-              />
+              <div className={styles.dateTimeField}>
+                <span className={styles.dateTimeIcon} aria-hidden="true">
+                  <CalendarIcon />
+                </span>
+                <input
+                  id="weddingDateTime"
+                  type="datetime-local"
+                  value={formData.weddingDateTime}
+                  onChange={(event) => updateField('weddingDateTime', event.target.value)}
+                  className={styles.input}
+                  aria-invalid={Boolean(showFieldErrors && errors.weddingDateTime)}
+                  aria-describedby={
+                    showFieldErrors && errors.weddingDateTime ? 'weddingDateTime-error' : undefined
+                  }
+                />
+              </div>
               {showFieldErrors && errors.weddingDateTime && (
                 <p id="weddingDateTime-error" className={styles.fieldError} role="alert">
                   {errors.weddingDateTime}
@@ -307,6 +448,8 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
           <Section
             title="예식장 정보"
             description="청첩장 상단과 지도에 노출될 예식장 정보예요. 이름과 주소는 필수예요."
+            icon={<VenueIcon />}
+            accent="var(--color-accent-venue)"
           >
             <div className={styles.field}>
               <label htmlFor="venueName" className={styles.label}>
@@ -419,130 +562,140 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
               </div>
             </div>
 
-            <div className={styles.field}>
-              <p className={styles.label}>지도 좌표 (선택)</p>
-              <p className={styles.fieldHelp}>
-                비워두면 지도 없이 주소/지하철 안내 텍스트만 보여줘요. 입력하려면 세 칸을 모두
-                채워주세요.
-              </p>
-              <div className={styles.venueMapRow}>
-                <div className={styles.field}>
-                  <label htmlFor="venueLat" className={styles.label}>
-                    위도
-                  </label>
-                  <input
-                    id="venueLat"
-                    type="number"
-                    step="any"
-                    inputMode="decimal"
-                    value={formData.venueLat === 0 ? '' : formData.venueLat}
-                    onChange={(event) =>
-                      updateField('venueLat', parseOptionalNumber(event.target.value))
-                    }
-                    placeholder="예: 37.4979"
-                    className={styles.input}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="venueLng" className={styles.label}>
-                    경도
-                  </label>
-                  <input
-                    id="venueLng"
-                    type="number"
-                    step="any"
-                    inputMode="decimal"
-                    value={formData.venueLng === 0 ? '' : formData.venueLng}
-                    onChange={(event) =>
-                      updateField('venueLng', parseOptionalNumber(event.target.value))
-                    }
-                    placeholder="예: 127.0276"
-                    className={styles.input}
-                  />
-                </div>
-                <div className={styles.field}>
-                  <label htmlFor="venueMapZoom" className={styles.label}>
-                    지도 확대 레벨
-                  </label>
-                  <input
-                    id="venueMapZoom"
-                    type="number"
-                    step="1"
-                    inputMode="numeric"
-                    value={formData.venueMapZoom === 0 ? '' : formData.venueMapZoom}
-                    onChange={(event) =>
-                      updateField('venueMapZoom', parseOptionalNumber(event.target.value))
-                    }
-                    placeholder="예: 17"
-                    className={styles.input}
-                  />
+            <details className={styles.disclosure}>
+              <summary className={styles.disclosureSummary}>지도 좌표 입력 (선택)</summary>
+              <div className={styles.disclosureBody}>
+                <p className={styles.fieldHelp}>
+                  비워두면 지도 없이 주소/지하철 안내 텍스트만 보여줘요. 입력하려면 세 칸을 모두
+                  채워주세요.
+                </p>
+                <div className={styles.venueMapRow}>
+                  <div className={styles.field}>
+                    <label htmlFor="venueLat" className={styles.label}>
+                      위도
+                    </label>
+                    <input
+                      id="venueLat"
+                      type="number"
+                      step="any"
+                      inputMode="decimal"
+                      value={formData.venueLat === 0 ? '' : formData.venueLat}
+                      onChange={(event) =>
+                        updateField('venueLat', parseOptionalNumber(event.target.value))
+                      }
+                      placeholder="예: 37.4979"
+                      className={styles.input}
+                    />
+                  </div>
+                  <div className={styles.field}>
+                    <label htmlFor="venueLng" className={styles.label}>
+                      경도
+                    </label>
+                    <input
+                      id="venueLng"
+                      type="number"
+                      step="any"
+                      inputMode="decimal"
+                      value={formData.venueLng === 0 ? '' : formData.venueLng}
+                      onChange={(event) =>
+                        updateField('venueLng', parseOptionalNumber(event.target.value))
+                      }
+                      placeholder="예: 127.0276"
+                      className={styles.input}
+                    />
+                  </div>
+                  <div className={styles.field}>
+                    <label htmlFor="venueMapZoom" className={styles.label}>
+                      지도 확대 레벨
+                    </label>
+                    <input
+                      id="venueMapZoom"
+                      type="number"
+                      step="1"
+                      inputMode="numeric"
+                      value={formData.venueMapZoom === 0 ? '' : formData.venueMapZoom}
+                      onChange={(event) =>
+                        updateField('venueMapZoom', parseOptionalNumber(event.target.value))
+                      }
+                      placeholder="예: 17"
+                      className={styles.input}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
+            </details>
           </Section>
 
           <Section
             title="오시는 길 안내"
             description="하객들에게 보여줄 대중교통·주차·식사 안내 문구예요. 여러 줄로 나눠 적으면 그대로 줄바꿈돼요. 모두 선택 입력이에요."
+            icon={<RouteIcon />}
+            accent="var(--color-accent-route)"
           >
-            <div className={styles.field}>
-              <label htmlFor="infoSubway" className={styles.label}>
-                오시는 길 안내 - 지하철
-              </label>
-              <p className={styles.fieldHelp}>
-                위 &ldquo;예식장 정보&rdquo;의 지하철 안내와는 달라요 — 저건 청첩장 상단에 짧게
-                노출되는 요약이고, 여기는 오시는 길 섹션에 들어갈 상세 안내예요.
-              </p>
-              <textarea
-                id="infoSubway"
-                value={formData.infoSubway}
-                onChange={(event) => updateField('infoSubway', event.target.value)}
-                placeholder={'예: 2호선 강남역 3번 출구\n도보 5분 거리예요.'}
-                className={styles.textarea}
-                rows={3}
-              />
-            </div>
+            <p className={styles.fieldHelp}>
+              위 &ldquo;예식장 정보&rdquo;의 지하철 안내와는 달라요 — 저건 청첩장 상단에 짧게
+              노출되는 요약이고, 여기는 오시는 길 섹션에 들어갈 상세 안내예요.
+            </p>
+            <div className={styles.routeGrid}>
+              <div className={styles.routeCard}>
+                <label htmlFor="infoSubway" className={styles.routeCardLabel}>
+                  <SubwayIcon />
+                  지하철
+                </label>
+                <textarea
+                  id="infoSubway"
+                  value={formData.infoSubway}
+                  onChange={(event) => updateField('infoSubway', event.target.value)}
+                  placeholder={'예: 2호선 강남역 3번 출구\n도보 5분 거리예요.'}
+                  className={styles.textarea}
+                  rows={3}
+                />
+              </div>
 
-            <div className={styles.field}>
-              <label htmlFor="infoBus" className={styles.label}>
-                오시는 길 안내 - 버스
-              </label>
-              <textarea
-                id="infoBus"
-                value={formData.infoBus}
-                onChange={(event) => updateField('infoBus', event.target.value)}
-                placeholder={'예: 간선버스 146, 360\n지선버스 3412'}
-                className={styles.textarea}
-                rows={3}
-              />
-            </div>
+              <div className={styles.routeCard}>
+                <label htmlFor="infoBus" className={styles.routeCardLabel}>
+                  <BusIcon />
+                  버스
+                </label>
+                <textarea
+                  id="infoBus"
+                  value={formData.infoBus}
+                  onChange={(event) => updateField('infoBus', event.target.value)}
+                  placeholder={'예: 간선버스 146, 360\n지선버스 3412'}
+                  className={styles.textarea}
+                  rows={3}
+                />
+              </div>
 
-            <div className={styles.field}>
-              <label htmlFor="infoParking" className={styles.label}>
-                오시는 길 안내 - 주차
-              </label>
-              <textarea
-                id="infoParking"
-                value={formData.infoParking}
-                onChange={(event) => updateField('infoParking', event.target.value)}
-                placeholder={'예: 건물 지하 1~3층 주차 가능\n예식 3시간 무료'}
-                className={styles.textarea}
-                rows={3}
-              />
-            </div>
+              <div className={styles.routeCard}>
+                <label htmlFor="infoParking" className={styles.routeCardLabel}>
+                  <ParkingIcon />
+                  주차
+                </label>
+                <textarea
+                  id="infoParking"
+                  value={formData.infoParking}
+                  onChange={(event) => updateField('infoParking', event.target.value)}
+                  placeholder={'예: 건물 지하 1~3층 주차 가능\n예식 3시간 무료'}
+                  className={styles.textarea}
+                  rows={3}
+                />
+              </div>
 
-            <div className={styles.field}>
-              <label htmlFor="infoMeal" className={styles.label}>
-                오시는 길 안내 - 식사
-              </label>
-              <textarea
-                id="infoMeal"
-                value={formData.infoMeal}
-                onChange={(event) => updateField('infoMeal', event.target.value)}
-                placeholder={'예: 3층 뷔페 레스토랑\n식사 시간 11:30~14:30'}
-                className={styles.textarea}
-                rows={3}
-              />
+              <div className={styles.routeCard}>
+                <label htmlFor="infoMeal" className={styles.routeCardLabel}>
+                  <MealIcon />
+                  식사
+                </label>
+                <textarea
+                  id="infoMeal"
+                  value={formData.infoMeal}
+                  onChange={(event) => updateField('infoMeal', event.target.value)}
+                  placeholder={'예: 3층 뷔페 레스토랑\n식사 시간 11:30~14:30'}
+                  className={styles.textarea}
+                  rows={3}
+                />
+              </div>
             </div>
           </Section>
 

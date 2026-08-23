@@ -17,6 +17,11 @@
   --color-gold-focus: color-mix(in srgb, var(--color-gold) 85%, black);
   --color-accent-groom: var(--color-gold);
   --color-accent-bride: #b9757f;
+  /* 예식장/오시는 길 섹션 전용 악센트 — 계좌 섹션의 신랑/신부 색과 겹치지 않게
+     "장소·안내" 계열의 차분한 새 색 둘을 팔레트에 추가한다(harness-mnr 폼
+     디자인 정리, 기능 변경 없음). */
+  --color-accent-venue: #4c7a8c;
+  --color-accent-route: #a97155;
   --color-border: #e6ddc9;
   --color-border-strong: #d5c9ac;
   --color-error: #b3261e;
@@ -182,6 +187,26 @@
   gap: 4px;
 }
 
+.sectionHeadingRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 섹션 제목 앞 아이콘 배지. 계좌 카드의 accentBar와 같은 "옅은 배경 + 진한
+   선"으로 팔레트를 벗어나지 않으면서 섹션마다 다른 색으로 구분되게 한다. */
+.sectionIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  color: var(--color-accent, var(--color-primary));
+  background: color-mix(in srgb, var(--color-accent, var(--color-primary)) 12%, var(--color-bg));
+}
+
 .sectionTitle {
   font-family: var(--font-display), serif;
   font-size: 19px;
@@ -290,6 +315,134 @@
   .venueMapRow {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/* ---------- 날짜/시간 입력 ---------- */
+
+/* 네이티브 datetime-local의 브라우저 기본 UI(스피너, 캘린더 아이콘)는 그대로
+   두되(커스텀 위젯 도입은 기능 변경이라 범위 밖), 감싸는 컨테이너와 아이콘
+   색만 폼의 다른 입력과 톤이 맞게 다듬는다. */
+.dateTimeField {
+  position: relative;
+}
+
+.dateTimeIcon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--color-ink-faint);
+  pointer-events: none;
+}
+
+.dateTimeField input {
+  padding-left: 42px;
+  color-scheme: light;
+}
+
+/* 크롬 계열의 기본 캘린더 아이콘을 톤에 맞게 옅게 눌러 둔다(사파리 등
+   미지원 브라우저는 아무 효과 없이 기본 아이콘 그대로 보인다 — 저하는
+   있어도 깨짐은 없다). */
+.dateTimeField input::-webkit-calendar-picker-indicator {
+  opacity: 0.55;
+  filter: sepia(60%) saturate(200%) hue-rotate(-10deg);
+}
+
+/* ---------- 선택 입력 펼침(details) ---------- */
+
+.disclosure {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-inner);
+  padding: 2px 14px;
+  background: var(--color-bg);
+}
+
+.disclosureSummary {
+  cursor: pointer;
+  padding: 12px 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-ink-soft);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.disclosureSummary::-webkit-details-marker {
+  display: none;
+}
+
+.disclosureSummary::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform 160ms var(--ease-out);
+  flex-shrink: 0;
+}
+
+.disclosure[open] .disclosureSummary::before {
+  transform: rotate(45deg);
+}
+
+.disclosureBody {
+  padding-bottom: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* ---------- 오시는 길 안내 카드 ---------- */
+
+.routeGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .routeGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.routeCard {
+  position: relative;
+  min-width: 0;
+  padding: 16px 16px 16px 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-inner);
+  background: color-mix(in srgb, var(--color-accent-route) 5%, var(--color-bg));
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow: hidden;
+}
+
+.routeCard::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 3px;
+  background: linear-gradient(
+    180deg,
+    var(--color-accent-route),
+    color-mix(in srgb, var(--color-accent-route) 55%, var(--color-bg))
+  );
+}
+
+.routeCardLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--color-accent-route);
 }
 
 /* ---------- Parent / account groups ---------- */
