@@ -850,6 +850,11 @@ AI_GUESTS.forEach(async (agent) => {
 
   try {
     const res = await fetch(invAsset(agent.file));
+    // res.ok를 확인하지 않으면 404 응답(예: GitHub Pages의 에러 페이지 HTML,
+    // <style> 태그 포함)을 그대로 innerHTML에 심게 되어 그 <style>이 문서
+    // 전체에 적용되며 레이아웃을 오염시킨다(실측: .hero-names h1이 800px로
+    // 부풀어 중앙정렬이 깨짐 — 원인은 assets/ai/*.svg 404였다).
+    if (!res.ok) throw new Error('icon fetch failed: ' + res.status);
     char.querySelector('.ai-ico').innerHTML = await res.text();
   } catch {
     // 아이콘 로드에 실패하면 브랜드색 점으로 대체한다.
