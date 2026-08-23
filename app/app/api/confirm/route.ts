@@ -4,7 +4,7 @@ import { NextResponse } from 'next/server';
 import type { WeddingAccounts } from '@/lib/accountTypes';
 import { saveAccounts } from '@/lib/accountStore';
 import { getCustomDir, resolveInvitationSlug } from '@/lib/slug';
-import { renderInvitationHtml } from '@/lib/renderInvitationHtml';
+import { generateNerdkimInvitation } from '@/lib/nerdkim/generateInvitation';
 import { publishStaticPage } from '@/lib/gitPublish';
 
 /**
@@ -30,6 +30,19 @@ interface ConfirmRequestBody {
   groomMotherName?: unknown;
   brideFatherName?: unknown;
   brideMotherName?: unknown;
+  venueName?: unknown;
+  venueHall?: unknown;
+  venueAddress?: unknown;
+  venueFloor?: unknown;
+  venueSubway?: unknown;
+  venueSubwayShort?: unknown;
+  venueLat?: unknown;
+  venueLng?: unknown;
+  venueMapZoom?: unknown;
+  infoSubway?: unknown;
+  infoBus?: unknown;
+  infoParking?: unknown;
+  infoMeal?: unknown;
   /** 신랑측/신부측 부모님 계좌(4그룹). 전부 선택 — 채워진 그룹만 온다. */
   accounts?: unknown;
 }
@@ -46,7 +59,28 @@ interface ValidatedConfirmData {
   groomMotherName: string;
   brideFatherName: string;
   brideMotherName: string;
+  venueName: string;
+  venueHall: string;
+  venueAddress: string;
+  venueFloor: string;
+  venueSubway: string;
+  venueSubwayShort: string;
+  venueLat: number;
+  venueLng: number;
+  venueMapZoom: number;
+  infoSubway: string;
+  infoBus: string;
+  infoParking: string;
+  infoMeal: string;
   accounts: WeddingAccounts;
+}
+
+function toStr(value: unknown): string {
+  return typeof value === 'string' ? value : '';
+}
+
+function toNum(value: unknown): number {
+  return typeof value === 'number' && Number.isFinite(value) ? value : 0;
 }
 
 function isNonEmptyString(value: unknown): value is string {
@@ -82,7 +116,9 @@ function validateBody(body: ConfirmRequestBody): ValidatedConfirmData | null {
     !isNonEmptyString(body.groomName) ||
     !isNonEmptyString(body.brideName) ||
     !isNonEmptyString(body.weddingDateTime) ||
-    !isNonEmptyString(body.mainImageUrl)
+    !isNonEmptyString(body.mainImageUrl) ||
+    !isNonEmptyString(body.venueName) ||
+    !isNonEmptyString(body.venueAddress)
   ) {
     return null;
   }
@@ -112,6 +148,19 @@ function validateBody(body: ConfirmRequestBody): ValidatedConfirmData | null {
     groomMotherName: typeof body.groomMotherName === 'string' ? body.groomMotherName : '',
     brideFatherName: typeof body.brideFatherName === 'string' ? body.brideFatherName : '',
     brideMotherName: typeof body.brideMotherName === 'string' ? body.brideMotherName : '',
+    venueName: body.venueName,
+    venueHall: toStr(body.venueHall),
+    venueAddress: body.venueAddress,
+    venueFloor: toStr(body.venueFloor),
+    venueSubway: toStr(body.venueSubway),
+    venueSubwayShort: toStr(body.venueSubwayShort),
+    venueLat: toNum(body.venueLat),
+    venueLng: toNum(body.venueLng),
+    venueMapZoom: toNum(body.venueMapZoom),
+    infoSubway: toStr(body.infoSubway),
+    infoBus: toStr(body.infoBus),
+    infoParking: toStr(body.infoParking),
+    infoMeal: toStr(body.infoMeal),
     accounts,
   };
 }
@@ -142,26 +191,55 @@ export async function POST(request: Request) {
     await saveAccounts(slug, data.accounts);
   }
 
-  const html = renderInvitationHtml({
-    slug,
-    title: data.title,
-    content: data.content,
-    groomName: data.groomName,
-    brideName: data.brideName,
-    weddingDateTime: data.weddingDateTime,
-    mainImageUrl: data.mainImageUrl,
-    galleryImageUrls: data.galleryImageUrls,
-    groomFatherName: data.groomFatherName,
-    groomMotherName: data.groomMotherName,
-    brideFatherName: data.brideFatherName,
-    brideMotherName: data.brideMotherName,
-  });
+  let generated: Awaited<ReturnType<typeof generateNerdkimInvitation>>;
+  try {
+    generated = await generateNerdkimInvitation({
+      slug,
+      title: data.title,
+      content: data.content,
+      groomName: data.groomName,
+      brideName: data.brideName,
+      weddingDateTime: data.weddingDateTime,
+      mainImageUrl: data.mainImageUrl,
+      galleryImageUrls: data.galleryImageUrls,
+      groomFatherName: data.groomFatherName,
+      groomMotherName: data.groomMotherName,
+      brideFatherName: data.brideFatherName,
+      brideMotherName: data.brideMotherName,
+      venueName: data.venueName,
+      venueHall: data.venueHall,
+      venueAddress: data.venueAddress,
+      venueFloor: data.venueFloor,
+      venueSubway: data.venueSubway,
+      venueSubwayShort: data.venueSubwayShort,
+      venueLat: data.venueLat,
+      venueLng: data.venueLng,
+      venueMapZoom: data.venueMapZoom,
+      infoSubway: data.infoSubway,
+      infoBus: data.infoBus,
+      infoParking: data.infoParking,
+      infoMeal: data.infoMeal,
+    });
+  } catch (error) {
+    console.error('정적 페이지 생성 실패', error);
+    return NextResponse.json(
+      { error: '정적 페이지를 생성하는 중 오류가 발생했습니다.' },
+      { status: 500 },
+    );
+  }
 
   const targetDir = path.join(getCustomDir(), slug);
-  const relativePath = `custom/${slug}/index.html`;
+  // 디렉터리 전체를 커밋 대상으로 삼는다 — index/main/developer/terminal.html 4개가
+  // 이 한 슬러그의 산출물이다(publishStaticPage는 경로 하나만 받지만 git add는
+  // 디렉터리도 그대로 받는다).
+  const relativePath = `custom/${slug}/`;
   try {
     await fs.mkdir(targetDir, { recursive: true });
-    await fs.writeFile(path.join(targetDir, 'index.html'), html, 'utf-8');
+    await Promise.all(
+      Array.from(generated.files.entries()).map(([filename, content]) =>
+        fs.writeFile(path.join(targetDir, filename), content, 'utf-8'),
+      ),
+    );
   } catch (error) {
     console.error('정적 페이지 파일 쓰기 실패', error);
     return NextResponse.json(

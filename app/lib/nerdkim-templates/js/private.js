@@ -1,13 +1,21 @@
 /*
-   private.js: 개인정보(계좌) client render러
-   - 실제 계좌번호는 정적 파일에 평문으로 없다.
-     invitation.conf 의 값을 읽어 난독화한 blob을 window.__GIFT__ 로 심는다.
-     static은 build.sh 가, with-guestbook은 server가 요청마다 한다.
-   - 이 script는 그 blob을 풀어서 사용자가 펼치거나 tap할 때에만 DOM에 그린다.
-     그래서 검색엔진과 scraper가 평문 번호를 가져가지 못한다.
-   - 사람이 늘거나 줄면 invitation.conf 의 GROOM_ACCOUNTS 와 BRIDE_ACCOUNTS 를 고친다.
+   private.js (my-invitations 어댑터 버전 — 원본: nerdkim/wedding-invitation-for-nerds)
 
-   HTML container 규약:
+   원본은 invitation.conf 의 계좌를 build 시점에 XOR 난독화해 window.__GIFT__ 로
+   정적 HTML에 심고, 이 script가 그것을 그 자리에서 복호화했다. 우리는 계좌를
+   git에 전혀 넣지 않고(harness-8lh.4) 별도 서버에 저장해 두므로, 이 버전은
+   window.__GIFT__ 를 읽지 않는다 — 대신 사용자가 펼치거나 tap하는 바로 그 순간에
+   window.__ACCOUNTS_API_BASE__ + '/api/accounts/' + window.__SLUG__ 로 fetch한다.
+   그래서 계좌 평문은 애초에 정적 파일 어디에도 존재하지 않는다(빌드 시점 심기 자체가
+   없다) — obfuscate/deobfuscate 관련 코드는 전부 제거했다.
+
+   /api/accounts/<slug> 응답 형태는 원본의 {accounts:{groom:[...], bride:[...]}}가
+   아니라 { groom?, bride?, groomFather?, groomMother?, brideFather?, brideMother? }
+   (각 { bank, holder, accountNumber })이다 — shapeAccounts()가 groom 쪽
+   (groom, groomFather, groomMother)과 bride 쪽(bride, brideFather, brideMother)을
+   각각 리스트로 묶어 원본과 같은 모양으로 바꿔 준다.
+
+   HTML container 규약(원본과 동일, 변경 없음):
      [data-acc="groom|bride"]   계좌 목록을 채울 곳
      data-copy-label="복사"      복사 button 글자. theme마다 복사, copy, cp를 쓴다.
      data-open                  tap이나 펼침 없이 즉시 render(terminal version)
@@ -16,30 +24,43 @@
 (function () {
   'use strict';
 
-  /* 1. 난독화 해제. static/build.sh 의 obfuscate 와
-     with-guestbook/server/server.mjs 의 obfuscate 와 1:1로 대응한다. */
-  function deobfuscate(blob) {
-    if (!blob) return null;
-    try {
-      var bin = atob(blob);
-      var u = new Uint8Array(bin.length);
-      for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
-      var salt = u[0];
-      var k = salt;
-      var out = new Uint8Array(u.length - 1);
-      for (var j = 0; j < out.length; j++) {
-        k = (k * 31 + 17 + j) & 0xff;
-        out[j] = u[j + 1] ^ k;
-      }
-      return JSON.parse(new TextDecoder().decode(out));
-    } catch (e) {
-      return null;
+  var API_BASE = (typeof window !== 'undefined' && window.__ACCOUNTS_API_BASE__) || '';
+  var SLUG = (typeof window !== 'undefined' && window.__SLUG__) || '';
+
+  /* 응답을 원본 render 로직이 기대하는 {accounts:{groom:[...], bride:[...]}} 모양으로 바꾼다. */
+  function shapeAccounts(raw) {
+    if (!raw) return null;
+    function person(a) {
+      if (!a) return null;
+      return { name: a.holder || '', bank: a.bank || '', number: a.accountNumber || '' };
     }
+    var groom = [person(raw.groom), person(raw.groomFather), person(raw.groomMother)].filter(
+      Boolean,
+    );
+    var bride = [person(raw.bride), person(raw.brideFather), person(raw.brideMother)].filter(
+      Boolean,
+    );
+    return { accounts: { groom: groom, bride: bride } };
   }
 
-  var DATA = deobfuscate(window.__GIFT__);
+  var fetchPromise = null;
+  function fetchAccounts() {
+    if (!SLUG) return Promise.resolve(null);
+    if (!fetchPromise) {
+      fetchPromise = fetch(API_BASE + '/api/accounts/' + encodeURIComponent(SLUG))
+        .then(function (res) {
+          if (!res.ok) throw new Error('accounts fetch failed: ' + res.status);
+          return res.json();
+        })
+        .then(shapeAccounts)
+        .catch(function () {
+          return null;
+        });
+    }
+    return fetchPromise;
+  }
 
-  /* 2. clipboard 복사 (theme의 flashCopied 가 있으면 그대로 사용) */
+  /* clipboard 복사 (theme의 flashCopied 가 있으면 그대로 사용) */
   function copy(text, btn) {
     navigator.clipboard
       .writeText(text)
@@ -57,11 +78,7 @@
       .catch(function () {});
   }
 
-  /* 3. 한 줄(.acc) 만들기: 이름, 은행과 번호, 복사 button
-     은행(.bank)과 번호(.num)를 별도 span으로 나눠 담는다.
-     기본은 사이에 공백을 둔 '은행 번호' 한 줄이다.
-     개발자 version CSS만 .no를 세로 stack으로 만들어 은행 아래에 번호를 놓는다.
-     복사되는 값은 어느 version이나 '은행 번호'로 같다. */
+  /* 한 줄(.acc) 만들기: 이름, 은행과 번호, 복사 button. 원본과 동일한 DOM 모양. */
   function row(name, bank, number, copyLabel) {
     var el = document.createElement('div');
     el.className = 'acc';
@@ -77,7 +94,7 @@
       bk.className = 'bank';
       bk.textContent = bank;
       no.appendChild(bk);
-      no.appendChild(document.createTextNode(' ')); // 한 줄 표시용 구분 공백. 개발자 version의 flex 세로 stack에서는 render되지 않는다.
+      no.appendChild(document.createTextNode(' '));
     }
     var nu = document.createElement('span');
     nu.className = 'num';
@@ -97,36 +114,41 @@
     return el;
   }
 
-  /* 4. 계좌 목록 render */
-  function renderAccounts(container) {
-    if (!DATA || !DATA.accounts) return;
-    var list = DATA.accounts[container.dataset.acc] || [];
+  function renderAccounts(container, data) {
+    var list = (data && data.accounts && data.accounts[container.dataset.acc]) || [];
     var copyLabel = container.dataset.copyLabel || '복사';
+    if (list.length === 0) {
+      var note = document.createElement('div');
+      note.className = 'acc-note';
+      note.textContent = '등록된 계좌 정보가 없습니다.';
+      container.appendChild(note);
+      return;
+    }
     list.forEach(function (a) {
       container.appendChild(row(a.name, a.bank, a.number, copyLabel));
     });
   }
 
-  /* 5. 펼치거나 tap할 때에만 render한다. 검색과 자동수집 차단의 핵심이다.
-     details 안이면 펼칠 때, 아니면 button을 눌렀을 때 한 번만 그린다. */
-  function gate(container, render) {
+  /* 펼치거나 tap할 때에만 fetch+render한다 — 계좌 API 요청 자체가 사용자 의도적
+     행동 뒤에만 나가게 해서, 페이지를 열기만 해도 계좌 서버에 요청이 가지 않게 한다. */
+  function doRender(container) {
     if (container.dataset.filled) return;
+    container.dataset.filled = '1';
+    fetchAccounts().then(function (data) {
+      renderAccounts(container, data);
+    });
+  }
 
-    // data-open이면 tap이나 펼침 없이 즉시 render한다. terminal의 '마음 전하실 곳'이 그렇다.
+  function gate(container) {
     if (container.hasAttribute('data-open')) {
-      container.dataset.filled = '1';
-      render(container);
+      doRender(container);
       return;
     }
 
     var details = container.closest('details');
-
     if (details) {
       details.addEventListener('toggle', function () {
-        if (details.open && !container.dataset.filled) {
-          container.dataset.filled = '1';
-          render(container);
-        }
+        if (details.open) doRender(container);
       });
       return;
     }
@@ -136,19 +158,15 @@
     trig.className = 'btn reveal-btn';
     trig.textContent = container.dataset.revealLabel || '보기 ▾';
     trig.addEventListener('click', function () {
-      container.dataset.filled = '1';
       trig.remove();
-      render(container);
+      doRender(container);
     });
     container.appendChild(trig);
   }
 
-  /* 6. 초기화 */
   function init() {
     var accs = document.querySelectorAll('[data-acc]');
-
-    if (!DATA) {
-      // 주입이 없을 때다. src/ 를 build 없이 그대로 열면 여기로 온다.
+    if (!SLUG) {
       [].forEach.call(accs, function (c) {
         var n = document.createElement('div');
         n.className = 'acc-note';
@@ -157,10 +175,7 @@
       });
       return;
     }
-
-    [].forEach.call(accs, function (c) {
-      gate(c, renderAccounts);
-    });
+    [].forEach.call(accs, gate);
   }
 
   if (document.readyState === 'loading') {
@@ -168,10 +183,4 @@
   } else {
     init();
   }
-
-  window.Private = {
-    data: function () {
-      return DATA;
-    },
-  };
 })();
