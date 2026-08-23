@@ -30,7 +30,11 @@ export default function ParentAccountFields({
   onChange,
 }: ParentAccountFieldsProps) {
   function updateName(name: string) {
-    onChange({ ...value, name });
+    // 예금주는 별도로 입력받지 않는다 — 계좌 명의는 성함과 같다고 가정하고
+    // 성함 입력에 그대로 동기화한다(계좌번호가 길어 3열 그리드가 비좁다는
+    // 사용자 피드백으로 예금주 입력 칸 자체를 없앰). accountStore/API/
+    // private.js는 여전히 holder 필드를 그대로 쓰므로 그쪽은 변경 없음.
+    onChange({ ...value, name, account: { ...value.account, holder: name } });
   }
 
   function updateAccount(field: keyof ParentInfo['account'], next: string) {
@@ -81,27 +85,6 @@ export default function ParentAccountFields({
           {errors?.bank && (
             <p id={`${idPrefix}-bank-error`} className={styles.fieldError} role="alert">
               {errors.bank}
-            </p>
-          )}
-        </div>
-
-        <div className={styles.field}>
-          <label htmlFor={`${idPrefix}-holder`} className={styles.label}>
-            예금주
-          </label>
-          <input
-            id={`${idPrefix}-holder`}
-            type="text"
-            value={value.account.holder}
-            onChange={(event) => updateAccount('holder', event.target.value)}
-            placeholder="예: 홍길동"
-            className={styles.input}
-            aria-invalid={Boolean(errors?.holder)}
-            aria-describedby={errors?.holder ? `${idPrefix}-holder-error` : undefined}
-          />
-          {errors?.holder && (
-            <p id={`${idPrefix}-holder-error`} className={styles.fieldError} role="alert">
-              {errors.holder}
             </p>
           )}
         </div>

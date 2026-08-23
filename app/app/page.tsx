@@ -27,9 +27,10 @@ export default function Home() {
       <div className={styles.preview} aria-hidden="true">
         <div className={styles.previewCard}>
           <div className={styles.previewImageFrame}>
-            {/* eslint-disable-next-line @next/next/no-img-element -- 데모용 정적 SVG,
-                app/invite/_components/Hero.tsx와 동일 컨벤션 */}
-            <img src="/demo/sample-main.svg" alt="" className={styles.previewImage} />
+            {/* eslint-disable-next-line @next/next/no-img-element -- 데모용 정적 이미지,
+                app/invite/_components/Hero.tsx와 동일 컨벤션.
+                사진: Icons8 Team, Unsplash License (unsplash.com/photos/IsRIjvgpj5Y) */}
+            <img src="/demo/sample-main.jpg" alt="" className={styles.previewImage} />
           </div>
           <div className={styles.previewInfo}>
             <span className={styles.previewNames}>건우 · 서연</span>
