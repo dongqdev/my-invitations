@@ -41,6 +41,29 @@ export interface InvitationFormData {
   groomMother: ParentInfo;
   brideFather: ParentInfo;
   brideMother: ParentInfo;
+  /** 예식장 이름 (예: "그랜드 컨벤션센터") */
+  venueName: string;
+  /** 예식장 내 홀 이름 (예: "3층 그랜드홀") */
+  venueHall: string;
+  venueAddress: string;
+  /** 층 안내 (예: "지하 1층 주차, 3층 예식") */
+  venueFloor: string;
+  /** 지하철 안내 전체 문구 */
+  venueSubway: string;
+  /** 지하철 안내 축약형 (예: "2호선 강남역") */
+  venueSubwayShort: string;
+  venueLat: number;
+  venueLng: number;
+  /** 지도 초기 확대 레벨 */
+  venueMapZoom: number;
+  /**
+   * 오시는 길 안내 문구. nerdkim 원본은 이 필드들 안의 리터럴 "\n"을 줄바꿈으로 해석해
+   * 여러 줄 안내를 넣는다 — 실제 여러 줄 입력(textarea) 처리는 다음 태스크 몫이다.
+   */
+  infoSubway: string;
+  infoBus: string;
+  infoParking: string;
+  infoMeal: string;
 }
 
 export const PARENT_KEYS: ParentKey[] = [
@@ -78,5 +101,18 @@ export function createEmptyInvitationFormData(): InvitationFormData {
     groomMother: createEmptyParent(),
     brideFather: createEmptyParent(),
     brideMother: createEmptyParent(),
+    venueName: '',
+    venueHall: '',
+    venueAddress: '',
+    venueFloor: '',
+    venueSubway: '',
+    venueSubwayShort: '',
+    venueLat: 0,
+    venueLng: 0,
+    venueMapZoom: 0,
+    infoSubway: '',
+    infoBus: '',
+    infoParking: '',
+    infoMeal: '',
   };
 }
