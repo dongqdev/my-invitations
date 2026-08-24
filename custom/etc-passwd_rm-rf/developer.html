@@ -1,0 +1,4406 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <script>window.__INV__='../_shared';window.__PHOTOS__='';</script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+
+  <title>../../../etc/passwd ❤️ ; rm -rf / # 결혼합니다 🎉</title>
+  <meta name="description" content="2026년 11월 11일 수요일 오전 11시 11분 보안테스트홀 . ../../../etc/passwd ♥ ; rm -rf / # 결혼합니다." />
+
+  <!-- 카카오톡/SNS 공유 미리보기 (Open Graph)
+       ?v= cache busting은 배포마다 server가 자동 부여. 사진 교체 후엔 카카오 디버거로 재스크랩. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="../../../etc/passwd ❤️ ; rm -rf / # 결혼합니다 🎉" />
+  <meta property="og:locale" content="ko_KR" />
+  <meta property="og:title" content="../../../etc/passwd ❤️ ; rm -rf / # 결혼합니다 🎉" />
+  <meta property="og:description" content="2026년 11월 11일 수요일 오전 11시 11분 보안테스트홀 " />
+  <meta property="og:url" content="https://blog.dongq.dev/my-invitations/custom/etc-passwd_rm-rf/developer.html" />
+  <meta property="og:image" content="https://picsum.photos/10/10" />
+  <meta property="og:image:type" content="image/jpeg" />
+  <meta property="og:image:width" content="1143" />
+  <meta property="og:image:height" content="1600" />
+  <meta property="og:image:alt" content="../../../etc/passwd ❤️ ; rm -rf / # 결혼합니다 🎉" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;0,700;1,400&family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <style>
+/*
+   developer.css: 개발자 version stylesheet. developer.html과 release.html이 함께 쓴다.
+
+   목차
+   01. theme 변수 (dark 기본, light 오버라이드)
+   02. base와 배경 질감
+   03. layout (.phone, section)
+   04. editor 상단바와 theme toggle
+   05. scroll reveal animation
+   06. section label (code 주석 style)
+   07. HERO (terminal, 이름, merge graph, 장소 banner)
+   08. main 사진, gallery, lightbox
+   09. 초대 문구 (README)
+   10. 신랑신부 card (couple.yaml)
+   11. 깃 log 타임라인
+   12. CI/CD pipeline
+   13. countdown과 달력
+   14. code block (.env, curl)과 button
+   15. 마음 전하실 곳
+   16. approve(deploy)와 confetti
+   17. footer
+   18. 반응형과 접근성
+ */
+
+/* 01. theme 변수 */
+
+:root {
+  /* dark theme(기본). 잉크 네이비 IDE. */
+  --bg: #0a0e15;
+  --bg-deep: #070a10;
+  --panel: #10151f;
+  --panel-2: #141a26;
+  --line: #1e2735;
+  --line-soft: #182030;
+
+  --text: #cdd8e4;
+  --text-bright: #eef3f9;
+  --text-dim: #97a6b9;
+  --comment: #8294ab; /* 주석. 대비를 높인 값. */
+
+  --mint: #7fe0c3; /* 신랑 */
+  --rose: #f2a7c3; /* 신부 */
+  --amber: #e8c07d; /* 문자열 */
+  --blue: #82aaff; /* 키워드 */
+  --green: #9ece6a; /* 성공 */
+  --red: #f7768e;
+
+  --on-rose: #1a0d13; /* rose 배경 위 글자색 */
+
+  --bar-bg: rgba(12, 17, 26, 0.87);
+  --scanline: rgba(0, 0, 0, 0.07);
+  --grain-opacity: 1;
+  --shadow-panel: 0 24px 60px -24px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+
+  --mono: 'JetBrains Mono', 'IBM Plex Sans KR', monospace;
+  --serif: 'Gowun Batang', serif;
+  --sans: 'IBM Plex Sans KR', sans-serif;
+}
+
+[data-theme='light'] {
+  /* light theme. 따뜻한 종이 질감의 페이퍼 IDE. */
+  --bg: #faf8f3;
+  --bg-deep: #f0ede5;
+  --panel: #ffffff;
+  --panel-2: #f5f2ea;
+  --line: #e1dccf;
+  --line-soft: #eae5d9;
+
+  --text: #4a463e;
+  --text-bright: #28251f;
+  --text-dim: #6d675c;
+  --comment: #837b6c;
+
+  --mint: #0c8f6f;
+  --rose: #c94f7c;
+  --amber: #9a6a12;
+  --blue: #2f63c9;
+  --green: #4e8a23;
+  --red: #d6336c;
+
+  --on-rose: #ffffff;
+
+  --bar-bg: rgba(255, 253, 248, 0.88);
+  --scanline: rgba(0, 0, 0, 0.025);
+  --grain-opacity: 0.55;
+  --shadow-panel: 0 18px 44px -22px rgba(80, 70, 50, 0.35), 0 0 0 1px rgba(0, 0, 0, 0.015) inset;
+}
+
+/* 02. base & 배경 질감 */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: var(--sans);
+  font-weight: 300;
+  line-height: 1.7;
+  -webkit-font-smoothing: antialiased;
+  transition:
+    background 0.4s ease,
+    color 0.4s ease;
+}
+
+/* 필름 grain */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* CRT scanline */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 51;
+  pointer-events: none;
+  opacity: 0.5;
+  background: repeating-linear-gradient(0deg, transparent 0 3px, var(--scanline) 3px 4px);
+}
+
+/* 03. layout */
+
+.phone {
+  position: relative;
+  max-width: 430px;
+  min-height: 100dvh;
+  margin: 0 auto;
+  overflow-x: hidden;
+  border-left: 1px solid var(--line-soft);
+  border-right: 1px solid var(--line-soft);
+  background:
+    radial-gradient(
+      120% 50% at 50% -10%,
+      color-mix(in srgb, var(--blue) 6%, transparent) 0%,
+      transparent 60%
+    ),
+    var(--bg);
+  transition: background 0.4s ease;
+}
+
+section {
+  position: relative;
+  padding: 72px 24px;
+}
+
+section + section {
+  border-top: 1px dashed var(--line);
+}
+
+/* 04. editor 상단바 + theme toggle */
+
+.editor-bar {
+  position: sticky;
+  top: 0;
+  z-index: 55; /* 사진(z-index:52)보다 위. scroll할 때 사진이 상단바를 덮지 않게 한다. */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 16px;
+  background: var(--bar-bg);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+
+.dots {
+  display: flex;
+  gap: 6px;
+}
+
+.dots i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+
+.dots i:nth-child(1) {
+  background: #f7768e;
+}
+.dots i:nth-child(2) {
+  background: #e8c07d;
+}
+.dots i:nth-child(3) {
+  background: #9ece6a;
+}
+
+.editor-bar .tab {
+  margin-left: auto;
+  min-width: 0;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 아주 좁은 화면에서는 파일명을 숨겨 이름이 잘리지 않게 */
+@media (max-width: 400px) {
+  .editor-bar .tab .fname {
+    display: none;
+  }
+}
+
+.editor-bar .tab b {
+  color: var(--mint);
+  font-weight: 500;
+}
+
+.editor-bar .tab em {
+  color: var(--rose);
+  font-style: normal;
+}
+
+/* 컴팩트 icon toggle. dark는 ☾, light는 ☀ 이며 좁은 바에서도 깨지지 않는다. */
+.theme-toggle {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 1;
+  color: var(--text-dim);
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    color 0.25s,
+    border-color 0.25s;
+}
+
+.theme-toggle:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
+/* 05. scroll reveal animation */
+
+.rv {
+  opacity: 0;
+  transform: translateY(24px);
+  transition:
+    opacity 0.9s ease,
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.rv.in {
+  opacity: 1;
+  transform: none;
+}
+
+.rv.d1 {
+  transition-delay: 0.12s;
+}
+.rv.d2 {
+  transition-delay: 0.24s;
+}
+.rv.d3 {
+  transition-delay: 0.36s;
+}
+.rv.d4 {
+  transition-delay: 0.48s;
+}
+
+/* 06. section label (code 주석 style) */
+
+.sec-label {
+  margin-bottom: 28px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  letter-spacing: 0.08em;
+  color: var(--comment);
+}
+
+.sec-label::before {
+  content: '// ';
+  opacity: 0.7;
+}
+
+.sec-label::after {
+  content: '';
+  display: inline-block;
+  vertical-align: middle;
+  width: 48px;
+  height: 1px;
+  margin-left: 12px;
+  background: linear-gradient(90deg, var(--line), transparent);
+}
+
+/* 07. HERO (terminal, 이름, merge graph, 장소 banner) */
+
+#hero {
+  padding: 48px 20px 80px;
+}
+
+/* terminal 창 */
+.term {
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-panel);
+}
+
+.term-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.term-head span:last-child {
+  margin-left: auto;
+}
+
+.term-body {
+  /* typing이 끝났을 때의 전체 높이를 미리 확보한다.
+     출력 중에 아래 콘텐츠가 밀리지 않게 하려는 것이다. */
+  min-height: 408px;
+  padding: 20px 18px 24px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 2;
+}
+
+.t-line {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+
+.t-prompt {
+  color: var(--green);
+}
+.t-cmd {
+  color: var(--text);
+}
+.t-out {
+  color: var(--text-dim);
+}
+.t-mint {
+  color: var(--mint);
+}
+.t-rose {
+  color: var(--rose);
+}
+.t-amber {
+  color: var(--amber);
+}
+.t-green {
+  color: var(--green);
+}
+
+.cursor {
+  display: inline-block;
+  width: 9px;
+  height: 18px;
+  vertical-align: -2px;
+  background: var(--mint);
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* 두 branch가 합쳐지는 SVG */
+.merge-fig {
+  display: block;
+  width: 220px;
+  margin: 40px auto 0;
+}
+
+.merge-fig path {
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+}
+
+.merge-fig .br-g {
+  stroke: var(--mint);
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+}
+
+.merge-fig .br-b {
+  stroke: var(--rose);
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+}
+
+.merge-fig.in .br-g,
+.merge-fig.in .br-b {
+  animation: draw 2.2s ease forwards 0.3s;
+}
+
+.merge-fig circle {
+  opacity: 0;
+}
+
+.merge-fig .dot-g {
+  fill: var(--mint);
+}
+.merge-fig .dot-b {
+  fill: var(--rose);
+}
+.merge-fig .dot-m {
+  fill: var(--text-bright);
+}
+
+.merge-fig.in circle {
+  animation: pop 0.5s ease forwards 2.2s;
+}
+
+@keyframes draw {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes pop {
+  to {
+    opacity: 1;
+  }
+}
+
+.hero-names {
+  margin-top: 56px;
+  text-align: center;
+}
+
+.hero-names .ver {
+  margin-bottom: 18px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  letter-spacing: 0.25em;
+  color: var(--comment);
+}
+
+.hero-names h1 {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: 38px;
+  line-height: 1.5;
+  letter-spacing: 0.06em;
+  color: var(--text-bright);
+}
+
+.hero-names h1 .amp {
+  display: block;
+  margin: 6px 0;
+  font-family: var(--mono);
+  font-size: 18px;
+  letter-spacing: 0.3em;
+  color: var(--rose);
+}
+
+.hero-names .eng {
+  margin-top: 10px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  letter-spacing: 0.18em;
+  color: var(--text-dim);
+}
+
+.hero-names .date-line {
+  margin-top: 22px;
+  font-family: var(--mono);
+  font-size: 15px;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+}
+
+.hero-names .date-line b {
+  color: var(--amber);
+  font-weight: 500;
+}
+
+/* 장소 banner. 헷갈리지 않도록 시인성을 최우선으로 둔다. */
+.venue-banner {
+  margin-top: 36px;
+  padding: 26px 20px;
+  text-align: center;
+  background: var(--panel);
+  border: 1px solid color-mix(in srgb, var(--rose) 35%, var(--line));
+  border-radius: 14px;
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--rose) 6%, transparent);
+}
+
+.venue-banner .vb-label {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.3em;
+  color: var(--rose);
+}
+
+.venue-banner .vb-name {
+  margin-top: 12px;
+  font-family: var(--serif);
+  font-size: 27px;
+  letter-spacing: 0.06em;
+  color: var(--text-bright);
+}
+
+.venue-banner .vb-name small {
+  font-size: 18px;
+  color: var(--text-dim);
+}
+
+.venue-banner .vb-addr {
+  margin-top: 8px;
+  font-size: 17px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.venue-banner .vb-sub {
+  margin-top: 6px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+
+/* hidden(release) page 입구 banner. 예식 시각 이후 JS가 .show를 붙인다. */
+.release-banner {
+  display: none;
+  margin-top: 24px;
+  padding: 17px 16px;
+  text-align: center;
+  text-decoration: none;
+  background: color-mix(in srgb, var(--green) 8%, transparent);
+  border: 1px solid color-mix(in srgb, var(--green) 40%, transparent);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--green);
+  animation: banner-glow 2.4s ease infinite;
+}
+
+.release-banner.show {
+  display: block;
+}
+
+@keyframes banner-glow {
+  0%,
+  100% {
+    box-shadow: 0 0 16px color-mix(in srgb, var(--green) 12%, transparent);
+  }
+  50% {
+    box-shadow: 0 0 36px color-mix(in srgb, var(--green) 26%, transparent);
+  }
+}
+
+/* 08. main 사진 & 가로 gallery & lightbox */
+
+/* image viewer 창 frame (main 사진) */
+.photo-frame {
+  overflow: hidden;
+  margin-top: 36px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: var(--shadow-panel);
+}
+
+.photo-frame .ph-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  background: var(--panel-2);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+}
+
+.photo-frame .ph-head span:last-child {
+  margin-left: auto;
+  color: var(--comment);
+}
+
+.photo-frame .ph-body {
+  aspect-ratio: 4 / 5;
+}
+
+/* gallery. 3x3 grid에 pagination. */
+.gallery {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4px;
+}
+
+.g-item {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+  background: var(--panel);
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.g-item:hover {
+  border-color: color-mix(in srgb, var(--rose) 45%, transparent);
+}
+
+/* gallery 안내 */
+.gallery-hint {
+  margin-top: 12px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  color: var(--comment);
+}
+
+/* gallery pagination */
+.gallery-pager {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.gallery-pager .pg-btn {
+  min-width: 32px;
+  height: 32px;
+  padding: 0 8px;
+  -webkit-appearance: none; /* iOS의 native button rendering을 끈다. active 숫자가 안 보이던 문제를 막는다. */
+  appearance: none;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    color 0.25s,
+    background 0.25s;
+}
+
+/* hover는 실제 pointer(마우스) 기기에서만 적용한다.
+   touch에서는 tap한 뒤 :hover가 고착돼 비활성 page button이 활성(mint 테두리)처럼 보였다. */
+@media (hover: hover) {
+  .gallery-pager .pg-btn:hover:not(:disabled) {
+    border-color: var(--mint);
+    color: var(--mint);
+  }
+}
+
+.gallery-pager .pg-btn.active {
+  background: var(--mint);
+  border-color: var(--mint);
+  color: var(--bg);
+  -webkit-text-fill-color: var(--bg); /* iOS: color가 무시돼 숫자가 안 보이던 것 강제 지정 */
+}
+
+.gallery-pager .pg-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* 실제 사진 */
+.g-item img,
+.ph-body img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 사진 위에 그어지던 CRT scanline(body::after, z-index:51)과 grain(z-index:50)을
+   사진 영역에서만 걷어낸다. 사진 container를 overlay 위로 올리는 방식이고,
+   나머지 UI는 CRT 톤을 그대로 유지한다.
+   상단바 .editor-bar는 z-index:55라 사진보다 위에 있어, scroll해도 사진이 바를 덮지 않는다.
+   주의: .gallery도 반드시 함께 올린다. developer.js의 page 넘김 전환이 #gallery에
+     inline transform: translateX(0)을 남기는데, translateX(0)도 none이 아니라서
+     stacking context를 새로 만든다. 그러면 자식 .g-item의 z-index:52가 .gallery 안에
+     갇혀 root scanline(51) 아래로 내려가고, page를 넘긴 뒤부터 사진에 가로줄이 생긴다.
+     그래서 transform을 받는 .gallery container 자체를 scanline 위(52)로 올려 고정한다. */
+.photo-frame,
+.gallery,
+.g-item {
+  position: relative;
+  z-index: 52;
+}
+
+/* 사진이 아직 없을 때의 placeholder */
+.ph-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--mint) 7%, transparent),
+    color-mix(in srgb, var(--rose) 9%, transparent)
+  );
+  border: 1px dashed color-mix(in srgb, var(--text-dim) 40%, transparent);
+  border-radius: inherit;
+  font-family: var(--mono);
+  text-align: center;
+}
+
+.ph-placeholder .ico {
+  font-size: 28px;
+  opacity: 0.75;
+}
+
+.ph-placeholder .fn {
+  font-size: 12.5px;
+  color: var(--text-dim);
+}
+
+.ph-placeholder .hint {
+  font-size: 11px;
+  color: var(--comment);
+}
+
+/* lightbox */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(4, 6, 10, 0.92);
+  backdrop-filter: blur(8px);
+}
+
+.lightbox.open {
+  display: flex;
+}
+
+.lightbox img {
+  max-width: 92vw;
+  max-height: 78vh;
+  border-radius: 10px;
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.6);
+}
+
+.lightbox .lb-cap {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--mono);
+  font-size: 13.5px;
+  color: #aebccb;
+}
+
+.lightbox button {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: 46px;
+  height: 46px;
+  background: rgba(0, 0, 0, 0.55); /* 시인성↑: 어두운 알약 + 밝은 테두리 (일반 version과 통일) */
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 20px;
+  cursor: pointer;
+  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(2px);
+  backdrop-filter: blur(2px);
+  transition:
+    background 0.2s,
+    transform 0.15s;
+}
+
+.lightbox button:hover {
+  background: rgba(0, 0, 0, 0.78);
+}
+.lightbox button:active {
+  transform: scale(0.93);
+}
+
+/* main(index) version과 통일한다. 닫기는 상단 우측에 작게, 이전과 다음은 사진 좌우 끝에
+   세로 중앙으로 약간 투명하게 둔다. 닫기(✕)는 화살표보다 작게(34px) 줄였다. */
+.lightbox .lb-close {
+  top: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  font-size: 16px;
+}
+.lightbox .lb-prev,
+.lightbox .lb-next {
+  top: 50%;
+  bottom: auto;
+  transform: translateY(-50%);
+  opacity: 0.55;
+}
+.lightbox .lb-prev {
+  left: 10px;
+}
+.lightbox .lb-next {
+  right: 10px;
+}
+.lightbox .lb-prev:active,
+.lightbox .lb-next:active {
+  transform: translateY(-50%) scale(0.93);
+}
+
+/* 가로/짧은 화면(세로 여백 부족): 사진을 더 줄여 하단 button과 겹치지 않게 */
+@media (max-height: 600px) {
+  .lightbox img {
+    max-height: 62vh;
+  }
+}
+
+/* 09. 초대 문구 (README) */
+
+.readme {
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 2.2;
+  color: var(--text);
+  text-align: center;
+  word-break: keep-all;
+}
+
+.readme .hl-g {
+  color: var(--mint);
+}
+.readme .hl-b {
+  color: var(--rose);
+}
+.readme .hl-ok {
+  color: var(--green);
+} /* 연두. 승인과 성공(LGTM approve)에 쓴다. */
+
+.readme p + p {
+  margin-top: 30px;
+}
+
+.readme .small {
+  font-size: 16px;
+  line-height: 2;
+  color: var(--text-dim);
+}
+
+.md-quote {
+  margin: 36px 0 0;
+  padding: 4px 0 4px 18px;
+  border-left: 2px solid var(--rose);
+  text-align: left;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--text-dim);
+}
+
+/* 10. 신랑신부 card (couple.yaml) */
+
+.yaml-card {
+  position: relative;
+  overflow: hidden;
+  padding: 22px 20px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 15px;
+  line-height: 2.1;
+}
+
+.yaml-card + .yaml-card {
+  margin-top: 18px;
+}
+
+.yaml-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 3px;
+}
+
+.yaml-card.groom::before {
+  background: linear-gradient(var(--mint), transparent);
+}
+.yaml-card.bride::before {
+  background: linear-gradient(var(--rose), transparent);
+}
+
+.yaml-card .key {
+  color: var(--blue);
+}
+.yaml-card .str {
+  color: var(--amber);
+}
+.yaml-card .cmt {
+  color: var(--comment);
+}
+
+.yaml-card .who {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  padding: 4px 10px;
+  border: 1px solid var(--line);
+  border-radius: 99px;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+}
+
+.yaml-card.groom .who {
+  color: var(--mint);
+  border-color: color-mix(in srgb, var(--mint) 30%, transparent);
+}
+
+.yaml-card.bride .who {
+  color: var(--rose);
+  border-color: color-mix(in srgb, var(--rose) 30%, transparent);
+}
+
+.yaml-card .big-name {
+  font-family: var(--serif);
+  font-size: 26px;
+  letter-spacing: 0.1em;
+  color: var(--text-bright);
+}
+
+/* 11. 깃 log 타임라인 */
+
+/* 좌우 scroll이 생기지 않도록 줄 길이에 맞춰 font 크기를 맞춥니다 */
+.gitlog {
+  overflow-x: auto; /* 안전장치. 평소에는 scroll이 생기지 않는다. */
+  padding: 22px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 2.2;
+  white-space: pre;
+}
+
+.gitlog .g {
+  color: var(--mint);
+}
+.gitlog .b {
+  color: var(--rose);
+}
+.gitlog .h {
+  color: var(--amber);
+}
+.gitlog .tag {
+  color: var(--green);
+}
+.gitlog .head {
+  color: var(--blue);
+}
+.gitlog .msg {
+  color: var(--text);
+}
+.gitlog .dim {
+  color: var(--comment);
+}
+.gitlog .date {
+  color: var(--blue);
+}
+
+/* 12. CI/CD pipeline */
+
+.pipeline {
+  display: grid;
+  gap: 10px;
+}
+
+.pl-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 15px 16px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 14px;
+}
+
+.pl-step .ic {
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 30px;
+  height: 30px;
+  border: 1px solid var(--line);
+  border-radius: 50%;
+  font-size: 14px;
+  color: transparent; /* done이 되기 전까지 ✓를 숨기고 빈 원만 보여준다 */
+  transition: all 0.4s ease;
+}
+
+.pl-step .nm {
+  flex: 1;
+  color: var(--text-dim);
+  /* 한글이 음절 중간(빈틈없→는)에서 끊기지 않게 단어(공백) 경계로만 줄바꿈.
+     iOS Safari는 기본이 이렇지만 Android Chrome 등은 음절로 끊어 기기마다 달리 보이던 것 통일. */
+  word-break: keep-all;
+  overflow-wrap: anywhere; /* 한 단어가 줄폭을 넘는 극단적 좁은 화면에서만 예외적으로 끊어 오버플로 방지 */
+}
+
+.pl-step .st {
+  flex: none;
+  margin-left: auto;
+  padding-left: 8px;
+  /* 상태가 PENDING→PASSED/RUNNING→DEPLOYED 로 바뀌며 폭이 변하면 flex:1 인 .nm(이름)의 가용폭이
+     달라져 긴 이름이 reflow → step 높이가 흔들렸다. 가장 긴 'DEPLOYED' 폭을 미리 확보(고정폭+우정렬)해
+     상태가 바뀌어도 이름칸 폭이 그대로 → 높이 변화 없음. */
+  min-width: 78px;
+  text-align: right;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  color: var(--comment);
+}
+
+.pl-step.done .ic {
+  background: color-mix(in srgb, var(--green) 12%, transparent);
+  border-color: color-mix(in srgb, var(--green) 40%, transparent);
+  color: var(--green);
+}
+
+.pl-step.done .nm {
+  color: var(--text);
+}
+.pl-step.done .st {
+  color: var(--green);
+}
+
+/* glyph(⟳) 대신 보더 링 spinner를 쓴다. 글꼴이 깨지지 않고 매끈하게 돈다. */
+.pl-step.run .ic {
+  border: 2px solid var(--line);
+  border-top-color: var(--amber);
+  color: transparent;
+  animation: spin 0.9s linear infinite;
+}
+
+.pl-step.run .st {
+  color: var(--amber);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* 13. countdown & 달력 */
+
+.dday-wrap {
+  margin-top: 36px;
+  text-align: center;
+}
+
+.dday-label {
+  font-family: var(--mono);
+  font-size: 13.5px;
+  letter-spacing: 0.2em;
+  color: var(--comment);
+}
+
+.dday {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  gap: 6px;
+  margin-top: 16px;
+}
+
+.dd-cell {
+  flex: 1 1 0;
+  min-width: 0; /* 좁은 화면에서 cell이 줄어들어 가로로 안 삐져나가게 */
+  max-width: 88px;
+  padding: 14px 4px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+}
+
+.dd-cell b {
+  display: block;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: clamp(22px, 7vw, 29px);
+  color: var(--mint);
+  font-variant-numeric: tabular-nums;
+}
+
+.dd-cell span {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--comment);
+}
+
+.dd-sep {
+  align-self: center;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--comment);
+}
+
+/* 달력 */
+.cal {
+  margin-top: 40px;
+  padding: 24px 18px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.cal-title {
+  margin-bottom: 18px;
+  text-align: center;
+  font-family: var(--mono);
+  font-size: 15px;
+  letter-spacing: 0.25em;
+  color: var(--text-dim);
+}
+
+.cal table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+}
+
+.cal th {
+  padding: 6px 0;
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.1em;
+  color: var(--comment);
+}
+
+/* 일요일 열은 붉게 */
+.cal th:first-child,
+.cal td:first-child .d {
+  color: color-mix(in srgb, var(--red) 70%, transparent);
+}
+
+.cal td {
+  padding: 4px 0;
+  text-align: center;
+}
+
+.cal .d {
+  display: inline-grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  font-size: 14.5px;
+  color: var(--text-dim);
+}
+
+.cal .d.wedding-day {
+  background: var(--rose);
+  color: var(--on-rose);
+  font-weight: 700;
+  animation: pulse 2.4s ease infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 0 4px color-mix(in srgb, var(--rose) 14%, transparent),
+      0 0 24px color-mix(in srgb, var(--rose) 28%, transparent);
+  }
+  50% {
+    box-shadow:
+      0 0 0 7px color-mix(in srgb, var(--rose) 10%, transparent),
+      0 0 36px color-mix(in srgb, var(--rose) 40%, transparent);
+  }
+}
+
+/* 14. code block (.env / curl 응답) & button */
+
+.envblock {
+  overflow-x: auto;
+  margin-top: 20px; /* code와 안내 block 사이 간격. button과 연속 block이 붙지 않게 한다. */
+  padding: 22px 20px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  line-height: 2.2;
+}
+
+/* section 첫 block은 sec-label과의 간격(28px)을 그대로 유지한다. 위 margin이 중복되지 않게 한다. */
+.sec-label + .envblock {
+  margin-top: 0;
+}
+
+/* code 줄은 중간에서 꺾지 않는다. 길면 가로로 scroll한다. */
+.envblock > div {
+  white-space: nowrap;
+}
+
+.envblock .k {
+  color: var(--blue);
+}
+.envblock .v {
+  color: var(--amber);
+}
+.envblock .c {
+  color: var(--comment);
+}
+.envblock .p {
+  color: var(--green);
+} /* prompt $ */
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.btn {
+  flex: 1;
+  min-width: 110px;
+  padding: 14px 10px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    color 0.25s,
+    transform 0.15s;
+}
+
+.btn:active {
+  transform: scale(0.97);
+}
+
+.btn:hover {
+  border-color: var(--mint);
+  color: var(--mint);
+}
+
+.btn.rose:hover {
+  border-color: var(--rose);
+  color: var(--rose);
+}
+
+/* 네이버 지도 embed. 키가 있으면 지도를, 없으면 안내 문구(.is-fallback)를 보여준다. */
+.map-embed {
+  height: 260px;
+  margin-top: 18px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: var(--panel-2);
+}
+
+.map-embed .map-note {
+  display: none;
+}
+
+.map-embed.is-fallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  padding: 20px 18px;
+  text-align: center;
+}
+
+.map-embed.is-fallback .map-note {
+  display: block;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+}
+
+/* 15. 마음 전하실 곳 */
+
+.gift-note {
+  margin: -10px 0 20px;
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-dim);
+}
+
+details.gift {
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+details.gift + details.gift {
+  margin-top: 12px;
+}
+
+details.gift summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 17px 18px;
+  list-style: none;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 14.5px;
+  color: var(--text-dim);
+}
+
+details.gift summary::-webkit-details-marker {
+  display: none;
+}
+
+details.gift summary .arrow {
+  margin-left: auto;
+  color: var(--comment);
+  transition: transform 0.3s;
+}
+
+details.gift[open] summary .arrow {
+  transform: rotate(90deg);
+}
+
+details.gift .acc-list {
+  border-top: 1px solid var(--line-soft);
+}
+
+.acc {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 15px 18px;
+  font-size: 15px;
+}
+
+.acc + .acc {
+  border-top: 1px dashed var(--line-soft);
+}
+
+.acc .nm {
+  flex: none;
+  width: 68px;
+  font-weight: 400;
+  color: var(--text);
+}
+
+.acc .no {
+  display: flex; /* 은행(.bank) → 그 아래 계좌번호(.num) 세로 배치 */
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 2px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  color: var(--text-dim);
+}
+.acc .no .bank {
+  color: var(--text-dim);
+}
+.acc .no .num {
+  color: var(--text);
+} /* 번호는 조금 더 또렷하게 */
+
+.acc button {
+  flex: none;
+  margin-left: auto;
+  padding: 7px 11px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.acc button:hover {
+  color: var(--mint);
+  border-color: var(--mint);
+}
+
+.acc button.copied {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+/* 계좌 펼침 button. details 밖 container용이며 js/private.js가 만든다. */
+.reveal-btn {
+  display: inline-block;
+}
+
+.acc-note {
+  padding: 14px 18px;
+  font-family: var(--mono);
+  font-size: 13px;
+  color: var(--text-dim);
+  text-align: center;
+}
+
+/* 16. RSVP(deploy) & confetti */
+
+#deploy {
+  padding-bottom: 90px;
+  text-align: center;
+}
+
+#deploy .sec-label {
+  text-align: left;
+}
+
+/* AI agent들의 축하. 흐르는 marquee chip과 순환 메시지. */
+.ai-guests {
+  margin-top: 30px;
+  padding: 18px 0 14px;
+  overflow: hidden;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+}
+
+.ai-guests .ai-head {
+  padding: 0 18px;
+  text-align: left;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  color: var(--comment);
+}
+
+/* AI 캐릭터 행렬. 둥실 떠 있다가 자기 차례에 폴짝 뛴다. */
+.ai-cast {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 7px;
+  margin-top: 18px;
+  padding: 0 8px;
+}
+
+.ai-char {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  width: 50px;
+  color: var(--text-bright); /* currentColor 단색 icon(OpenAI/Grok)의 theme색 */
+}
+
+.ai-char .ai-ico {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  animation: ai-bob 2.8s ease-in-out infinite;
+  transition:
+    transform 0.3s ease,
+    filter 0.3s ease;
+}
+
+.ai-char .ai-ico svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* 둥실거림이 겹치지 않게 시차 부여 */
+.ai-char:nth-child(2n) .ai-ico {
+  animation-delay: 0.5s;
+}
+.ai-char:nth-child(3n) .ai-ico {
+  animation-delay: 1.1s;
+}
+.ai-char:nth-child(5n) .ai-ico {
+  animation-delay: 1.7s;
+}
+
+@keyframes ai-bob {
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.ai-char .ai-nm {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.02em;
+  color: var(--comment);
+}
+
+/* 말하는 캐릭터: 점프 + 발광 + 이름 강조 */
+.ai-char.speaking .ai-ico {
+  animation: ai-cheer 0.65s ease;
+  position: relative;
+}
+
+/* 발광을 filter:drop-shadow 대신 둥근 radial-gradient 의사요소로 구현.
+   iOS WebKit은 filter 글로우를 사각형 색 block으로 render하는 버그가 있어
+   filter를 아예 쓰지 않는다. radial-gradient는 모서리가 투명이라 원형으로 보임. */
+.ai-char.speaking .ai-ico::after {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--c) 0%, transparent 60%);
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+.ai-char.speaking .ai-nm {
+  color: var(--text);
+}
+
+@keyframes ai-cheer {
+  0% {
+    transform: translateY(0);
+  }
+  35% {
+    transform: translateY(-12px) rotate(-7deg) scale(1.15);
+  }
+  65% {
+    transform: translateY(-6px) rotate(6deg) scale(1.1);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+/* deploy 승인 순간: 전원 환호 */
+.ai-cast.party .ai-char .ai-ico {
+  animation: ai-cheer 0.7s ease 3;
+}
+
+/* 순환 메시지. 높이를 고정해 메시지 길이가 달라도 위아래로 흔들리지 않는다. */
+.ai-msg {
+  height: 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 16px;
+  padding: 0 18px;
+  overflow: hidden;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+  word-break: keep-all;
+  opacity: 1;
+  transition: opacity 0.45s ease;
+}
+
+.ai-msg.fade {
+  opacity: 0;
+}
+
+.ai-msg .who {
+  display: block;
+  margin-bottom: 3px;
+  font-weight: 700;
+}
+
+.ai-msg .txt {
+  display: block;
+  color: var(--text-dim);
+}
+
+/* 축하 한마디 입력. 어두운 console칸과 왼쪽 prompt로 shell($)처럼 보이게 한다. */
+.deploy-line {
+  position: relative;
+  width: 100%;
+  max-width: 380px;
+  margin: 28px auto 0;
+}
+
+.deploy-prompt {
+  position: absolute;
+  left: 14px;
+  top: 12px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--green);
+  pointer-events: none;
+}
+
+.deploy-input {
+  display: block;
+  width: 100%;
+  padding: 12px 14px 12px 32px; /* 왼쪽 prompt($) 자리 확보 */
+  background: var(--bg-deep); /* 주변 panel보다 어둡게 → console 입력칸처럼 구분 */
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  color: var(--text-bright);
+  caret-color: var(--mint);
+  text-align: left;
+  box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.35);
+}
+
+.deploy-input::placeholder {
+  color: var(--comment);
+}
+
+.deploy-input:focus {
+  outline: none;
+  border-color: var(--mint);
+  box-shadow:
+    inset 0 1px 4px rgba(0, 0, 0, 0.35),
+    0 0 0 3px color-mix(in srgb, var(--mint) 22%, transparent);
+}
+
+.input-hint {
+  margin: 7px 0 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--comment);
+  text-align: center;
+}
+
+/* 축하 한마디 글자수 counter (config.js가 입력창 뒤에 삽입) */
+.bless-count {
+  margin: 7px 0 0;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--comment);
+  text-align: center;
+}
+
+.bless-count.over {
+  color: var(--red);
+  font-weight: 500;
+}
+
+.deploy-input.over-limit {
+  border-color: var(--red);
+}
+
+.deploy-btn {
+  margin-top: 14px;
+  padding: 16px 24px;
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--mint) 10%, transparent),
+    color-mix(in srgb, var(--rose) 10%, transparent)
+  );
+  border: 1px solid color-mix(in srgb, var(--mint) 28%, transparent);
+  border-radius: 12px;
+  font-family: var(--mono);
+  /* '$ approve --deploy wedding'(가장 긴 label)이 좁은 화면에서도 한 줄에 들어가게:
+     nowrap 로 'wedding' 줄바꿈 차단 + 폭에 따라 font를 clamp 로 축소(button이 2줄로 커지던 문제). */
+  font-size: clamp(13px, 4vw, 16px);
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  max-width: 100%;
+  color: var(--text-bright);
+  cursor: pointer;
+  box-shadow: 0 0 32px color-mix(in srgb, var(--mint) 7%, transparent);
+  transition: all 0.3s;
+}
+
+.deploy-btn:hover {
+  border-color: var(--mint);
+  box-shadow: 0 0 48px color-mix(in srgb, var(--mint) 16%, transparent);
+}
+
+.deploy-btn:active {
+  transform: scale(0.96);
+}
+
+.deploy-btn.deployed {
+  border-color: var(--green);
+  color: var(--green);
+  pointer-events: none;
+}
+
+.deploy-msg {
+  min-height: 24px;
+  margin-top: 18px;
+  font-family: var(--mono);
+  font-size: 14px;
+  color: var(--green);
+  opacity: 0;
+  transition: opacity 0.6s;
+}
+
+.deploy-msg.show {
+  opacity: 1;
+}
+
+/* 축하 log. tail -f 느낌의 익명 승인 기록. */
+.approval-log {
+  margin-top: 30px;
+  padding: 18px 18px 14px;
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 2.1;
+}
+
+.approval-log .al-head {
+  margin-bottom: 6px;
+  color: var(--comment);
+}
+
+/* log header와 '더보기'에서 prompt, 명령어, 주석의 색을 나눈다.
+   code와 주석이 같은 색이면 명령어까지 주석처럼 흐리게 읽히기 때문이다.
+   색은 이 theme의 기존 관례를 따라 prompt는 green, code는 text, 주석은 comment로 준다.
+   범위는 .approval-log 안으로만 한정한다. */
+.approval-log .p {
+  color: var(--green);
+}
+.approval-log .cmd {
+  color: var(--text);
+}
+.approval-log .cm {
+  color: var(--comment);
+}
+
+.approval-log .al-line {
+  color: var(--text-dim);
+  line-height: 1.6;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+.approval-log .al-line + .al-line {
+  margin-top: 6px;
+}
+
+.approval-log .al-line .ts {
+  color: var(--blue);
+}
+
+.approval-log .al-line .ok {
+  color: var(--green);
+}
+
+.approval-log .al-line.muted {
+  color: var(--comment);
+}
+
+/* 목록만 세로로 scroll한다. 합계(.al-total)는 scroll 영역 밖이라 항상 보인다.
+   마지막 줄이 반쯤 걸쳐 보이는 것 자체가 아래에 더 있다는 신호가 된다. */
+.approval-log .al-lines {
+  max-height: 150px;
+  overflow-y: auto;
+  padding-right: 8px; /* scrollbar와 글자 사이 여백 */
+  overscroll-behavior: contain; /* 끝까지 내려도 page가 따라 밀리지 않게 */
+  -webkit-overflow-scrolling: touch; /* iOS 관성 scroll */
+  scrollbar-width: thin;
+  scrollbar-color: var(--line) transparent;
+}
+
+.approval-log .al-lines::-webkit-scrollbar {
+  width: 4px;
+}
+.approval-log .al-lines::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.approval-log .al-lines::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 99px;
+}
+
+/* '더보기'. scroll 영역 안, 목록 맨 끝에 있어 끝까지 내려야 보인다.
+   점선 테두리에 좌측 정렬이면 입력칸처럼 읽혀서, 이 theme의 표준 button(.btn)과 같은 차림으로 맞춘다.
+   채운 배경(--panel-2), 실선 --line, radius 10px, 가운데 정렬, 눌림 반응을 준다. */
+.approval-log .al-more {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 11px 12px;
+  background: var(--panel-2);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.5;
+  text-align: center;
+  color: var(--text);
+  cursor: pointer;
+  transition:
+    border-color 0.25s,
+    background 0.25s,
+    transform 0.15s;
+}
+
+@media (hover: hover) {
+  .approval-log .al-more:hover {
+    border-color: var(--mint);
+    background: color-mix(in srgb, var(--mint) 8%, var(--panel-2));
+  }
+
+  .approval-log .al-more:hover .cmd {
+    color: var(--mint);
+  }
+}
+
+.approval-log .al-more:active {
+  transform: scale(0.97);
+}
+
+.approval-log .al-more:disabled {
+  cursor: default;
+  opacity: 0.55;
+  transform: none;
+}
+
+.approval-log .al-total {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--line-soft);
+  color: var(--text);
+}
+
+.approval-log .al-total b {
+  font-weight: 500;
+  color: var(--mint);
+}
+
+.confetti {
+  position: fixed;
+  z-index: 110;
+  pointer-events: none;
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  animation: fall linear forwards;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(110vh) rotate(540deg);
+    opacity: 0.2;
+  }
+}
+
+/* 17. footer (strace) */
+
+footer {
+  padding: 36px 24px 56px;
+  border-top: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 11px;
+  line-height: 2.1;
+  color: var(--comment);
+}
+
+footer .ft-line {
+  white-space: pre-wrap;
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+footer .sys {
+  color: var(--blue);
+}
+footer .str {
+  color: var(--amber);
+}
+footer .heart {
+  color: var(--rose);
+}
+footer .num {
+  color: var(--mint);
+}
+footer .dim {
+  color: var(--comment);
+}
+
+footer .exit {
+  margin-top: 10px;
+  text-align: center;
+  color: var(--text-dim);
+  letter-spacing: 0.06em;
+}
+
+footer .err {
+  color: var(--red);
+}
+
+/* 다른 version으로 가는 link. main version처럼 2열 반반으로 두고 높이는 절반 정도로 준다. */
+footer .version-links {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 22px;
+}
+
+footer .version-link {
+  flex: 1;
+  padding: 8px 8px;
+  text-align: center;
+  text-decoration: none;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--text-dim);
+  white-space: nowrap;
+  transition:
+    border-color 0.25s,
+    color 0.25s;
+}
+
+footer .version-link:hover {
+  border-color: var(--rose);
+  color: var(--rose);
+}
+
+/* 청첩장 공유 button */
+footer .share-btn {
+  display: block;
+  width: 100%;
+  margin-bottom: 14px;
+  padding: 13px 12px;
+  background: var(--panel);
+  border: 1px solid var(--mint);
+  border-radius: 10px;
+  font-family: var(--mono);
+  font-size: 13.5px;
+  letter-spacing: 0.03em;
+  color: var(--mint);
+  cursor: pointer;
+  transition:
+    background 0.25s,
+    color 0.25s,
+    transform 0.15s;
+}
+
+footer .share-btn:hover {
+  background: var(--mint);
+  color: #0a0e15;
+}
+footer .share-btn:active {
+  transform: scale(0.98);
+}
+
+/* 18. 반응형 & 접근성 */
+
+@media (max-width: 380px) {
+  .dd-cell {
+    padding: 12px 2px 9px;
+  }
+
+  .dd-cell b {
+    font-size: 23px;
+  }
+
+  .term-body {
+    font-size: 12px;
+    min-height: 360px; /* 줄바꿈이 늘어나는 좁은 화면 기준 재계산 */
+  }
+
+  .gitlog {
+    font-size: 11px;
+  }
+
+  .ai-char {
+    width: 42px;
+  }
+
+  .ai-char .ai-ico {
+    width: 32px;
+    height: 32px;
+  }
+
+  .cal .d {
+    width: 34px;
+    height: 34px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .rv {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+</style>
+</head>
+
+<body>
+<div class="phone">
+
+  <!-- editor 상단바 -->
+  <header class="editor-bar">
+    <div class="dots"><i></i><i></i><i></i></div>
+    <div class="tab"><b></b> ♥ <em></em><span class="fname"> — invitation.md</span></div>
+    <button class="theme-toggle" id="themeToggle" type="button" aria-label="테마 전환">☾</button>
+  </header>
+
+
+  <!-- HERO: terminal, 이름, 장소, main 사진 -->
+  <section id="hero">
+
+    <!-- terminal 창: git merge typing 연출 -->
+    <div class="term">
+      <div class="term-head">
+        <span>guest@wedding ~</span>
+        <span>zsh — 80×24</span>
+      </div>
+      <div class="term-body" id="termBody"></div>
+    </div>
+
+    <!-- 두 branch가 하나로 합쳐지는 graph -->
+    <svg class="merge-fig rv" viewBox="0 0 220 90" aria-hidden="true">
+      <path class="br-g" d="M20 14 C 80 14, 90 45, 110 45 L 200 45" />
+      <path class="br-b" d="M20 76 C 80 76, 90 45, 110 45 L 200 45" />
+      <circle class="dot-g" cx="20" cy="14" r="4" />
+      <circle class="dot-b" cx="20" cy="76" r="4" />
+      <circle class="dot-m" cx="200" cy="45" r="5" />
+    </svg>
+
+    <div class="hero-names rv d1">
+      <div class="ver">WEDDING — RELEASE v1.0.0</div>
+      <h1>../../../etc/passwd<span class="amp">&amp;&amp;</span>; rm -rf / #</h1>
+      <div class="eng"> &amp; </div>
+      <div class="date-line">
+        <b id="heroDate">2026.11.11 WED AM 11:11</b>
+      </div>
+    </div>
+
+    <!-- 장소 banner. 사진보다 먼저, 또렷하게 보여준다. -->
+    <div class="venue-banner rv d2">
+      <div class="vb-label">LOCATION</div>
+      <div class="vb-name">보안테스트홀 <small></small></div>
+      <div class="vb-addr">테스트주소</div>
+      <div class="vb-sub"> 인근</div>
+    </div>
+
+    <!-- hidden page 입구. 예식 시각이 지나면 JS가 노출한다. -->
+    <a class="release-banner" id="releaseBanner" href="release.html">
+      🎉 deploy 완료! — RELEASE NOTES v1.0.0 보기 →
+    </a>
+
+    <!-- main 웨딩 사진 (image viewer frame) -->
+    <div class="photo-frame rv d3">
+      <div class="ph-head">
+        <span>main.jpg — preview</span>
+        <span>3024 × 4032</span>
+      </div>
+      <div class="ph-body" id="mainPhoto"></div>
+    </div>
+  </section>
+
+
+  <!-- 초대 문구 -->
+  <section id="invite">
+    <div class="sec-label rv">section: invitation — README.md</div>
+
+    <div class="readme rv d1">
+      <p>
+        서로 다른 환경에서<br />
+        각자의 <span class="hl-g">branch</span>에 코드를 쓰던 두 사람이<br />
+        이제 하나의 <span class="hl-g">repository</span>로<br />
+        함께 <span class="hl-b">merge</span>하기로 했습니다.
+      </p>
+      <p>
+        버그 같은 날엔 함께 <span class="hl-b">debug</span>하고<br />
+        좋은 날엔 <span class="hl-g">git log</span>를 보고 기뻐하며<br />
+        서로의 든든한 <span class="hl-g">pair</span>로<br />
+        정성껏 <span class="hl-b">commit</span>하겠습니다.
+      </p>
+      <p class="small">
+        저희의 첫 <span class="hl-b">deploy</span>에<br />
+        귀한 걸음으로 <span class="hl-g">LGTM approve</span> 해주시면<br />
+        더없는 기쁨으로 간직하겠습니다.
+      </p>
+    </div>
+  </section>
+
+
+  <!-- 신랑 & 신부 -->
+  <section id="couple">
+    <div class="sec-label rv">section: couple — couple.yaml</div>
+
+    <div class="yaml-card groom rv d1">
+      <span class="who">GROOM</span>
+      <div><span class="key">groom</span>:</div>
+      <div>&nbsp;&nbsp;<span class="key">name</span>: <span class="big-name">../../../etc/passwd</span></div>
+      <div>&nbsp;&nbsp;<span class="key">name_en</span>: <span class="str">""</span></div>
+      <div>&nbsp;&nbsp;<span class="key">role</span>: <span class="str">""</span></div>
+      <div>&nbsp;&nbsp;<span class="key">parents</span>: [<span class="str">""</span>, <span class="str">""</span>]</div>
+      <div>&nbsp;&nbsp;<span class="key">rank</span>: <span class="str"></span>  <span class="cmt"># </span></div>
+    </div>
+
+    <div class="yaml-card bride rv d2">
+      <span class="who">BRIDE</span>
+      <div><span class="key">bride</span>:</div>
+      <div>&nbsp;&nbsp;<span class="key">name</span>: <span class="big-name">; rm -rf / #</span></div>
+      <div>&nbsp;&nbsp;<span class="key">name_en</span>: <span class="str">""</span></div>
+      <div>&nbsp;&nbsp;<span class="key">role</span>: <span class="str">""</span></div>
+      <div>&nbsp;&nbsp;<span class="key">parents</span>: [<span class="str">""</span>, <span class="str">""</span>]</div>
+      <div>&nbsp;&nbsp;<span class="key">rank</span>: <span class="str"></span>  <span class="cmt"># </span></div>
+    </div>
+  </section>
+
+
+  <!-- gallery (가로 swipe) -->
+  <section id="gallery-sec">
+    <div class="sec-label rv">section: gallery — photos/*.jpg</div>
+    <div class="gallery" id="gallery">
+      <!-- js/developer.js가 CONFIG.photos.gallery를 보고 자동 생성한다 -->
+    </div>
+    <div class="gallery-hint rv">// click to zoom</div>
+  </section>
+
+
+  <!-- 우리의 기록 (git log) -->
+  <section id="timeline">
+    <div class="sec-label rv">section: our-history — git log --graph</div>
+
+    <pre class="gitlog rv d1">
+<span class="dim">$ git log --graph --date=short</span>
+
+*   <span class="h">e5f6a7b</span> <span class="head">(HEAD -&gt; main, </span><span class="tag">tag: v1.0.0</span><span class="head">)</span>
+<span class="g">|</span><span class="b">\</span>  <span class="date">2026-11-11</span> <span class="msg">Merge pull request #1: 평생을 함께하기로 하다</span>
+<span class="g">|</span> <span class="b">*</span> <span class="h">d4e5f6a</span> <span class="msg">feat(): "yes" 반환 — LGTM, approve</span>
+<span class="g">*</span> <span class="b">|</span> <span class="h">c3d4e5f</span> <span class="msg">feat(): 프러포즈 PR open</span>
+<span class="g">|</span><span class="b">/</span>
+<span class="g">*</span>   <span class="h">b2c3d4e</span> <span class="msg">build(deps): 서로를 dependency로 추가</span>
+<span class="g">*</span>   <span class="h">a1b2c3d</span> <span class="date">2026-11-11</span> <span class="msg">init: 첫 만남 — repository 생성</span>
+    </pre>
+  </section>
+
+
+  <!-- pipeline + D-day + 달력 -->
+  <section id="dday-sec">
+    <div class="sec-label rv">section: ci/cd — marriage-pipeline.yml</div>
+
+    <div class="pipeline rv d1" id="pipeline">
+      <div class="pl-step"><span class="ic">✓</span><span class="nm">build: 두 사람의 마음을 하나로 build</span><span class="st">PENDING</span></div>
+      <div class="pl-step"><span class="ic">✓</span><span class="nm">test: 연애 전 구간 test 통과</span><span class="st">PENDING</span></div>
+      <div class="pl-step"><span class="ic">✓</span><span class="nm">security-scan: 빈틈없는 사이, vulnerability 0건</span><span class="st">PENDING</span></div>
+      <div class="pl-step"><span class="ic">✓</span><span class="nm">approve: 양가 부모님 승인 완료</span><span class="st">PENDING</span></div>
+      <div class="pl-step"><span class="ic">✓</span><span class="nm">deploy: 결혼식 - 평생의 시작</span><span class="st">PENDING</span></div>
+    </div>
+
+    <div class="dday-wrap rv d2">
+      <div class="dday-label">DEPLOY COUNTDOWN — D-<span id="ddayNum">000</span></div>
+      <div class="dday">
+        <div class="dd-cell"><b id="cdD">00</b><span>DAYS</span></div>
+        <div class="dd-sep">:</div>
+        <div class="dd-cell"><b id="cdH">00</b><span>HOURS</span></div>
+        <div class="dd-sep">:</div>
+        <div class="dd-cell"><b id="cdM">00</b><span>MIN</span></div>
+        <div class="dd-sep">:</div>
+        <div class="dd-cell"><b id="cdS">00</b><span>SEC</span></div>
+      </div>
+    </div>
+
+    <div class="cal rv d3">
+      <div class="cal-title" id="calTitle">NOVEMBER 2026</div>
+      <table id="calTable" aria-label="예식 달력"></table>
+    </div>
+  </section>
+
+
+  <!-- 예식 정보 -->
+  <section id="info">
+    <div class="sec-label rv">section: wedding-info — production.env</div>
+
+    <div class="envblock rv d1">
+      <div><span class="c"># 예식 안내</span></div>
+      <div><span class="k">WEDDING_DATE</span>=<span class="v" id="envDate">"2026-11-11 (토)"</span></div>
+      <div><span class="k">WEDDING_TIME</span>=<span class="v" id="envTime">"오전 11시"</span></div>
+      <div><span class="k">VENUE_NAME</span>=<span class="v">"보안테스트홀"</span></div>
+      <div><span class="k">VENUE_HALL</span>=<span class="v">""</span></div>
+      <div><span class="k">VENUE_ADDR</span>=<span class="v">"테스트주소"</span></div>
+    </div>
+  </section>
+
+
+  <!-- 오시는 길 -->
+  <section id="location">
+    <div class="sec-label rv">section: location — curl</div>
+
+    <div class="envblock rv d1">
+      <div><span class="p">$</span> curl -s blog.dongq.dev/api/venue | jq .</div>
+      <div>{</div>
+      <div>&nbsp;&nbsp;<span class="k">"name"</span>: <span class="v">"보안테스트홀"</span>,</div>
+      <div>&nbsp;&nbsp;<span class="k">"hall"</span>: <span class="v">""</span>,</div>
+      <div>&nbsp;&nbsp;<span class="k">"address"</span>: <span class="v">"테스트주소"</span>,</div>
+      <div>&nbsp;&nbsp;<span class="k">"subway"</span>: [</div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;<span class="v">""</span></div>
+      <div>&nbsp;&nbsp;]</div>
+      <div>}</div>
+    </div>
+
+    <!-- 네이버 지도 embed. 키가 있으면 js/config.js가 지도를 그린다. -->
+    <div class="map-embed" id="naverMap" aria-label="예식장 위치 지도">
+      <div class="map-note">// 네이버 지도 혹은 카카오맵 버튼으로 길찾기를 열어주세요</div>
+    </div>
+
+    <div class="btn-row rv d2">
+      <a class="btn" href="" target="_blank" rel="noopener">네이버 지도</a>
+      <a class="btn rose" href="" target="_blank" rel="noopener">카카오맵</a>
+      <button class="btn" id="copyAddr" type="button">주소 복사</button>
+    </div>
+
+    <div class="envblock rv d3">
+      <div><span class="c"># 지하철 — subway</span></div>
+      <div class="v"></div>
+      <div><span class="c"># 버스 — bus</span></div>
+      <div class="v"></div>
+    </div>
+
+    <div class="envblock rv d3">
+      <div><span class="c"># 주차 안내 — parking</span></div>
+      <div class="v"></div>
+    </div>
+  </section>
+
+
+  <!-- 마음 전하실 곳 -->
+  <section id="gift">
+    <div class="sec-label rv">section: gift — 마음 전하실 곳</div>
+    <p class="gift-note rv">
+      참석이 어려우신 분들을 위해 기재했습니다.<br />
+      전해주시는 따뜻한 마음, 소중히 간직하겠습니다.
+    </p>
+
+    <!-- 계좌는 invitation.conf 에만 있다.
+         심어 둔 난독화 blob을 js/private.js가 풀어 그리며, 정적 파일에는 평문이 없다. -->
+    <details class="gift rv d1">
+      <summary><span style="color: var(--mint)">❯</span> 신랑 측 마음 전하실 곳 <span class="arrow">›</span></summary>
+      <div class="acc-list" data-acc="groom" data-copy-label="copy"></div>
+    </details>
+
+    <details class="gift rv d2">
+      <summary><span style="color: var(--rose)">❯</span> 신부 측 마음 전하실 곳 <span class="arrow">›</span></summary>
+      <div class="acc-list" data-acc="bride" data-copy-label="copy"></div>
+    </details>
+  </section>
+
+
+  <!-- RSVP (deploy) -->
+  <section id="deploy">
+    <div class="sec-label rv">section: rsvp — 마지막 승인</div>
+    <p class="readme rv d1" style="font-size: 18px">
+      저희 두 사람의 시작을<br />축하의 마음으로 approve해 주세요.
+    </p>
+
+    <!-- AI agent들의 축하. SVG 캐릭터가 차례로 한 마디씩 한다(js/developer.js에서 생성). -->
+    <div class="ai-guests rv d2">
+      <div class="ai-head">// AI agent들의 축하가 먼저 도착했습니다</div>
+      <div class="ai-cast" id="aiCast" aria-hidden="true"></div>
+      <div class="ai-msg" id="aiMsg"></div>
+    </div>
+
+    <div class="deploy-line rv d3">
+      <span class="deploy-prompt" aria-hidden="true">$</span>
+      <input class="deploy-input" id="deployInput" type="text" maxlength="50"
+             placeholder="echo '축하 한마디' (선택, 최대 50자)" autocomplete="off" />
+    </div>
+    <p class="input-hint rv d3">// 입력하지 않으시면 랜덤한 축하 메세지가 발송됩니다</p>
+    <button class="deploy-btn rv d3" id="deployBtn" type="button">$ approve --deploy wedding</button>
+    <div class="deploy-msg" id="deployMsg"></div>
+
+    <!-- 축하 log: 누가(익명) 언제 승인했는지 tail -f 처럼 표시 -->
+    <div class="approval-log rv d4">
+      <!-- 개발자 version은 git 명령어로 통일한다. 아래 '더보기' button도 git log다. terminal version은 tail을 쓴다. -->
+      <div class="al-head"><span class="p">$</span> <span class="cmd">git log --oneline --all</span></div>
+      <!-- 목록(.al-lines)만 세로로 scroll한다. 합계(.al-total)는 scroll 영역 밖에 둬 항상 보인다.
+           맨 끝의 '더보기'를 누르면 20건씩 이어 붙는다(config.js의 loadMoreApprovals). -->
+      <div class="al-lines" id="alLines"></div>
+      <div class="al-total" id="alTotal"></div>
+    </div>
+  </section>
+
+
+  <!-- footer (strace) -->
+  <footer>
+    <button class="share-btn" id="shareBtn" type="button">$ ./share --invite</button>
+    <div class="version-links">
+      <a class="version-link" href="main.html">🤵👰 일반 버전</a>
+      <a class="version-link" href="terminal.html">$_ 터미널 버전</a>
+    </div>
+
+    <div class="ft-line"><span class="p" style="color: var(--green)">$</span> sudo insmod marriage.ko</div>
+    <div class="ft-line"><span class="p" style="color: var(--green)">$</span> dmesg | grep marriage:</div>
+    <div class="ft-line"><span class="dim">[11141.110]</span> <span class="sys">marriage:</span> module loaded <span class="str">("forever")</span></div>
+    <div class="ft-line"><span class="dim">[11141.111]</span> <span class="sys">marriage:</span> hearts linked, refcount = <span class="num">∞</span></div>
+    <div class="ft-line"><span class="dim">[11141.112]</span> <span class="sys">marriage:</span> <span class="str">thank you for blessing us <span class="heart">♥</span></span></div>
+    <div class="ft-line"><span class="p" style="color: var(--green)">$</span> sudo rmmod marriage</div>
+    <div class="ft-line exit"><span class="err">rmmod: ERROR:</span> marriage is in use — <span class="heart">forever</span></div>
+  </footer>
+</div>
+
+
+<!-- lightbox (사진 크게 보기) -->
+<div class="lightbox" id="lightbox" role="dialog" aria-label="사진 크게 보기">
+  <img id="lightboxImg" src="" alt="웨딩 사진" />
+  <div class="lb-cap" id="lightboxCap"></div>
+  <button class="lb-close" id="lbClose" type="button" aria-label="닫기">✕</button>
+  <button class="lb-prev" id="lbPrev" type="button" aria-label="이전 사진">‹</button>
+  <button class="lb-next" id="lbNext" type="button" aria-label="다음 사진">›</button>
+</div>
+
+<script>
+window.__WEDDING__={"at":"2026-11-11T11:11:00+09:00","firstMetAt":"2026-11-11T11:11:00+09:00","groom":{"name":"../../../etc/passwd","short":"../../../etc/passwd","en":"","initial":".","role":"","parents":[],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"bride":{"name":"; rm -rf / #","short":"; rm -rf / #","en":"","initial":";","role":"","parents":[],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"venue":{"name":"보안테스트홀","hall":"","address":"테스트주소","floor":"","addressCopy":"테스트주소","subway":"","subwayShort":"","lat":0,"lng":0,"zoom":17},"map":{"naver":"","kakao":""},"photos":{"main":"https://picsum.photos/10/10","mainDev":"https://picsum.photos/10/10","bless":"https://picsum.photos/10/10","gallery":[],"galleryPageOrder":{}}};window.__SLUG__="etc-passwd_rm-rf";window.__ACCOUNTS_API_BASE__="https://invite.dongq.dev";window.__NO_API__=true;
+</script>
+<script>
+/*
+   공용 설정. 네 page(index, developer, terminal, release)가 모두 공유한다.
+   날짜, 주소, API, 사진 등 공개 정보는 이 파일에서만 수정하면 된다.
+
+   주의: 계좌번호 같은 개인정보는 여기 두지 않는다.
+     invitation.conf 에만 두고, 난독화한 blob을 HTML에 심는다.
+     결과물과 검색 결과에 평문이 남지 않는다.
+ */
+
+/* HTML에 심어 둔 이 청첩장의 데이터. 원본은 invitation.conf 다.
+   static은 build.sh 가 js/data.js 로 만들어 둔다. with-guestbook은 server가 요청마다 주입한다.
+   추적되는 소스에는 이름도 예식 정보도 없고, 전부 여기서 읽어 쓴다.
+   주입이 없으면 빈 값으로 떨어져 화면만 비어 보인다. */
+/* 이 파일 안에서만 쓰는 이름이다. main.js, developer.js, terminal.js 가 각자
+   const W = CONFIG.date 를 최상위에 선언하므로, 여기서 W 를 쓰면 전역에서 부딪쳐
+   'Identifier W has already been declared' SyntaxError 로 그 파일들이 통째로 죽는다. */
+var WDATA = (typeof window !== 'undefined' && window.__WEDDING__) || {};
+var WV = WDATA.venue || {};
+var WP = WDATA.photos || {};
+
+/* 메인의 프로필 card 한 사람. role은 화면 label이라 코드에 둔다. */
+function profileOf(p, role) {
+  p = p || {};
+  return {
+    role: role,
+    name: p.name || '',
+    initial: p.initial || '',
+    photo: p.photo || '',
+    photoFocus: p.photoFocus || '50% 30%',
+    photoZoom: p.photoZoom || 1,
+    mbti: p.mbti || '',
+    hobby: p.hobby || '',
+  };
+}
+
+const CONFIG = {
+  // 예식 일시. countdown, 달력, D-day가 여기서 자동으로 계산된다.
+  date: new Date(WDATA.at || 0),
+  // 두 사람이 처음 만난 날. terminal version의 uptime과 진행 bar 기준점.
+  firstMet: new Date(WDATA.firstMetAt || WDATA.at || 0),
+
+  // 주소 복사 button이 clipboard에 넣는 문자열
+  address: WV.addressCopy || '',
+
+  // 예식장과 길찾기 link
+  venue: WV,
+  map: WDATA.map || {},
+
+  // 승인(축하) API. 같은 origin에서 서빙하면 /api 로 충분하다. with-guestbook이 그렇다.
+  // 다른 곳의 API를 쓰려면 invitation.conf 의 GUESTBOOK_API_BASE 에 절대 URL을 적는다.
+  // 그 값이 window.__API__ 로 주입된다.
+  // API가 아예 없는 정적 배포에서는 window.__NO_API__ 가 심어지고
+  // 화면이 localStorage demo mode로 fallback한다.
+  // 계약: GET  {baseUrl}/approvals             -> { count, recent: [{ id, ts, msg }] }
+  //       POST {baseUrl}/approvals { message } -> { count }
+  api: {
+    baseUrl: (typeof window !== 'undefined' && window.__API__) || '/api',
+  },
+
+  // 사진. 목록도 invitation.conf 에서 온다. 비어 있으면 자리 표시가 대신 나온다.
+  //   gallery는 3x3 pagination이라 한 page에 9장이고, 배열 순서가 곧 표시 순서다.
+  photos: {
+    main: WP.main || '',
+    mainDev: WP.mainDev || '',
+    bless: WP.bless || '',
+    gallery: WP.gallery || [],
+    galleryPageOrder: WP.galleryPageOrder || {},
+  },
+
+  // 신랑과 신부 프로필. 메인(index)의 '신랑 & 신부' section에서 쓴다.
+  profile: {
+    groom: profileOf(WDATA.groom, '신랑'),
+    bride: profileOf(WDATA.bride, '신부'),
+  },
+
+  // terminal version의 struct person card가 쓰는 원본(부모, 서열, 직업까지)
+  people: { groom: WDATA.groom || {}, bride: WDATA.bride || {} },
+
+  // 네이버 지도 embed. key(ncpKeyId)는 invitation.conf 의 NAVER_MAP_KEY_ID 에 넣는다.
+  //   window.__NAVER_MAP_KEY__ 로 심어지므로 아래 keyId는 늘 비워 둔다.
+  //   key가 없으면 지도 대신 안내 문구가 보이고, 길찾기 button은 그대로 동작한다.
+  naverMap: {
+    keyId: '',
+    lat: WV.lat || 0,
+    lng: WV.lng || 0,
+    zoom: WV.zoom || 17,
+    label: [WV.name, WV.hall].filter(Boolean).join(' '),
+  },
+};
+
+/* 축하 한마디를 저장할 곳이 없는 정적 배포에서는 입력창과 기록 목록을 감춘다.
+   build.sh 가 window.__NO_API__ 를 넣어 알려 준다.
+   그대로 두면 하객이 글을 남겨도 그 사람 browser에만 남고 신랑신부에게 오지 않는데,
+   화면은 잘 보낸 것처럼 보여서 하객을 속이게 된다.
+   AI agent들의 축하는 저장이 필요 없으므로 그대로 둔다.
+   element를 지우지 않고 감추기만 하는 이유는, 각 version의 js가 이 element들을
+   getElementById로 잡아 두기 때문이다. 지우면 null을 참조해 그 파일이 통째로 멈춘다.
+   GUESTBOOK_API_BASE 를 채워 API를 붙이면 __NO_API__ 가 없으므로 다시 보인다. */
+(function hideGuestbookWithoutStore() {
+  if (typeof window === 'undefined' || !window.__NO_API__) return;
+  var st = document.createElement('style');
+  st.id = 'no-guestbook-style';
+  st.textContent =
+    // main version. section 전체가 축하 기능이다. 아래 전체폭 사진은 section 밖이라 남는다.
+    '#bless{display:none}' +
+    // developer version. AI 축하(.ai-guests)는 남기고 나머지를 감춘다.
+    // .readme 는 'approve해 주세요' 안내문이다. 누를 button이 없으니 함께 감춘다.
+    '#deploy .readme,#deploy .deploy-line,#deploy .input-hint,' +
+    '#deployBtn,#deployMsg,#deploy .approval-log{display:none}' +
+    // terminal version. AI 축하(.ai)는 남기고 나머지를 감춘다.
+    '#rsvp .body-text,#rsvp .rsvp-line,#rsvp .input-hint,' +
+    '#rsvpBtn,#rsvpMsg,#rsvp .log{display:none}';
+  (document.head || document.documentElement).appendChild(st);
+
+  /* AI 축하 머리글의 '먼저'를 뺀다. 하객 축하를 받지 않으므로 뒤따라 올 것이 없는데
+     '먼저 도착했습니다'는 곧 다른 축하가 온다는 뜻으로 읽힌다. */
+  function dropMeonjeo() {
+    var heads = document.querySelectorAll('#deploy .ai-head, #rsvp .ai-head');
+    for (var i = 0; i < heads.length; i++) {
+      heads[i].textContent = heads[i].textContent.replace('먼저 도착', '도착');
+    }
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', dropMeonjeo);
+  } else {
+    dropMeonjeo();
+  }
+})();
+
+/* 예식 시각이 지났는지 판정한다. hidden(release) page 공개 여부를 가른다.
+   어느 page든 ?preview=1 을 붙이면 시각 전에도 미리 볼 수 있다(신랑신부 확인용). */
+function isWeddingDeployed() {
+  if (new URLSearchParams(location.search).get('preview') === '1') return true;
+  return Date.now() >= CONFIG.date.getTime();
+}
+
+/* CONFIG.photos 의 파일 이름을 실제 URL로 바꾼다.
+   사진은 photos/ 에 있고 그 base가 window.__PHOTOS__ 로 주입된다. */
+function photoSrc(src) {
+  if (!src) return src;
+  if (/^(https?:)?\/\//.test(src) || src.charAt(0) === '/') return src; // 이미 절대 경로면 그대로
+  var base = (typeof window !== 'undefined' && window.__PHOTOS__) || '';
+  return base + src;
+}
+
+/* 청첩장 자산(css, js, assets)의 base 경로. window.__INV__ 로 주입된다.
+   page가 모두 같은 깊이라 '.' 이 들어가고, 하위 경로 배포에서도 그대로 동작한다. */
+function invAsset(path) {
+  var base = (typeof window !== 'undefined' && window.__INV__) || '';
+  return base + '/' + String(path || '').replace(/^\/+/, '');
+}
+
+/* gallery page 재배열. CONFIG.photos.gallery(평면 배열)를 9장 단위로 나눈 뒤
+   version별 order(1-indexed page 번호 배열)대로 이어붙여 돌려준다.
+   order가 없으면 원래 순서 그대로다.
+   예) order=[1,3,2,4] 이면 1, 3, 2, 4page 순서로 표시한다.
+   index는 main 순서를, developer는 dev 순서를 쓴다. */
+function orderedGallery(order) {
+  var P = 9;
+  var all = (CONFIG.photos && CONFIG.photos.gallery) || [];
+  var pages = [];
+  for (var i = 0; i < all.length; i += P) pages.push(all.slice(i, i + P));
+  var ord =
+    order && order.length
+      ? order
+      : pages.map(function (_, i) {
+          return i + 1;
+        });
+  return ord.reduce(function (acc, n) {
+    return acc.concat(pages[n - 1] || []);
+  }, []);
+}
+
+/* 승인(축하) log 조회. 세 version이 각자 render를 넘겨 함께 쓴다.
+   '가끔 모든 version에서 축하 메시지가 안 뜨는' 문제를 두 가지로 막는다.
+     1) 5초 polling 중의 network blip과 비정상 응답(res.ok=false)이 이미 화면에 떠 있던
+        log를 '아직 기록 없음'으로 덮어쓰지 않게 한다.
+        마지막으로 성공한, 비어 있지 않은 render를 유지한다.
+     2) 첫 조회가 실패하거나 비면 짧게 재시도해, server가 막 떠서 느린 구간을 흡수한다.
+        count는 server에서 단조 증가하므로, 한번 채워진 뒤의
+        빈 응답은 일시적 blip으로 본다.
+   render(count, recent) : 화면에 그릴 내용이 확정됐을 때만 호출한다.
+   onFail()              : 첫 조회조차 끝내 실패했을 때만 호출한다(오프라인 demo fallback용). */
+/* API는 최신 20건씩만 준다(server의 PAGE). '더보기'로 뒤를 계속 이어 받는 동안에도
+   5초 polling이 계속 돌기 때문에 polling 응답으로 목록을 통째로 '교체'하면 이미 불러둔
+   이전 항목이 사라진다. 그래서 받은 page를 기존 목록에 '합친다'. 중복 판별과 정렬 기준은 id(<ms>-<seq>)다.
+   이 누적 목록이 위 1)의 '마지막 성공본' 역할도 겸한다(비어 있을 때만 빈 화면). */
+var _apprItems = []; // 최신순 누적 [{id,ts,msg}]
+var _apprCount = 0; // 전체 건수(API가 주는 count)
+var _apprCursor = ''; // 다음 '더보기' 기준 = 지금 목록의 가장 오래된 id
+var _apprExhausted = false; // 더 받을 게 없다고 server가 확인해 준 상태
+var _apprMoreBusy = false; // '더보기' 연타 방지
+var _apprFirstDone = false; // 첫 조회를 이미 한 번 수행했는지(재시도는 첫 load에만)
+
+/* 각 version이 '더보기 button을 보일지 / 로딩 표시를 할지' 판단할 때 쓴다. */
+function approvalsHasMore() {
+  return !_apprExhausted && !!_apprCursor && _apprItems.length < _apprCount;
+}
+function approvalsBusy() {
+  return _apprMoreBusy;
+}
+
+// stream id는 "<ms>-<seq>" 꼴이다. 문자열로 비교하면 "9" > "10" 이 되므로 숫자로 나눠 비교한다.
+function _apprCmpDesc(a, b) {
+  var x = String(a.id || '').split('-'),
+    y = String(b.id || '').split('-');
+  var ax = Number(x[0]) || 0,
+    ay = Number(y[0]) || 0;
+  if (ax !== ay) return ay - ax; // 최신(큰 ms) 먼저
+  return (Number(y[1]) || 0) - (Number(x[1]) || 0);
+}
+
+// demo fallback 항목에는 id가 없어서 ts|msg로 대체 키를 만든다.
+function _apprKey(it) {
+  return it.id || it.ts + '|' + it.msg;
+}
+
+function _apprMerge(incoming) {
+  var all = incoming.concat(_apprItems);
+  var seen = Object.create(null),
+    out = [];
+  for (var i = 0; i < all.length; i++) {
+    var k = _apprKey(all[i]);
+    if (seen[k]) continue;
+    seen[k] = 1;
+    out.push(all[i]);
+  }
+  if (out.length && out[0].id) out.sort(_apprCmpDesc); // id 있는 정상 경로만 정렬
+  _apprItems = out;
+  _apprCursor = out.length ? out[out.length - 1].id || '' : '';
+}
+
+async function loadApprovals(render, onFail) {
+  /* API가 없는 정적 배포다. build.sh 가 window.__NO_API__ 를 넣어 알려 준다.
+     그냥 두면 5초마다 없는 주소로 요청해 404가 쌓이므로, 여기서 바로 demo mode로 넘긴다.
+     축하 한마디는 이 browser의 localStorage에만 남는다. */
+  if (typeof window !== 'undefined' && window.__NO_API__) {
+    if (onFail) onFail();
+    return;
+  }
+  // 재시도(cold start 흡수)는 첫 조회에만 한다. 이후 5초 polling은 단발이고, 다음 tick이 5초 뒤에 온다.
+  // 메시지가 0건인 환경에서 polling마다 요청을 3배로 치지 않게 하려는 것이다.
+  // '기존 render 유지'는 _apprItems가 매 회 보장한다.
+  var maxTry = _apprFirstDone ? 1 : 3;
+  _apprFirstDone = true;
+  for (var i = 0; i < maxTry; i++) {
+    try {
+      var res = await fetch(CONFIG.api.baseUrl + '/approvals', { cache: 'no-store' });
+      if (!res.ok) throw new Error('http ' + res.status);
+      var data = await res.json();
+      var recent = data && Array.isArray(data.recent) ? data.recent : [];
+      var count = (data && Number(data.count)) || 0;
+      if (recent.length) {
+        // 정상 데이터. 누적에 합쳐 render한다.
+        _apprCount = count;
+        _apprMerge(recent);
+        render(_apprCount, _apprItems);
+        return;
+      }
+      if (_apprItems.length) {
+        // 빈 응답인데 예전엔 있었다. 일시 blip이므로 기존 유지.
+        render(_apprCount, _apprItems);
+        return;
+      }
+      if (i === maxTry - 1) {
+        // 재시도 후에도 정말 비었다(갓 배포된 환경 등). 빈 상태로.
+        _apprCount = count;
+        render(count, []);
+        return;
+      }
+    } catch (e) {
+      if (_apprItems.length) {
+        // 실패했지만 이미 받아둔 목록이 있으면 그대로 유지(안 지움)
+        render(_apprCount, _apprItems);
+        return;
+      }
+      if (i === maxTry - 1) {
+        // 첫 조회조차 끝내 실패했다. demo로 fallback한다.
+        if (onFail) onFail();
+        return;
+      }
+    }
+    await new Promise(function (r) {
+      setTimeout(r, 500);
+    }); // 재시도 간격(cold start 흡수)
+  }
+}
+
+/* '더보기'. 지금 목록에서 가장 오래된 id보다 더 오래된 20건을 뒤에 이어 붙인다.
+   실패하면 목록과 cursor를 그대로 둬서 다음 클릭에 재시도되게 한다(button도 유지). */
+async function loadMoreApprovals(render) {
+  if (_apprMoreBusy || !approvalsHasMore()) return;
+  _apprMoreBusy = true;
+  if (render) render(_apprCount, _apprItems); // button을 '불러오는 중'으로 즉시 갱신
+  try {
+    var res = await fetch(
+      CONFIG.api.baseUrl + '/approvals?before=' + encodeURIComponent(_apprCursor),
+      { cache: 'no-store' },
+    );
+    if (!res.ok) throw new Error('http ' + res.status);
+    var data = await res.json();
+    var older = data && Array.isArray(data.recent) ? data.recent : [];
+    if (data && Number(data.count)) _apprCount = Number(data.count);
+    // 빈 page는 목록 끝을 뜻한다. 합계 표시가 틀어지지 않게 count는 건드리지 않는다.
+    if (older.length) _apprMerge(older);
+    else _apprExhausted = true;
+  } catch (e) {
+    /* network나 스토어 오류. button을 남겨 다음 클릭에 재시도되게 한다. */
+  } finally {
+    _apprMoreBusy = false;
+    if (render) render(_apprCount, _apprItems);
+  }
+}
+
+/* 자동 축하 메시지 선택. 세 version이 각자의 풀을 넘겨 함께 쓴다.
+   풀은 version마다 다르다. main은 BLESS_MSGS, developer는 APPROVE_MSGS, terminal은 LOG_MSGS.
+   직접 입력이 없는(msg가 빈) 승인은 이 풀에서 문구를 뽑아 표시한다.
+   ts hash로 안정적으로 고르되, avoid(바로 직전 2개 메시지)와 겹치면 풀에서 다음 후보로
+   밀어 같은 문구가 연속으로 뜨는 것을 막는다. */
+function pickAutoMsg(iso, pool, avoid) {
+  if (!pool || !pool.length) return '';
+  var start = 0,
+    s = String(iso || '');
+  for (var i = 0; i < s.length; i++) start = (start * 31 + s.charCodeAt(i)) >>> 0;
+  start = start % pool.length;
+  var av = avoid || [];
+  for (var k = 0; k < pool.length; k++) {
+    var cand = pool[(start + k) % pool.length];
+    if (av.indexOf(cand) === -1) return cand; // 직전 2개와 안 겹치는 첫 후보
+  }
+  return pool[start]; // 풀이 2개 이하일 때의 fallback
+}
+
+/* recent(최신순 [{ts,msg}])를 받아, 빈 msg를 자동 축하 문구로 채운 목록을 최신순 그대로 돌려준다.
+   결정은 오래된 항목부터 최신 항목 쪽으로 진행해, 각 항목이 시간상 바로 앞의 두 메시지와
+   겹치지 않게 한다. 기록이 append-only라 더 오래된 항목의 선택은 바뀌지 않고,
+   덕분에 polling을 반복해도 화면 표시가 흔들리지 않는다. */
+function resolveAutoMsgs(list, pool) {
+  var out = new Array(list.length);
+  var avoid = [];
+  for (var j = list.length - 1; j >= 0; j--) {
+    var it = list[j] || {};
+    var ts = it.ts || it;
+    var msg = it.msg || pickAutoMsg(ts, pool, avoid);
+    out[j] = { ts: ts, msg: msg };
+    avoid.push(msg);
+    if (avoid.length > 2) avoid.shift(); // 직전 2개만 유지
+  }
+  return out;
+}
+
+/* 공유하기. button을 누르면 4채널 bottom sheet를 연다(세 version 공통).
+   1) 카카오톡으로 공유하기  : Kakao.Share.sendDefault로 피드 card(사진, 제목, button)를 보낸다.
+                              login은 필요 없다.
+   2) 문자로 공유하기        : sms: scheme으로 문자앱을 연다. 본문은 제목, 일자, 장소, link다.
+   3) 이외 방법으로 공유하기 : system native 공유 sheet(navigator.share). 미지원이면 link 복사.
+   4) link 복사              : clipboard로 복사한다.
+   카카오 키(JavaScript 키, domain 제한 공개키)는 invitation.conf 의 KAKAO_JS_KEY 에 넣고
+   window.__KAKAO_KEY__ 로 심어진다. 키가 없으면 1)은 system 공유로 fallback한다. */
+
+/* 이 청첩장의 domain. invitation.conf 의 SITE_ORIGIN 이 window.__ORIGIN__ 으로 심어진다.
+   없으면 지금 열린 주소를 쓴다. */
+function siteOrigin() {
+  return (typeof window !== 'undefined' && window.__ORIGIN__) || location.origin;
+}
+
+/* 현재 환경 domain에서 scheme을 뺀 호스트만. terminal과 개발자 version의 장식 text(ssh, curl)에 쓴다.
+   domain을 hardcoding하지 않기 위한 것이다. */
+function siteHost() {
+  return String(siteOrigin()).replace(/^https?:\/\//, '');
+}
+
+function shareUrl() {
+  return siteOrigin() + location.pathname; // 환경 domain(단일 출처)과 현재 page 경로
+}
+
+/* 현재 page의 og 메타값. 카카오 공유 card에 그대로 재사용한다.
+   치환 단계에서 절대 URL까지 채워 둔 값이다. */
+function ogMeta(prop) {
+  var el = document.querySelector('meta[property="' + prop + '"]');
+  return (el && el.getAttribute('content')) || '';
+}
+
+/* 카카오 SDK load와 초기화. 키가 있을 때만 한다.
+   키가 없으면 navigator.share나 link 복사로 fallback한다. */
+var kakaoReady = false;
+function initKakaoShare() {
+  var key = (typeof window !== 'undefined' && window.__KAKAO_KEY__) || '';
+  if (!key || document.getElementById('kakao-sdk')) return;
+  var s = document.createElement('script');
+  s.id = 'kakao-sdk';
+  // SDK version. 카카오가 새 version을 내면 숫자만 올리면 된다. load에 실패하면 조용히 fallback한다.
+  s.src = 'https://t1.kakaocdn.net/kakao_js_sdk/2.7.5/kakao.min.js';
+  s.crossOrigin = 'anonymous';
+  s.onload = function () {
+    try {
+      if (window.Kakao && !Kakao.isInitialized()) Kakao.init(key);
+      kakaoReady = !!(window.Kakao && Kakao.isInitialized() && Kakao.Share);
+    } catch (e) {
+      kakaoReady = false;
+    }
+  };
+  s.onerror = function () {
+    kakaoReady = false;
+  };
+  document.head.appendChild(s);
+}
+
+/* 카카오 공유. og 메타로 card를 명시해 보낸다. 미리보기가 즉시 뜨고 in-app browser에서도 동작한다. */
+function shareKakao(url) {
+  Kakao.Share.sendDefault({
+    objectType: 'feed',
+    content: {
+      title: ogMeta('og:title') || document.title,
+      description: ogMeta('og:description') || '',
+      imageUrl: ogMeta('og:image') || '',
+      link: { mobileWebUrl: url, webUrl: url },
+    },
+    buttons: [{ title: '청첩장 열기', link: { mobileWebUrl: url, webUrl: url } }],
+  });
+}
+
+/* 공유에 쓸 제목, 일자, 장소, link를 og 메타에서 모은다. */
+function shareData() {
+  return {
+    title: ogMeta('og:title') || document.title,
+    desc: ogMeta('og:description') || '', // 일자와 장소
+    url: shareUrl(),
+  };
+}
+
+/* 4) link 복사 */
+function copyLink(url, btn) {
+  function flash() {
+    if (!btn) return;
+    var prev = btn.getAttribute('data-label') || btn.textContent;
+    btn.textContent = '링크 복사됨 ✓';
+    setTimeout(function () {
+      btn.textContent = prev;
+    }, 1500);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard
+      .writeText(url)
+      .then(flash)
+      .catch(function () {
+        window.prompt('아래 링크를 복사해 공유해 주세요', url);
+      });
+  } else {
+    window.prompt('아래 링크를 복사해 공유해 주세요', url);
+  }
+}
+
+/* 2) 문자(SMS). 본문은 제목, 일자와 장소, link로 만든다.
+   scheme은 iOS가 sms:&body=, 나머지는 sms:?body= 를 쓴다.
+   제목은 version별 og:title 대신 CONFIG.profile의 이름으로 만든 하객용 한국어 문구를 쓴다.
+   terminal version의 og:title은 'marriage: A && B' 꼴인데, 일부 문자앱이 그 '&'를
+   sms: 본문의 구분자로 오인해 뒤를 잘라낸다. 그대로 두면 첫 이름까지만 남는다.
+   또 어느 version에서 공유하든 하객이 똑같이 읽기 좋은 문구를 받게 된다.
+   fallback 경로에서도 '&'는 제거한다. */
+function shareViaSms(d) {
+  var p = (typeof CONFIG !== 'undefined' && CONFIG.profile) || null;
+  var title =
+    p && p.groom && p.bride
+      ? p.groom.name + ' ♥ ' + p.bride.name + ' 결혼합니다'
+      : String(d.title || '').replace(/\s*&+\s*/g, ' ');
+  var body = title + '\n' + d.desc + '\n' + d.url;
+  var ios = /iP(hone|ad|od)/i.test(navigator.userAgent || '');
+  location.href = 'sms:' + (ios ? '&' : '?') + 'body=' + encodeURIComponent(body);
+}
+
+/* 3) 이외 방법. system native 공유 sheet(navigator.share)를 쓰고, 미지원이면 link를 복사한다. */
+function shareViaSystem(d, btn) {
+  if (navigator.share) navigator.share({ url: d.url }).catch(function () {});
+  else copyLink(d.url, btn);
+}
+
+/* 공유 bottom sheet(4채널 메뉴). 한 번 만들어 두고 재사용한다. */
+var _shsBack = null;
+function buildShareSheet() {
+  if (_shsBack) return _shsBack;
+  if (!document.getElementById('shs-style')) {
+    var st = document.createElement('style');
+    st.id = 'shs-style';
+    st.textContent =
+      '.shs-back{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:99998;display:flex;align-items:flex-end;justify-content:center;opacity:0;transition:opacity .2s}' +
+      '.shs-back.on{opacity:1}' +
+      '.shs{width:100%;max-width:460px;background:#fff;color:#222;border-radius:20px 20px 0 0;padding:8px 16px calc(18px + env(safe-area-inset-bottom));transform:translateY(101%);transition:transform .26s cubic-bezier(.2,.8,.2,1);box-shadow:0 -8px 40px rgba(0,0,0,.25);font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}' +
+      '.shs-back.on .shs{transform:translateY(0)}' +
+      '.shs-grip{width:38px;height:4px;border-radius:2px;background:#dadada;margin:8px auto 12px}' +
+      '.shs-ttl{text-align:center;font-size:13px;color:#999;margin:0 0 10px}' +
+      '.shs-btn{display:flex;align-items:center;gap:12px;width:100%;border:0;background:#f2f2f4;color:#222;font-size:15.5px;font-weight:500;padding:15px 16px;border-radius:14px;margin:8px 0;cursor:pointer;text-align:left;line-height:1.2;font-family:inherit}' +
+      '.shs-btn:active{background:#e6e6e9}' +
+      '.shs-btn .i{font-size:19px;width:24px;flex:0 0 24px;text-align:center}' +
+      // main version은 카카오 button에 실제 카카오톡 icon을 쓴다.
+      // terminal과 개발자 skin은 .i 를 숨기므로 icon이 자동으로 안 보인다.
+      '.shs-btn.kakao .i img{display:block;width:22px;height:22px;border-radius:5px;margin:0 auto}' +
+      '.shs-btn.kakao{background:#FEE500;color:#181600}' +
+      '.shs-btn.kakao:active{background:#f3da00}' +
+      '.shs-btn.sms{background:#e4f4ea;color:#1f5b38}.shs-btn.sms:active{background:#d4ecdd}' +
+      '.shs-btn.sys{background:#e7eefb;color:#284a86}.shs-btn.sys:active{background:#d6e4f8}' +
+      '.shs-btn.copy{background:#f0eaf8;color:#4a3a6b}.shs-btn.copy:active{background:#e4daf3}' +
+      '.shs-cancel{background:transparent;color:#999;font-weight:600;justify-content:center;margin-top:2px}' +
+      // terminal version은 CRT 모노스페이스 phosphor skin이다. terminal theme 변수
+      // (--bg, --fg, --fg-dim, --accent, --mono)를 쓰므로 녹색과 amber toggle을 자동으로 따라간다.
+      '.shs-back.term .shs{background:var(--bg);color:var(--fg);border-top:1px solid var(--fg-dim);border-radius:0;font-family:var(--mono);box-shadow:0 -8px 40px rgba(0,0,0,.7)}' +
+      '.shs-back.term .shs-grip{background:var(--fg-dim)}' +
+      '.shs-back.term .shs-ttl{color:var(--fg-dim);letter-spacing:.08em}' +
+      '.shs-back.term .shs-btn{background:transparent;color:var(--fg);border:1px solid var(--fg-dim);border-radius:0;font-family:var(--mono);font-weight:400;font-size:14px}' +
+      '.shs-back.term .shs-btn:active{background:var(--fg-dim);color:var(--bg)}' +
+      '.shs-back.term .shs-btn .i{display:none}' +
+      '.shs-back.term .shs-btn::before{content:"$ ";color:var(--fg-dim)}' +
+      // button별 ANSI 컬러와 shell prompt (bash $, zsh %, fish >, starship ❯)
+      '.shs-back.term .shs-btn.kakao{color:#e5c07b;border-color:#e5c07b}.shs-back.term .shs-btn.kakao::before{content:"$ ";color:#e5c07b}.shs-back.term .shs-btn.kakao:active{background:#e5c07b;color:var(--bg)}' +
+      '.shs-back.term .shs-btn.sms{color:#98c379;border-color:#98c379}.shs-back.term .shs-btn.sms::before{content:"% ";color:#98c379}.shs-back.term .shs-btn.sms:active{background:#98c379;color:var(--bg)}' +
+      '.shs-back.term .shs-btn.sys{color:#56b6c2;border-color:#56b6c2}.shs-back.term .shs-btn.sys::before{content:"> ";color:#56b6c2}.shs-back.term .shs-btn.sys:active{background:#56b6c2;color:var(--bg)}' +
+      '.shs-back.term .shs-btn.copy{color:#c678dd;border-color:#c678dd}.shs-back.term .shs-btn.copy::before{content:"❯ ";color:#c678dd}.shs-back.term .shs-btn.copy:active{background:#c678dd;color:var(--bg)}' +
+      '.shs-back.term .shs-cancel{border-color:transparent;color:var(--fg-dim)}' +
+      '.shs-back.term .shs-cancel::before{content:""}' +
+      // 개발자 version은 editor(IDE) skin이다. developer.css의 theme 변수
+      // (--panel, --line, --text, --comment, --mint 등)를 따라가므로 dark와 light가 자동으로 붙는다.
+      // button은 couple.yaml처럼 'key: value' 꼴이고 앞 token이 채널 이름 겸 syntax color다.
+      // 덕분에 terminal(CRT) skin과 확실히 구분된다.
+      '.shs-back.dev .shs{background:var(--panel);color:var(--text);border:1px solid var(--line);border-bottom:0;border-radius:12px 12px 0 0;font-family:var(--mono);box-shadow:0 -10px 44px rgba(0,0,0,.5)}' +
+      '.shs-back.dev .shs-grip{background:var(--line)}' +
+      '.shs-back.dev .shs-ttl{color:var(--comment);letter-spacing:.04em}' +
+      '.shs-back.dev .shs-btn{background:color-mix(in srgb,var(--text) 5%,transparent);color:var(--text);border:1px solid var(--line);border-radius:8px;font-family:var(--mono);font-weight:400;font-size:13.5px}' +
+      '.shs-back.dev .shs-btn:active{background:color-mix(in srgb,var(--text) 12%,transparent)}' +
+      '.shs-back.dev .shs-btn .i{display:none}' +
+      '.shs-back.dev .shs-btn::before{color:var(--comment)}' +
+      // 채널별 syntax color, 'key:' token, 눌렀을 때의 배경 채움
+      '.shs-back.dev .shs-btn.kakao{border-color:color-mix(in srgb,var(--amber) 40%,var(--line))}.shs-back.dev .shs-btn.kakao::before{content:"kakao: ";color:var(--amber)}.shs-back.dev .shs-btn.kakao:active{background:color-mix(in srgb,var(--amber) 16%,transparent)}' +
+      '.shs-back.dev .shs-btn.sms{border-color:color-mix(in srgb,var(--green) 40%,var(--line))}.shs-back.dev .shs-btn.sms::before{content:"sms: ";color:var(--green)}.shs-back.dev .shs-btn.sms:active{background:color-mix(in srgb,var(--green) 16%,transparent)}' +
+      '.shs-back.dev .shs-btn.sys{border-color:color-mix(in srgb,var(--blue) 40%,var(--line))}.shs-back.dev .shs-btn.sys::before{content:"system: ";color:var(--blue)}.shs-back.dev .shs-btn.sys:active{background:color-mix(in srgb,var(--blue) 16%,transparent)}' +
+      '.shs-back.dev .shs-btn.copy{border-color:color-mix(in srgb,var(--mint) 40%,var(--line))}.shs-back.dev .shs-btn.copy::before{content:"link: ";color:var(--mint)}.shs-back.dev .shs-btn.copy:active{background:color-mix(in srgb,var(--mint) 16%,transparent)}' +
+      '.shs-back.dev .shs-cancel{background:transparent;border-color:transparent;color:var(--comment)}' +
+      '.shs-back.dev .shs-cancel::before{content:"# "}';
+    document.head.appendChild(st);
+  }
+  var back = document.createElement('div');
+  back.className = 'shs-back';
+  back.innerHTML =
+    '<div class="shs" role="dialog" aria-label="공유하기">' +
+    '<div class="shs-grip"></div><div class="shs-ttl">공유하기</div>' +
+    '<button class="shs-btn kakao" data-act="kakao"><span class="i"><img class="kakao-ico" src="' +
+    invAsset('assets/kakao.png') +
+    '" alt="" /></span>카카오톡으로 공유하기</button>' +
+    '<button class="shs-btn sms" data-act="sms"><span class="i">✉️</span>문자로 공유하기</button>' +
+    '<button class="shs-btn sys" data-act="system"><span class="i">📤</span>이외 방법으로 공유하기</button>' +
+    '<button class="shs-btn copy" data-act="copy"><span class="i">🔗</span>모바일 청첩장 링크 복사하기</button>' +
+    '<button class="shs-btn shs-cancel" data-act="close">닫기</button>' +
+    '</div>';
+  // version별 skin을 고른다. terminal.css가 걸려 있으면 CRT, .editor-bar header가 있으면
+  // editor IDE, 둘 다 아니면 main의 기본 pastel이다.
+  if (document.querySelector('link[href*="terminal.css"]')) {
+    back.classList.add('term');
+    var ttlT = back.querySelector('.shs-ttl');
+    if (ttlT) ttlT.textContent = '$ ./share.sh';
+  } else if (document.querySelector('.editor-bar')) {
+    back.classList.add('dev');
+    var ttlD = back.querySelector('.shs-ttl');
+    if (ttlD) ttlD.textContent = '$ ./share --invite';
+  }
+  // terminal과 개발자 skin은 icon emoji(.i)를 쓰지 않는다. CSS의 display:none에 더해
+  // node 자체를 제거해서, 예전 cache된 사본이나 render 예외 상황에서도 emoji가 절대 안 보이게 한다.
+  // main version은 icon을 그대로 둔다.
+  if (back.classList.contains('term') || back.classList.contains('dev')) {
+    [].forEach.call(back.querySelectorAll('.shs-btn .i'), function (ic) {
+      if (ic.parentNode) ic.parentNode.removeChild(ic);
+    });
+  }
+  back.style.display = 'none';
+  document.body.appendChild(back);
+
+  function close() {
+    back.classList.remove('on');
+    setTimeout(function () {
+      back.style.display = 'none';
+    }, 260);
+  }
+  back.addEventListener('click', function (e) {
+    if (e.target === back) return close(); // 바깥의 어두운 영역을 tap하면 닫는다
+    var b = e.target.closest('[data-act]');
+    if (!b) return;
+    var act = b.getAttribute('data-act');
+    if (act === 'close') return close();
+    var d = shareData();
+    if (act === 'kakao') {
+      if (kakaoReady && window.Kakao && Kakao.Share) {
+        try {
+          shareKakao(d.url);
+        } catch (e2) {
+          shareViaSystem(d);
+        }
+      } else {
+        shareViaSystem(d);
+      } // 카카오가 준비 안 됐으면 system 공유로 fallback
+      close();
+    } else if (act === 'sms') {
+      shareViaSms(d);
+      close();
+    } else if (act === 'system') {
+      shareViaSystem(d);
+      close();
+    } else if (act === 'copy') {
+      copyLink(d.url, b);
+      setTimeout(close, 1000);
+    }
+  });
+  _shsBack = back;
+  return back;
+}
+
+function openShareSheet() {
+  var back = buildShareSheet();
+  back.style.display = 'flex';
+  void back.offsetWidth; // reflow를 강제해야 slide 인 animation이 걸린다
+  back.classList.add('on');
+}
+/* 하위호환용으로 기존 진입점 이름을 남겨 둔다. */
+function shareInvitation() {
+  openShareSheet();
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  initKakaoShare(); // 키가 있으면 카카오 SDK를 미리 load한다
+  var b = document.getElementById('shareBtn');
+  if (!b) return;
+  b.addEventListener('click', function () {
+    openShareSheet();
+  });
+});
+
+/* 네이버 지도 embed. main과 개발자 version의 '오시는 길'에서 쓴다.
+   #naverMap 요소가 있고 키가 설정돼 있을 때만 지도를 그린다.
+   키가 없거나 load에 실패하면 container에 .is-fallback을 붙여 안내 문구(.map-note)를 노출하고,
+   네이버 지도와 카카오맵 길찾기 button으로 유도한다. */
+function initNaverMap() {
+  var box = document.getElementById('naverMap');
+  if (!box) return;
+  var cfg = CONFIG.naverMap || {};
+  // 키(ncpKeyId)는 invitation.conf 의 NAVER_MAP_KEY_ID 가 window.__NAVER_MAP_KEY__ 로 주입된다.
+  // 없으면 아래 cfg.keyId로 fallback하는데 그쪽은 늘 비어 있다.
+  var keyId = (typeof window !== 'undefined' && window.__NAVER_MAP_KEY__) || cfg.keyId || '';
+  function fallback() {
+    box.classList.add('is-fallback');
+  }
+  if (!keyId) {
+    fallback();
+    return;
+  }
+
+  var s = document.createElement('script');
+  s.src = 'https://oapi.map.naver.com/openapi/v3/maps.js?ncpKeyId=' + encodeURIComponent(keyId);
+  // 인증에 실패하면(잘못된 키이거나 NCP에 domain이 미등록이면) 네이버 API가 부르는 전역 callback.
+  // 깨진 지도나 빈 지도 대신 안내 문구(.is-fallback)로 떨어지게 한다. 네이버가 권장하는 훅이다.
+  window.navermap_authFailure = fallback;
+
+  s.onload = function () {
+    if (!window.naver || !naver.maps) {
+      fallback();
+      return;
+    }
+    var pos = new naver.maps.LatLng(cfg.lat, cfg.lng);
+    box.innerHTML = ''; // 안내 문구를 지운 뒤 지도를 그린다
+    var map = new naver.maps.Map(box, {
+      center: pos,
+      zoom: cfg.zoom || 16,
+      scrollWheel: false, // page scroll이 지도에 갇히지 않게
+      draggable: false, // drag(패닝) 잠금. 약도가 손으로 안 움직이게.
+      pinchZoom: false, // pinch zoom 잠금
+      disableDoubleTapZoom: true, // double tap zoom 잠금
+      disableDoubleClickZoom: true, // 더블클릭 zoom 잠금
+      disableKineticPan: true, // 관성 이동 잠금
+      keyboardShortcuts: false, // 키보드 이동 잠금
+    });
+    new naver.maps.Marker({ position: pos, map: map, title: cfg.label || '' });
+  };
+  s.onerror = fallback;
+  document.head.appendChild(s);
+}
+
+document.addEventListener('DOMContentLoaded', initNaverMap);
+
+/* 확대(zoom) 차단. 전 화면 공통.
+   viewport meta의 user-scalable=no를 iOS Safari가 무시하므로 JS로 보강한다.
+   touch-action으로 pinch와 double tap zoom을 끄고, gesture event와 데스크톱의 ctrl 또는 command zoom도
+   막는다. 일반 scroll은 그대로 둔다. */
+(function blockZoom() {
+  try {
+    document.documentElement.style.touchAction = 'pan-x pan-y';
+  } catch (e) {}
+  // iOS Safari pinch(gesture) zoom
+  ['gesturestart', 'gesturechange', 'gestureend'].forEach(function (ev) {
+    document.addEventListener(
+      ev,
+      function (e) {
+        e.preventDefault();
+      },
+      { passive: false },
+    );
+  });
+  // multi-touch(pinch) 보강
+  document.addEventListener(
+    'touchmove',
+    function (e) {
+      if (e.touches && e.touches.length > 1) e.preventDefault();
+    },
+    { passive: false },
+  );
+  // 데스크톱의 ctrl 또는 command 조합 zoom: 휠 zoom과 (+, -, =, 0) 키 zoom
+  document.addEventListener(
+    'wheel',
+    function (e) {
+      if (e.ctrlKey || e.metaKey) e.preventDefault();
+    },
+    { passive: false },
+  );
+  document.addEventListener('keydown', function (e) {
+    if ((e.ctrlKey || e.metaKey) && ['+', '-', '=', '0'].indexOf(e.key) !== -1) e.preventDefault();
+  });
+})();
+
+/* text 선택과 long press callout 차단. 전 화면 공통.
+   길게 눌러도 문구가 drag 선택되거나 iOS의 복사, 정의 callout이 뜨지 않게 해서 앱처럼 보이게 한다.
+   주의: 축하 한마디 같은 입력창은 선택과 편집을 그대로 유지한다.
+     주소와 계좌 복사는 각 화면의 '복사' button이 담당하므로 영향이 없다. */
+(function blockTextSelection() {
+  var st = document.createElement('style');
+  st.id = 'no-select-style';
+  st.textContent =
+    'html,body{-webkit-touch-callout:none;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}' +
+    'input,textarea,[contenteditable="true"]{-webkit-user-select:text;-moz-user-select:text;-ms-user-select:text;user-select:text;-webkit-touch-callout:default}';
+  (document.head || document.documentElement).appendChild(st);
+})();
+
+/* image long press 메뉴 차단. 전 화면 공통.
+   세 겹으로 막는다. browser마다 메뉴를 띄우는 경로가 달라 한 가지로는 다 안 잡힌다.
+     1) -webkit-touch-callout      : iOS 사파리의 callout
+     2) contextmenu preventDefault : 데스크톱과 안드로이드 크롬의 context 메뉴
+     3) pointer-events:none        : 카카오톡 등 in-app browser(안드로이드 WebView)
+   3)이 없으면 in-app browser를 못 막는다. 앱이 직접 long press를 가로채 hit test 결과가
+   image면 저장 메뉴를 띄우는데, JS의 contextmenu를 아예 거치지 않아 2)가 통하지 않는다.
+   image를 히트 대상에서 빼면 결과가 image가 아니게 되어 메뉴가 뜨지 않는다.
+   주의: 동작에는 안전하다. 이 저장소는 click과 touch handler가 모두 container(.g-item, .gallery,
+   .lightbox)에 붙어 있고 img에 직접 붙은 것이 없다. event는 container로 버블링되므로 사진 tap,
+   gallery swipe, lightbox 좌우 이동이 그대로 동작한다. load와 error는 pointer event가 아니다.
+   주의: image에만 건다. 화면 전체에 걸면 데스크톱에서 우클릭이 통째로 막힌다.
+   drag해서 저장하는 경로(dragstart)도 함께 막는다. */
+(function blockImageSave() {
+  var st = document.createElement('style');
+  st.id = 'no-image-save-style';
+  st.textContent = 'img{-webkit-touch-callout:none;-webkit-user-drag:none;pointer-events:none}';
+  (document.head || document.documentElement).appendChild(st);
+
+  // 캡처 단계에서 잡아, 나중에 붙는 image(gallery, lightbox, profile)까지 한 번에 처리한다.
+  function blockOnImage(e) {
+    if (e.target && e.target.tagName === 'IMG') e.preventDefault();
+  }
+  document.addEventListener('contextmenu', blockOnImage, true);
+  document.addEventListener('dragstart', blockOnImage, true);
+})();
+
+/* 입력 정제. 축하 한마디 입력창에서 깨진 기호를 걸러낸다.
+   결합문자(Zalgo, 글자 위아래로 무한정 쌓이는 것)와 제어문자, zero-width 및 방향제어 문자를 없앤다.
+   한글, 영문, emoji, 일반 문장부호는 그대로 둔다.
+   \p{M}은 Mark 카테고리만 지우므로 한글과 emoji는 대상이 아니다. */
+function cleanMessage(s) {
+  s = String(s == null ? '' : s).replace(/\p{M}+/gu, ''); // 결합문자(위아래로 쌓이는 자모) 제거
+  var out = '';
+  for (var i = 0; i < s.length; i++) {
+    var c = s.charCodeAt(i);
+    if (c < 0x20 || (c >= 0x7f && c <= 0x9f)) continue; // 제어문자(C0, C1)
+    if (
+      c === 0x200b ||
+      c === 0x200c ||
+      c === 0x200e ||
+      c === 0x200f ||
+      (c >= 0x202a && c <= 0x202e) ||
+      c === 0x2060 ||
+      c === 0xfeff
+    )
+      continue; // zero-width, 방향제어(BIDI)
+    out += s.charAt(i);
+  }
+  return out;
+}
+
+/* 축하 한마디 글자수 제한(세 version 공통)
+   server의 sanitize()도 같은 50자로 잘라낸다. 여기서는 입력 자체는 허용하되,
+   50자를 넘으면 실시간 글자수와 경고를 띄우고 전송은 blessExceeded()로 막는다. */
+var BLESS_LIMIT = 50;
+
+/* 입력값이 제한을 넘었는지 확인한다. 각 version의 전송 handler가 불러서 전송을 막는다. */
+function blessExceeded(id) {
+  var el = document.getElementById(id);
+  return !!(el && String((el && el.value) || '').length > BLESS_LIMIT);
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  ['blessInput', 'deployInput', 'rsvpInput'].forEach(function (id) {
+    var el = document.getElementById(id);
+    if (!el) return;
+
+    // 50자 초과를 '경고 후 차단'으로 다루려고 하드 제한(maxlength)을 푼다.
+    // JS가 load되지 않으면 HTML의 maxlength=50이 그대로 fallback이라, 그때는 초과 입력 자체가 안 된다.
+    el.removeAttribute('maxlength');
+
+    // 실시간 글자수 counter를 입력창 바로 뒤에 넣는다. version별 .bless-count style이 theme를 따라간다.
+    var counter = document.createElement('div');
+    counter.className = 'bless-count';
+    counter.setAttribute('aria-live', 'polite');
+    el.insertAdjacentElement('afterend', counter);
+
+    function refresh() {
+      var len = String(el.value || '').length;
+      var over = len > BLESS_LIMIT;
+      el.classList.toggle('over-limit', over);
+      if (!len) {
+        counter.className = 'bless-count';
+        counter.textContent = '';
+      } else {
+        counter.className = 'bless-count' + (over ? ' over' : '');
+        counter.textContent = over
+          ? '50자를 넘기는 축하 메세지는 보낼 수 없어요 (현재 ' + len + '자)'
+          : len + ' / ' + BLESS_LIMIT;
+      }
+    }
+
+    el.addEventListener('input', function () {
+      var cleaned = cleanMessage(el.value);
+      if (cleaned !== el.value) {
+        var atEnd = el.selectionStart === el.value.length;
+        el.value = cleaned;
+        if (atEnd) {
+          try {
+            el.setSelectionRange(cleaned.length, cleaned.length);
+          } catch (e) {}
+        }
+      }
+      refresh();
+    });
+    refresh();
+  });
+});
+
+/* Google Analytics (전 화면 공통)
+   invitation.conf 의 GA_MEASUREMENT_ID 가 window.__GA_ID__ 로 심어진다.
+   비어 있으면 script를 부르지 않고 요청도 내지 않는다. 이 저장소는 남이 fork해서 쓰므로
+   ID를 HTML에 박아 두면 남의 하객 방문이 내 속성으로 들어온다. 그래서 conf 로 뺐다.
+   config.js 는 네 page가 모두 가장 먼저 부르므로 여기 한 곳이면 전 page에 걸린다. */
+(function loadAnalytics() {
+  var id = (typeof window !== 'undefined' && window.__GA_ID__) || '';
+  if (!id) return;
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(id);
+  (document.head || document.documentElement).appendChild(s);
+  window.dataLayer = window.dataLayer || [];
+  // gtag는 GA가 요구하는 전역 이름이다. arguments 를 그대로 넘겨야 한다.
+  window.gtag = function () {
+    window.dataLayer.push(arguments);
+  };
+  window.gtag('js', new Date());
+  window.gtag('config', id);
+})();
+
+/* easter egg: 개발자 console 인사(전 version 공통)
+   개발자도구 console을 열면 terminal version의 부부 사진(our_wedding.jpg) ASCII art와
+   영어 감사 인사를 console.log로 남긴다. config.js는 세 version과 release가 모두 가장 먼저
+   load하므로 어느 URL에서든 똑같이 보인다.
+   도형은 terminal.js의 renderPhoto()에 있는 polaroid 커플과 같고, 여기서는 평문으로 재현한다.
+   ※ console.log라서 기본 console 레벨(Info)에서 항상 보인다. */
+(function consoleEasterEgg() {
+  try {
+    if (typeof console === 'undefined' || !console.log) return;
+    var INNER = 28;
+    var padIn = function (s) {
+      return s + ' '.repeat(Math.max(0, INNER - s.length));
+    };
+    var bar = function (l, r) {
+      return l + '─'.repeat(INNER) + r;
+    };
+    var header = ' our_wedding.jpg'.padEnd(INNER - 6) + '[_][o]';
+    // 왼쪽은 신랑(톱햇 ___ 과 보타이 =), 오른쪽은 신부(플라워 베일 .ooo. 과 드레스 :::),
+    // 가운데 ______ 는 두 사람을 잇는 붉은 실이다.
+    var body = [
+      '',
+      '           ( <3 )',
+      '       ___',
+      '      [___]      .ooo.',
+      '      (^_^)      (^_^)',
+      '      /|=|\\______/|V|\\',
+      '       | |       /:::\\',
+      '      _/ \\_     /:::::\\',
+      '',
+    ];
+    var art = [bar('┌', '┐'), '│' + header + '│', bar('├', '┤')]
+      .concat(
+        body.map(function (b) {
+          return '│' + padIn(b) + '│';
+        }),
+      )
+      .concat([bar('└', '┘')])
+      .join('\n');
+    var gn = String((CONFIG.people.groom || {}).en || '').split(' ')[0];
+    var bn = String((CONFIG.people.bride || {}).en || '').split(' ')[0];
+    var msg =
+      'Dear developer, thank you for celebrating our marriage! ♥\n' +
+      'With love, ' +
+      gn +
+      ' ♥ ' +
+      bn;
+    var mono = 'font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace';
+    console.log(
+      '%c' + art + '\n\n%c' + msg,
+      'color:#39d353;' + mono + ';font-size:12px;line-height:1.25',
+      'color:#e5c07b;' + mono + ';font-size:13px;font-weight:700;line-height:1.6',
+    );
+  } catch (e) {}
+})();
+
+</script>
+<script>
+/*
+   private.js (my-invitations 어댑터 버전 — 원본: nerdkim/wedding-invitation-for-nerds)
+
+   원본은 invitation.conf 의 계좌를 build 시점에 XOR 난독화해 window.__GIFT__ 로
+   정적 HTML에 심고, 이 script가 그것을 그 자리에서 복호화했다. 우리는 계좌를
+   git에 전혀 넣지 않고(harness-8lh.4) 별도 서버에 저장해 두므로, 이 버전은
+   window.__GIFT__ 를 읽지 않는다 — 대신 사용자가 펼치거나 tap하는 바로 그 순간에
+   window.__ACCOUNTS_API_BASE__ + '/api/accounts/' + window.__SLUG__ 로 fetch한다.
+   그래서 계좌 평문은 애초에 정적 파일 어디에도 존재하지 않는다(빌드 시점 심기 자체가
+   없다) — obfuscate/deobfuscate 관련 코드는 전부 제거했다.
+
+   /api/accounts/<slug> 응답 형태는 원본의 {accounts:{groom:[...], bride:[...]}}가
+   아니라 { groom?, bride?, groomFather?, groomMother?, brideFather?, brideMother? }
+   (각 { bank, holder, accountNumber })이다 — shapeAccounts()가 groom 쪽
+   (groom, groomFather, groomMother)과 bride 쪽(bride, brideFather, brideMother)을
+   각각 리스트로 묶어 원본과 같은 모양으로 바꿔 준다.
+
+   HTML container 규약(원본과 동일, 변경 없음):
+     [data-acc="groom|bride"]   계좌 목록을 채울 곳
+     data-copy-label="복사"      복사 button 글자. theme마다 복사, copy, cp를 쓴다.
+     data-open                  tap이나 펼침 없이 즉시 render(terminal version)
+     data-reveal-label="..."    펼침 button 글자. details 안에 있으면 필요 없다.
+ */
+(function () {
+  'use strict';
+
+  var API_BASE = (typeof window !== 'undefined' && window.__ACCOUNTS_API_BASE__) || '';
+  var SLUG = (typeof window !== 'undefined' && window.__SLUG__) || '';
+
+  /* 응답을 원본 render 로직이 기대하는 {accounts:{groom:[...], bride:[...]}} 모양으로 바꾼다. */
+  function shapeAccounts(raw) {
+    if (!raw) return null;
+    function person(a) {
+      if (!a) return null;
+      return { name: a.holder || '', bank: a.bank || '', number: a.accountNumber || '' };
+    }
+    var groom = [person(raw.groom), person(raw.groomFather), person(raw.groomMother)].filter(
+      Boolean,
+    );
+    var bride = [person(raw.bride), person(raw.brideFather), person(raw.brideMother)].filter(
+      Boolean,
+    );
+    return { accounts: { groom: groom, bride: bride } };
+  }
+
+  var fetchPromise = null;
+  function fetchAccounts() {
+    if (!SLUG) return Promise.resolve(null);
+    if (!fetchPromise) {
+      fetchPromise = fetch(API_BASE + '/api/accounts/' + encodeURIComponent(SLUG))
+        .then(function (res) {
+          if (!res.ok) throw new Error('accounts fetch failed: ' + res.status);
+          return res.json();
+        })
+        .then(shapeAccounts)
+        .catch(function () {
+          return null;
+        });
+    }
+    return fetchPromise;
+  }
+
+  /* clipboard 복사 (theme의 flashCopied 가 있으면 그대로 사용) */
+  function copy(text, btn) {
+    navigator.clipboard
+      .writeText(text)
+      .then(function () {
+        if (typeof window.flashCopied === 'function') {
+          window.flashCopied(btn);
+        } else {
+          var o = btn.textContent;
+          btn.textContent = '✓';
+          setTimeout(function () {
+            btn.textContent = o;
+          }, 1500);
+        }
+      })
+      .catch(function () {});
+  }
+
+  /* 한 줄(.acc) 만들기: 이름, 은행과 번호, 복사 button. 원본과 동일한 DOM 모양. */
+  function row(name, bank, number, copyLabel) {
+    var el = document.createElement('div');
+    el.className = 'acc';
+
+    var nm = document.createElement('span');
+    nm.className = 'nm';
+    nm.textContent = name;
+
+    var no = document.createElement('span');
+    no.className = 'no';
+    if (bank) {
+      var bk = document.createElement('span');
+      bk.className = 'bank';
+      bk.textContent = bank;
+      no.appendChild(bk);
+      no.appendChild(document.createTextNode(' '));
+    }
+    var nu = document.createElement('span');
+    nu.className = 'num';
+    nu.textContent = number;
+    no.appendChild(nu);
+
+    var value = (bank ? bank + ' ' : '') + number;
+
+    var btn = document.createElement('button');
+    btn.type = 'button';
+    btn.textContent = copyLabel;
+    btn.addEventListener('click', function () {
+      copy(value, btn);
+    });
+
+    el.append(nm, no, btn);
+    return el;
+  }
+
+  function renderAccounts(container, data) {
+    var list = (data && data.accounts && data.accounts[container.dataset.acc]) || [];
+    var copyLabel = container.dataset.copyLabel || '복사';
+    if (list.length === 0) {
+      var note = document.createElement('div');
+      note.className = 'acc-note';
+      note.textContent = '등록된 계좌 정보가 없습니다.';
+      container.appendChild(note);
+      return;
+    }
+    list.forEach(function (a) {
+      container.appendChild(row(a.name, a.bank, a.number, copyLabel));
+    });
+  }
+
+  /* 펼치거나 tap할 때에만 fetch+render한다 — 계좌 API 요청 자체가 사용자 의도적
+     행동 뒤에만 나가게 해서, 페이지를 열기만 해도 계좌 서버에 요청이 가지 않게 한다. */
+  function doRender(container) {
+    if (container.dataset.filled) return;
+    container.dataset.filled = '1';
+    fetchAccounts().then(function (data) {
+      renderAccounts(container, data);
+    });
+  }
+
+  function gate(container) {
+    if (container.hasAttribute('data-open')) {
+      doRender(container);
+      return;
+    }
+
+    var details = container.closest('details');
+    if (details) {
+      details.addEventListener('toggle', function () {
+        if (details.open) doRender(container);
+      });
+      return;
+    }
+
+    var trig = document.createElement('button');
+    trig.type = 'button';
+    trig.className = 'btn reveal-btn';
+    trig.textContent = container.dataset.revealLabel || '보기 ▾';
+    trig.addEventListener('click', function () {
+      trig.remove();
+      doRender(container);
+    });
+    container.appendChild(trig);
+  }
+
+  function init() {
+    var accs = document.querySelectorAll('[data-acc]');
+    if (!SLUG) {
+      [].forEach.call(accs, function (c) {
+        var n = document.createElement('div');
+        n.className = 'acc-note';
+        n.textContent = '계좌는 서버에서 안전하게 제공됩니다.';
+        c.appendChild(n);
+      });
+      return;
+    }
+    [].forEach.call(accs, gate);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
+
+</script>
+<script>
+/*
+   개발자(developer) version script. IDE와 CI/CD를 motif로 한 청첩장이다.
+   날짜, 주소, API, 사진 같은 설정은 js/config.js에서 공유한다.
+
+   목차
+   01. CONFIG        : js/config.js에서 load
+   02. theme toggle      : dark와 light, localStorage 저장
+   03. 날짜 rendering    : hero와 .env block의 날짜 자동 갱신
+   04. terminal typing  : hero의 git merge 연출
+   05. scroll reveal    : IntersectionObserver
+   06. pipeline     : CI/CD 단계 순차 통과 연출
+   07. countdown     : D-day 실시간 갱신
+   08. 달력          : 예식 월 자동 생성
+   09. gallery        : 사진 grid와 lightbox
+   10. 복사 button      : 주소와 계좌 clipboard
+   11. confetti        : approve(deploy) button 연출
+   12. 축하 log      : 익명 승인 기록
+   13. hidden page 공개 : 예식 시각 이후
+   14. AI guests     : AI agent들의 축하
+ */
+
+/*
+   01. CONFIG: js/config.js에서 load된다.
+   날짜, 주소, API, 사진 수정은 모두 그 파일에서 한다.
+ */
+
+/* 02. theme toggle: dark와 light */
+
+const themeToggle = document.getElementById('themeToggle');
+
+function applyTheme(theme) {
+  document.documentElement.dataset.theme = theme;
+  themeToggle.textContent = theme === 'dark' ? '☾' : '☀';
+  themeToggle.title = theme === 'dark' ? '라이트 모드로 전환' : '다크 모드로 전환';
+  localStorage.setItem('wedding-theme', theme);
+}
+
+// URL(?theme=dark|light) > 저장된 theme > dark(기본) 순서로 결정
+// 개발자 version은 system 설정과 무관하게 dark mode를 기본으로 채택합니다.
+const urlTheme = new URLSearchParams(location.search).get('theme');
+const savedTheme = localStorage.getItem('wedding-theme');
+applyTheme(urlTheme || savedTheme || 'dark');
+
+themeToggle.addEventListener('click', () => {
+  const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+  applyTheme(next);
+});
+
+/* 03. 날짜 rendering */
+
+const W = CONFIG.date;
+const pad = (n) => String(n).padStart(2, '0');
+
+const DAY_KO = ['일', '월', '화', '수', '목', '금', '토'];
+const DAY_EN = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
+const MONTH_EN = [
+  'JANUARY',
+  'FEBRUARY',
+  'MARCH',
+  'APRIL',
+  'MAY',
+  'JUNE',
+  'JULY',
+  'AUGUST',
+  'SEPTEMBER',
+  'OCTOBER',
+  'NOVEMBER',
+  'DECEMBER',
+];
+
+const hour12 = W.getHours() % 12 || 12;
+const ampm = W.getHours() < 12 ? 'AM' : 'PM';
+
+document.getElementById('heroDate').textContent =
+  `${W.getFullYear()}.${pad(W.getMonth() + 1)}.${pad(W.getDate())}` +
+  ` ${DAY_EN[W.getDay()]} ${ampm} ${hour12}:${pad(W.getMinutes())}`;
+
+document.getElementById('envDate').textContent =
+  `"${W.getFullYear()}-${pad(W.getMonth() + 1)}-${pad(W.getDate())} (${DAY_KO[W.getDay()]})"`;
+
+document.getElementById('envTime').textContent =
+  `"${ampm === 'AM' ? '오전' : '오후'} ${hour12}시${W.getMinutes() ? ' ' + W.getMinutes() + '분' : ''}"`;
+
+/* 04. terminal typing */
+
+/* git log 연출의 branch 이름. 'Anga Kim' -> 'anga-kim'
+   이 파일에는 이름을 박아 두지 않는다. CONFIG.people 은 invitation.conf 에서 주입된 값이다. */
+const branchName = (person) =>
+  String((person || {}).en || '')
+    .trim()
+    .toLowerCase()
+    .split(/\s+/)
+    .filter(Boolean)
+    .join('-');
+
+const GROOM_BRANCH = branchName(CONFIG.people.groom);
+const BRIDE_BRANCH = branchName(CONFIG.people.bride);
+
+const TERMINAL_LINES = [
+  { type: 'cmd', text: 'git checkout -b our-life' },
+  { type: 'out', text: "Switched to a new branch 'our-life'" },
+  { type: 'cmd', text: `git merge ${GROOM_BRANCH} ${BRIDE_BRANCH} --strategy=love` },
+  { type: 'out', text: 'Auto-merging hearts...' },
+  { type: 'out', text: '✓ 0 conflicts — fast-forward', cls: 't-green' },
+  { type: 'out', text: 'Merge made by the "love" strategy.' },
+  { type: 'out', text: ' 2 lives changed, ∞ insertions(+), 0 deletions(-)', cls: 't-amber' },
+  { type: 'cmd', text: 'cat invitation.md' },
+  { type: 'out', text: '저희, 결혼합니다. 귀한 걸음 해주세요 ♥', cls: 't-rose' },
+];
+
+const termBody = document.getElementById('termBody');
+let lineIndex = 0;
+
+function typeNextLine() {
+  // 모든 줄 출력 후 깜빡이는 prompt로 마무리
+  if (lineIndex >= TERMINAL_LINES.length) {
+    const last = document.createElement('div');
+    last.className = 't-line';
+    last.innerHTML = '<span class="t-prompt">$ </span><span class="cursor"></span>';
+    termBody.appendChild(last);
+    return;
+  }
+
+  const line = TERMINAL_LINES[lineIndex++];
+  const row = document.createElement('div');
+  row.className = 't-line';
+  termBody.appendChild(row);
+
+  if (line.type === 'out') {
+    // 출력 줄: 한 번에 표시
+    const span = document.createElement('span');
+    span.className = line.cls || 't-out';
+    span.textContent = line.text;
+    row.appendChild(span);
+    setTimeout(typeNextLine, 260);
+    return;
+  }
+
+  // 명령 줄: 한 글자씩 typing
+  const prompt = document.createElement('span');
+  prompt.className = 't-prompt';
+  prompt.textContent = '$ ';
+
+  const cmd = document.createElement('span');
+  cmd.className = 't-cmd';
+
+  const cursor = document.createElement('span');
+  cursor.className = 'cursor';
+
+  row.append(prompt, cmd, cursor);
+
+  let charIndex = 0;
+  (function typeChar() {
+    if (charIndex < line.text.length) {
+      cmd.textContent += line.text[charIndex++];
+      setTimeout(typeChar, 34 + Math.random() * 40);
+    } else {
+      cursor.remove();
+      setTimeout(typeNextLine, 320);
+    }
+  })();
+}
+
+setTimeout(typeNextLine, 600);
+
+/* 05. scroll reveal */
+
+const revealObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        revealObserver.unobserve(entry.target);
+      }
+    });
+  },
+  { threshold: 0.18 },
+);
+
+document.querySelectorAll('.rv').forEach((el) => revealObserver.observe(el));
+
+/* 06. pipeline: 화면에 들어오면 단계별로 통과 처리 */
+
+const pipelineSteps = [...document.querySelectorAll('.pl-step')];
+
+const pipelineObserver = new IntersectionObserver(
+  (entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) return;
+      pipelineObserver.disconnect();
+
+      pipelineSteps.forEach((step, i) => {
+        setTimeout(
+          () => {
+            const isLast = i === pipelineSteps.length - 1;
+            step.classList.add(isLast ? 'run' : 'done');
+            step.querySelector('.st').textContent = isLast ? 'RUNNING' : 'PASSED';
+          },
+          500 + i * 550,
+        );
+      });
+    });
+  },
+  { threshold: 0.4 },
+);
+
+pipelineObserver.observe(document.getElementById('pipeline'));
+
+/* 07. countdown */
+
+function tickCountdown() {
+  const diff = Math.max(0, W - new Date());
+
+  const days = Math.floor(diff / 86400000);
+  const hours = Math.floor(diff / 3600000) % 24;
+  const minutes = Math.floor(diff / 60000) % 60;
+  const seconds = Math.floor(diff / 1000) % 60;
+
+  document.getElementById('ddayNum').textContent = String(days).padStart(3, '0');
+  document.getElementById('cdD').textContent = String(days).padStart(2, '0');
+  document.getElementById('cdH').textContent = pad(hours);
+  document.getElementById('cdM').textContent = pad(minutes);
+  document.getElementById('cdS').textContent = pad(seconds);
+}
+
+tickCountdown();
+setInterval(tickCountdown, 1000);
+
+/* 08. 달력: 예식 월을 자동 생성하고 예식일을 강조 */
+
+document.getElementById('calTitle').textContent = `${MONTH_EN[W.getMonth()]} ${W.getFullYear()}`;
+
+(function buildCalendar() {
+  const year = W.getFullYear();
+  const month = W.getMonth();
+  const firstWeekday = new Date(year, month, 1).getDay();
+  const lastDate = new Date(year, month + 1, 0).getDate();
+
+  let html =
+    '<thead><tr>' +
+    ['S', 'M', 'T', 'W', 'T', 'F', 'S'].map((d) => `<th>${d}</th>`).join('') +
+    '</tr></thead><tbody><tr>';
+
+  let col = 0;
+
+  for (let i = 0; i < firstWeekday; i++, col++) {
+    html += '<td></td>';
+  }
+
+  for (let date = 1; date <= lastDate; date++) {
+    if (col === 7) {
+      html += '</tr><tr>';
+      col = 0;
+    }
+    const mark = date === W.getDate() ? ' wedding-day' : '';
+    html += `<td><span class="d${mark}">${date}</span></td>`;
+    col++;
+  }
+
+  while (col++ < 7) html += '<td></td>';
+
+  html += '</tr></tbody>';
+  document.getElementById('calTable').innerHTML = html;
+})();
+
+/* 09. gallery: 사진 grid와 lightbox */
+
+// lightbox가 순환할 사진 목록.
+const loadedPhotos = [];
+
+/** img 엘리먼트를 만든다. 파일이 없으면 자리 표시로 대체한다. */
+function createPhoto(src, { caption = '', onLoaded = null } = {}) {
+  const img = document.createElement('img');
+  img.src = photoSrc(src); // 배포별 ?v= cache busting
+  img.alt = caption || '웨딩 사진';
+  img.loading = 'lazy';
+
+  img.addEventListener('load', () => {
+    if (onLoaded) onLoaded(img);
+  });
+
+  img.addEventListener('error', () => {
+    const placeholder = document.createElement('div');
+    placeholder.className = 'ph-placeholder';
+    placeholder.innerHTML = `
+      <span class="ico">📷</span>
+      <span class="fn">${src}</span>
+      <span class="hint">이 경로에 사진을 추가해주세요</span>
+    `;
+    img.replaceWith(placeholder);
+  });
+
+  return img;
+}
+
+// main 사진(hero 아래 viewer frame). 개발자 version 표지(mainDev)를 우선 쓴다.
+// 확대는 하지 않는다. 클릭과 zoom cursor가 없고 lightbox 목록에서도 뺀다.
+const MAIN_PHOTO = CONFIG.photos.mainDev || CONFIG.photos.main;
+const mainPhotoImg = createPhoto(MAIN_PHOTO, { caption: '메인 웨딩 사진' });
+document.getElementById('mainPhoto').appendChild(mainPhotoImg);
+
+// gallery. 3x3 pagination이라 한 page에 9장씩 나눠 보여준다.
+const galleryEl = document.getElementById('gallery');
+const GALLERY_PAGE = 9; // 3x3, 한 page 9장
+
+// 개발자(dev) version의 page 순서로 재배열한 gallery. config.js의 orderedGallery가 page 단위로 옮긴다.
+const GALLERY = orderedGallery((CONFIG.photos.galleryPageOrder || {}).dev);
+
+// lightbox는 page와 무관하게 gallery 전체를 순환한다.
+GALLERY.forEach((src) => loadedPhotos.push(src));
+
+const galleryItems = GALLERY.map((src, i) => {
+  const item = document.createElement('figure');
+  item.className = 'g-item';
+  item.style.cursor = 'zoom-in';
+  item.appendChild(createPhoto(src, { caption: `웨딩 사진 ${i + 1}` }));
+  item.addEventListener('click', () => openLightbox(src));
+  return item;
+});
+
+const galleryPages = Math.max(1, Math.ceil(galleryItems.length / GALLERY_PAGE));
+let galleryPage = 0;
+
+const galleryPager = document.createElement('div');
+galleryPager.className = 'gallery-pager';
+galleryEl.insertAdjacentElement('afterend', galleryPager);
+
+function renderGallery(p) {
+  const target = Math.min(Math.max(0, p), galleryPages - 1);
+  const dir = Math.sign(target - galleryPage); // 다음(+1)/이전(-1) 방향으로 부드럽게 slide-인
+  galleryPage = target;
+  const start = galleryPage * GALLERY_PAGE;
+  galleryEl.replaceChildren(...galleryItems.slice(start, start + GALLERY_PAGE));
+  renderGalleryPager();
+  if (dir !== 0) {
+    galleryEl.style.transition = 'none';
+    galleryEl.style.transform = 'translateX(' + dir * 26 + 'px)';
+    galleryEl.style.opacity = '0';
+    void galleryEl.offsetWidth; // reflow 후 transition 적용
+    galleryEl.style.transition = 'transform .34s cubic-bezier(.22,1,.36,1), opacity .3s ease';
+    galleryEl.style.transform = 'translateX(0)';
+    galleryEl.style.opacity = '1';
+  }
+}
+
+function renderGalleryPager() {
+  if (galleryPages <= 1) {
+    galleryPager.replaceChildren();
+    return;
+  }
+  const frag = document.createDocumentFragment();
+  const btn = (label, page, opts = {}) => {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'pg-btn' + (opts.active ? ' active' : '');
+    b.textContent = label;
+    if (opts.disabled) b.disabled = true;
+    else b.addEventListener('click', () => renderGallery(page));
+    return b;
+  };
+  frag.appendChild(btn('‹', galleryPage - 1, { disabled: galleryPage === 0 }));
+  for (let i = 0; i < galleryPages; i++) {
+    frag.appendChild(btn(String(i + 1), i, { active: i === galleryPage }));
+  }
+  frag.appendChild(btn('›', galleryPage + 1, { disabled: galleryPage === galleryPages - 1 }));
+  galleryPager.replaceChildren(frag);
+}
+
+renderGallery(0);
+
+// gallery 좌우 swipe로 page를 넘긴다. gesture 방향을 초기에 판정한다(directional lock).
+// 가로로 확정되면 세로 scroll을 막아, 대각선 swipe 시 page가 위아래로 밀리지 않게 한다.
+let gSwipeX = 0,
+  gSwipeY = 0,
+  gLock = null; // gLock: null(미정) | 'h'(가로) | 'v'(세로)
+galleryEl.addEventListener(
+  'touchstart',
+  (e) => {
+    gSwipeX = e.touches[0].clientX;
+    gSwipeY = e.touches[0].clientY;
+    gLock = null;
+  },
+  { passive: true },
+);
+galleryEl.addEventListener(
+  'touchmove',
+  (e) => {
+    const dx = e.touches[0].clientX - gSwipeX;
+    const dy = e.touches[0].clientY - gSwipeY;
+    if (gLock === null && (Math.abs(dx) > 8 || Math.abs(dy) > 8)) {
+      gLock = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
+    }
+    if (gLock === 'h') e.preventDefault(); // 가로 swipe 확정 → 세로 scroll 잠금
+  },
+  { passive: false },
+);
+galleryEl.addEventListener(
+  'touchend',
+  (e) => {
+    const dx = e.changedTouches[0].clientX - gSwipeX;
+    if (gLock === 'h' && Math.abs(dx) > 48) {
+      renderGallery(galleryPage + (dx > 0 ? -1 : 1)); // 오른쪽=이전, 왼쪽=다음
+    }
+    gLock = null;
+  },
+  { passive: true },
+);
+
+// 첫 방문에도 좌우 swipe가 바로 보이도록, 초기 load 뒤 gallery 사진 전체를 미리 받아 cache에 올린다.
+const _preloaded = [];
+function preloadGalleryImages() {
+  GALLERY.forEach((src) => {
+    const im = new Image();
+    im.src = photoSrc(src);
+    _preloaded.push(im);
+  });
+}
+if (document.readyState === 'complete') preloadGalleryImages();
+else window.addEventListener('load', preloadGalleryImages, { once: true });
+
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCap = document.getElementById('lightboxCap');
+let lightboxIndex = 0;
+
+function openLightbox(src) {
+  lightboxIndex = loadedPhotos.indexOf(src);
+  showLightboxPhoto();
+  lightbox.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function showLightboxPhoto() {
+  const src = loadedPhotos[lightboxIndex];
+  lightboxImg.src = photoSrc(src);
+  // 확대 시 파일명은 표시하지 않고 위치 counter만 (main version과 동일)
+  lightboxCap.textContent = `${lightboxIndex + 1} / ${loadedPhotos.length}`;
+}
+
+function stepLightbox(delta) {
+  const n = loadedPhotos.length;
+  lightboxIndex = (lightboxIndex + delta + n) % n;
+  showLightboxPhoto();
+}
+
+document.getElementById('lbClose').addEventListener('click', closeLightbox);
+document.getElementById('lbPrev').addEventListener('click', () => stepLightbox(-1));
+document.getElementById('lbNext').addEventListener('click', () => stepLightbox(1));
+
+// 사진의 왼쪽과 오른쪽을 tap하면 이전, 다음으로 넘어간다. 사진 영역의 세로 범위 안에서만 동작한다.
+// 배경이나 양옆 빈 곳을 눌러도 닫히지 않는다. 닫기는 ✕ button과 Esc 키가 담당한다.
+lightbox.addEventListener('click', (e) => {
+  if (lbSwiped) {
+    lbSwiped = false;
+    return;
+  } // swipe 직후 합성 클릭 무시(중복 이동 방지)
+  if (e.target.closest('button')) return; // ✕, ‹, › button은 각자 handler가 처리
+  const r = lightboxImg.getBoundingClientRect();
+  if (e.clientY < r.top || e.clientY > r.bottom) {
+    closeLightbox();
+    return;
+  } // 사진 세로 범위 밖(위/아래) → 닫기
+  stepLightbox(e.clientX < window.innerWidth / 2 ? -1 : 1); // 사진 좌/우 → 이전/다음(사진 옆은 안 닫힘)
+});
+
+document.addEventListener('keydown', (e) => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowLeft') stepLightbox(-1);
+  if (e.key === 'ArrowRight') stepLightbox(1);
+});
+
+let touchStartX = 0,
+  lbSwiped = false;
+
+lightbox.addEventListener(
+  'touchstart',
+  (e) => {
+    touchStartX = e.touches[0].clientX;
+    lbSwiped = false;
+  },
+  { passive: true },
+);
+
+lightbox.addEventListener(
+  'touchend',
+  (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    if (Math.abs(dx) > 48) {
+      lbSwiped = true;
+      stepLightbox(dx > 0 ? -1 : 1);
+    }
+  },
+  { passive: true },
+);
+
+// lightbox가 떠 있는 동안 배경 page가 밀리지 않게 한다.
+// overlay의 touchmove를 막아 swipe를 차단한다.
+lightbox.addEventListener(
+  'touchmove',
+  (e) => {
+    e.preventDefault();
+  },
+  { passive: false },
+);
+
+/* 10. 복사 button: 주소와 계좌번호 */
+
+function flashCopied(button, label = 'copied!') {
+  const original = button.textContent;
+  button.textContent = label;
+  button.classList.add('copied');
+
+  setTimeout(() => {
+    button.textContent = original;
+    button.classList.remove('copied');
+  }, 1600);
+}
+
+document.getElementById('copyAddr').addEventListener('click', (e) => {
+  navigator.clipboard.writeText(CONFIG.address).then(() => flashCopied(e.target, '복사됨 ✓'));
+});
+
+// 계좌 복사는 js/private.js가 맡는다. server가 주입하고, 펼칠 때만 render한다.
+
+/* 11. confetti: approve(deploy) button */
+
+const CONFETTI_SYMBOLS = ['{ }', '</>', ';', '++', '♥', '=>', '0', '1', '&&', '#!'];
+
+/* 축하 button. 첫 축하 뒤 60초가 지나야 '한번 더'가 열린다.
+   server는 경계 race를 피하려고 이보다 짧은 50초 창으로 검증한다(RATE_LIMIT_SECONDS). */
+const deployBtn = document.getElementById('deployBtn');
+const deployMsg = document.getElementById('deployMsg');
+const DEPLOY_COOLDOWN = 60 * 1000;
+let deployTick = null;
+
+function fireDeployConfetti() {
+  // 현재 theme의 색상을 그대로 confetti에 사용
+  const style = getComputedStyle(document.documentElement);
+  const colors = ['--mint', '--rose', '--amber', '--blue', '--green'].map((v) =>
+    style.getPropertyValue(v).trim(),
+  );
+
+  for (let i = 0; i < 48; i++) {
+    setTimeout(() => {
+      const piece = document.createElement('span');
+      piece.className = 'confetti';
+      piece.textContent = CONFETTI_SYMBOLS[Math.floor(Math.random() * CONFETTI_SYMBOLS.length)];
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.top = '-5vh';
+      piece.style.color = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.fontSize = 10 + Math.random() * 12 + 'px';
+      piece.style.animationDuration = 2.4 + Math.random() * 2.4 + 's';
+
+      document.body.appendChild(piece);
+      setTimeout(() => piece.remove(), 5200);
+    }, i * 60);
+  }
+}
+
+function refreshDeployBtn() {
+  const at = +localStorage.getItem('wedding-bless-at') || 0;
+  const remain = Math.ceil((DEPLOY_COOLDOWN - (Date.now() - at)) / 1000);
+  if (at && remain > 0) {
+    deployBtn.disabled = true;
+    deployBtn.classList.add('deployed');
+    deployBtn.textContent = `$ approve --again (${remain}s)`;
+  } else {
+    deployBtn.disabled = false;
+    deployBtn.classList.remove('deployed');
+    deployBtn.textContent = at ? '$ approve --again' : '$ approve --deploy wedding'; // 한 번이라도 축하했으면 '--again'
+    if (deployTick) {
+      clearInterval(deployTick);
+      deployTick = null;
+    }
+  }
+}
+
+function startDeployTick() {
+  if (!deployTick) deployTick = setInterval(refreshDeployBtn, 1000);
+}
+
+deployBtn.addEventListener('click', function () {
+  const at = +localStorage.getItem('wedding-bless-at') || 0;
+  if (at && Date.now() - at < DEPLOY_COOLDOWN) return; // cooldown 중
+
+  // 50자 초과를 막는다. cooldown timestamp를 먼저 쓰지 않도록 전송 전에 검사한다.
+  if (typeof blessExceeded === 'function' && blessExceeded('deployInput')) {
+    deployMsg.textContent = '// 50자를 넘기는 축하 메세지는 보낼 수 없어요';
+    deployMsg.classList.add('show');
+    return;
+  }
+
+  localStorage.setItem('wedding-bless-at', String(Date.now()));
+
+  deployMsg.textContent = '축하의 마음이 전달되었습니다 — 200 OK';
+  deployMsg.classList.add('show');
+  sendApproval();
+  fireDeployConfetti();
+
+  refreshDeployBtn();
+  startDeployTick();
+});
+
+refreshDeployBtn();
+startDeployTick();
+
+/*
+   12. 축하 log: 익명 승인 기록
+   '누가'는 수집하지 않고 '언제'만 기록한다.
+   저장소는 SQLite이고 단조 증가하는 seq로 순서를 정한다.
+   API에 닿지 못하면 localStorage demo mode로 fallback한다. */
+
+const alLines = document.getElementById('alLines');
+const alTotal = document.getElementById('alTotal');
+// 표시 개수는 config.js의 스토어가 20건 단위로 관리한다. 여기서는 받아둔 만큼 전부 그린다.
+// box 높이는 css .al-lines 의 max-height 가 잡고, 넘치면 scroll된다.
+
+/** ISO timestamp를 "방금 전", "3분 전" 같은 상대 시간으로 바꾼다. */
+function timeAgo(iso) {
+  const sec = Math.floor((Date.now() - new Date(iso)) / 1000);
+  if (sec < 60) return '방금 전';
+  if (sec < 3600) return `${Math.floor(sec / 60)}분 전`;
+  if (sec < 86400) return `${Math.floor(sec / 3600)}시간 전`;
+  return `${Math.floor(sec / 86400)}일 전`;
+}
+
+// 축하 메시지 풀(개발자와 code 톤). timestamp hash로 안정적으로 골라 매번 다른 한마디가 나온다.
+const APPROVE_MSGS = [
+  'guest approved ✓',
+  'LGTM 👍 ship it!',
+  '+1 merged 🎉',
+  'deployed to ♥ 🚀',
+  'congrats commit complete ✅',
+  'PR approved, congrats ✨',
+  '🥳 congrats on the release!',
+  'no conflicts, all green 💚',
+  'blessing pushed to main 📦',
+  'ACK, be happy forever 🎊',
+  'git push origin happiness 💍',
+  'build passed: happiness 100% 🟢',
+  'reviewed & approved, congrats to you both 🙌',
+  'congrats on the merge 🔀',
+  'uptime guaranteed for life, right? ✓',
+  '⭐⭐⭐⭐⭐ would attend again',
+  'rebased on love 💕',
+  'checks passed, happiness ✅',
+  'a perfect couple, no hotfix needed 💯',
+  'newlyweds.tar.gz extracted 🎀',
+  'to production, forever 🚀',
+  'CI/CD: congrats pipeline succeeded 🎉',
+];
+
+// 자동 축하 문구 선택은 config.js pickAutoMsg/resolveAutoMsgs 로 일원화(직전 2개 제외).
+
+// 사용자 입력 메시지를 화면에 안전하게 출력(XSS 방어)
+function esc(s) {
+  return String(s).replace(
+    /[&<>"']/g,
+    (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c],
+  );
+}
+
+function readDemo() {
+  return JSON.parse(localStorage.getItem('wedding-approvals-demo') || '[]');
+}
+function pushDemo(msg) {
+  const demo = readDemo();
+  demo.push({ ts: new Date().toISOString(), msg });
+  localStorage.setItem('wedding-approvals-demo', JSON.stringify(demo));
+}
+
+/** 로그 패널을 그린다. recent 항목은 { ts, msg }이고, 구버전 ISO 문자열도 호환한다. */
+function renderApprovals(count, recent) {
+  // 5초 폴링 재렌더로 읽던 위치가 맨 위로 튀지 않게 스크롤을 기억해 둔다.
+  const keepScroll = alLines.scrollTop;
+  alLines.innerHTML = '';
+
+  if (!recent.length) {
+    alLines.innerHTML =
+      '<div class="al-line muted"># 아직 기록이 없어요. 첫 번째 축하를 deploy해 주세요!</div>';
+  }
+
+  // 빈 msg는 자동 문구로 채우되 '직전 2개'와 안 겹치게(config.js resolveAutoMsgs). 렌더는 최신순 유지.
+  resolveAutoMsgs(recent, APPROVE_MSGS).forEach((it) => {
+    const line = document.createElement('div');
+    line.className = 'al-line';
+    line.innerHTML = `<span class="ts">[${timeAgo(it.ts)}]</span> ${esc(it.msg)}`;
+    alLines.appendChild(line);
+  });
+
+  // 목록 맨 아래의 '더보기'. 스크롤을 끝까지 내리면 나오고, 누르면 20건씩 이어 붙는다.
+  if (approvalsHasMore()) {
+    const busy = approvalsBusy();
+    const more = document.createElement('button');
+    more.className = 'al-more';
+    more.type = 'button';
+    more.disabled = busy;
+    // 프롬프트, 명령어, 주석을 각각 다른 색으로 준다(.p, .cmd, .cm 은 developer.css).
+    // 삽입값은 숫자뿐이라 이스케이프 대상 없음(메시지 본문은 위에서 esc() 처리).
+    more.innerHTML =
+      '<span class="p">$</span> <span class="cmd">git log -n 20</span> ' +
+      (busy
+        ? '<span class="cm"># 불러오는 중 …</span>'
+        : `<span class="cm"># 더보기 (${(count - recent.length).toLocaleString()}개 남음)</span>`);
+    more.addEventListener('click', () => loadMoreApprovals(renderApprovals));
+    alLines.appendChild(more);
+  }
+
+  alLines.scrollTop = keepScroll;
+  alTotal.innerHTML = `지금까지 <b>${count.toLocaleString()}</b>번의 축하를 받았어요`;
+}
+
+/** 서버에서 현재 기록을 조회한다. 실제 동작은 config.js의 loadApprovals()에 맡긴다.
+    폴링 실패나 일시적 빈 응답이 기존 렌더를 지우지 않게 마지막 성공본을 유지하고,
+    첫 로드에 실패하면 재시도해 색전환 직후의 cold start를 흡수한다.
+    끝내 실패했을 때만 데모로 폴백한다. */
+async function fetchApprovals() {
+  await loadApprovals(renderApprovals, () => {
+    const demo = readDemo();
+    renderApprovals(demo.length, demo.slice().reverse());
+  });
+}
+
+/** 승인 1건을 보낸다. 직접 입력한 한마디를 함께 싣고, 비우면 개발자 버전의 자동 문구로 표시된다. */
+async function sendApproval() {
+  const input = document.getElementById('deployInput');
+  const message = ((input && input.value) || '').trim();
+
+  try {
+    // API가 없는 정적 배포면 network를 거치지 않고 바로 이 browser에만 남긴다.
+    if (typeof window !== 'undefined' && window.__NO_API__) throw new Error('no api');
+    const res = await fetch(`${CONFIG.api.baseUrl}/approvals`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message }),
+    });
+    // 404나 503 같은 응답은 fetch가 예외로 던지지 않는다. 그대로 두면 아래 catch가
+    // 실행되지 않아 하객이 남긴 글이 아무 곳에도 저장되지 않고 사라진다.
+    if (!res.ok) throw new Error('http ' + res.status);
+  } catch {
+    pushDemo(message); // 전송 실패 시 데모 저장소에라도 기록
+  }
+
+  if (input) {
+    input.value = '';
+    input.dispatchEvent(new Event('input', { bubbles: true }));
+  } // 글자수 카운터도 리셋
+  fetchApprovals();
+}
+
+// 첫 진입 시 로그를 표시하고, 이후 5초마다 폴링해 목록과 상대 시간을 갱신한다.
+fetchApprovals();
+setInterval(fetchApprovals, 5000); // 5초마다 폴링(첫 로드 즉시 + 실시간 반영)
+
+/*
+   13. 히든 페이지 공개: 예식 시각이 되면
+   예식 시각(2026-11-14 11:00 KST)이 지나면 히어로에 release 배너가 나타나고
+   파이프라인의 deploy 단계가 완료 상태로 바뀐다.
+   미리보기는 어느 페이지든 ?preview=1 을 붙이면 된다. */
+
+if (isWeddingDeployed()) {
+  // 히어로에 release.html 입구 배너 노출
+  const banner = document.getElementById('releaseBanner');
+  if (banner) banner.classList.add('show');
+
+  // 파이프라인 마지막 단계: RUNNING 대신 완료 처리
+  const lastStep = pipelineSteps[pipelineSteps.length - 1];
+  setTimeout(
+    () => {
+      lastStep.classList.remove('run');
+      lastStep.classList.add('done');
+      lastStep.querySelector('.st').textContent = 'DEPLOYED';
+    },
+    500 + pipelineSteps.length * 550 + 100,
+  );
+
+  // 카운트다운 라벨도 완료 문구로
+  document.querySelector('.dday-label').innerHTML =
+    'DEPLOYED ✓ — marriage v1.0.0 <span style="color:var(--green)">live</span>';
+}
+
+/*
+   14. AI guests: AI agent들의 축하
+   브랜드 아이콘(assets/ai/*.svg, LobeHub icons)을 인라인으로 불러와 일렬로 둥실거리게 하고,
+   자기 차례가 오면 폴짝 뛰며 축하 한마디를 건넨다. deploy 버튼을 누르면 전원이 환호한다.
+
+   SVG를 <img>가 아니라 인라인으로 넣는 이유는, openai와 grok 아이콘이
+   fill="currentColor" 단색이라 인라인이어야 테마의 글자색을 상속받기 때문이다. */
+
+const AI_GUESTS = [
+  {
+    name: 'Claude',
+    color: '#d97757',
+    file: 'assets/ai/claude-color.svg',
+    msg: '두 분의 merge, 제가 본 가장 아름다운 PR이었어요.',
+  },
+  {
+    name: 'Codex',
+    color: '#10a37f',
+    file: 'assets/ai/openai.svg',
+    msg: 'LGTM 🎉 approved — no changes requested.',
+  },
+  {
+    name: 'Gemini',
+    color: '#4796e3',
+    file: 'assets/ai/gemini-color.svg',
+    msg: '두 분의 context window가 평생 이어지길!',
+  },
+  {
+    name: 'DeepSeek',
+    color: '#4d6bfe',
+    file: 'assets/ai/deepseek-color.svg',
+    msg: '아무리 deep하게 탐색해도 이만한 짝은 없습니다.',
+  },
+  {
+    name: 'Copilot',
+    color: '#8b5cf6',
+    file: 'assets/ai/copilot.svg',
+    msg: '자동완성이 필요 없네요. 이미 완벽한 두 분이라.',
+  },
+  {
+    name: 'Llama',
+    color: '#0866ff',
+    file: 'assets/ai/meta-color.svg',
+    msg: '이 사랑, 오픈소스처럼 모두에게 공유되길.',
+  },
+  {
+    name: 'Grok',
+    color: '#8b97a5',
+    file: 'assets/ai/grok.svg',
+    msg: '우주적 스케일로 검증 완료. 축하합니다!',
+  },
+];
+
+// 캐릭터 행렬을 만든다. 아이콘 SVG를 인라인으로 넣는다.
+const aiCast = document.getElementById('aiCast');
+
+AI_GUESTS.forEach(async (agent) => {
+  const char = document.createElement('div');
+  char.className = 'ai-char';
+  char.style.setProperty('--c', agent.color);
+  char.innerHTML = `<span class="ai-ico"></span><span class="ai-nm">${agent.name}</span>`;
+  aiCast.appendChild(char);
+
+  try {
+    const res = await fetch(invAsset(agent.file));
+    // res.ok를 확인하지 않으면 404 응답(예: GitHub Pages의 에러 페이지 HTML,
+    // <style> 태그 포함)을 그대로 innerHTML에 심게 되어 그 <style>이 문서
+    // 전체에 적용되며 레이아웃을 오염시킨다(실측: .hero-names h1이 800px로
+    // 부풀어 중앙정렬이 깨짐 — 원인은 assets/ai/*.svg 404였다).
+    if (!res.ok) throw new Error('icon fetch failed: ' + res.status);
+    char.querySelector('.ai-ico').innerHTML = await res.text();
+  } catch {
+    // 아이콘 로드에 실패하면 브랜드색 점으로 대체한다.
+    char.querySelector('.ai-ico').innerHTML =
+      `<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="${agent.color}"/></svg>`;
+  }
+});
+
+const aiChars = [...aiCast.children];
+
+// 축하 메시지를 돌아가며 보여준다. 말하는 캐릭터가 폴짝 뛴다.
+const aiMsg = document.getElementById('aiMsg');
+let aiIndex = 0;
+
+function showAiMessage() {
+  const agent = AI_GUESTS[aiIndex];
+
+  aiChars.forEach((c, i) => c.classList.toggle('speaking', i === aiIndex));
+  aiMsg.innerHTML =
+    `<span class="who" style="color:${agent.color}">${agent.name}</span>` +
+    `<span class="txt">"${agent.msg}"</span>`;
+
+  aiIndex = (aiIndex + 1) % AI_GUESTS.length;
+}
+
+showAiMessage();
+
+setInterval(() => {
+  aiMsg.classList.add('fade');
+  setTimeout(() => {
+    showAiMessage();
+    aiMsg.classList.remove('fade');
+  }, 450);
+}, 3400);
+
+// deploy 승인 순간에 전원이 환호한다.
+document.getElementById('deployBtn').addEventListener('click', () => {
+  aiCast.classList.add('party');
+  setTimeout(() => aiCast.classList.remove('party'), 2300);
+});
+
+</script>
+</body>
+</html>
