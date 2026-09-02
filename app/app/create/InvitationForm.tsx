@@ -835,7 +835,7 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
                 신랑측
               </h3>
               <div className={styles.parentGrid}>
-                {(['groomFather', 'groomMother'] as ParentKey[]).map((key) => (
+                {(['groomOwn', 'groomFather', 'groomMother'] as ParentKey[]).map((key) => (
                   <ParentAccountFields
                     key={key}
                     idPrefix={key}
@@ -854,7 +854,7 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
                 신부측
               </h3>
               <div className={styles.parentGrid}>
-                {(['brideFather', 'brideMother'] as ParentKey[]).map((key) => (
+                {(['brideOwn', 'brideFather', 'brideMother'] as ParentKey[]).map((key) => (
                   <ParentAccountFields
                     key={key}
                     idPrefix={key}

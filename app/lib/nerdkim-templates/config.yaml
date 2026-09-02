@@ -1,0 +1,100 @@
+# 청첩장 정적 템플릿(main/developer/terminal)에 박혀 있던 "감성 문구"(인사말,
+# 안내 문구, 힌트 텍스트 등)를 여기로 뺐다. `lib/nerdkim/generateInvitation.ts`가
+# 이 파일을 읽어 `{{COPY_*}}` 토큰으로 주입한다 — 문구를 바꾸고 싶을 때 90줄이
+# 넘는 HTML 템플릿을 뒤질 필요 없이 이 파일만 고치면 된다.
+#
+# 값 안의 <span class="hl-g">...</span> 같은 인라인 태그는 원본 템플릿의 강조
+# 스타일이다 — 지우면 그 부분 색 강조만 사라지고 레이아웃이 깨지진 않는다.
+# `\n`을 리터럴로 쓰면 <br />로 바뀐다(다른 필드와 달리 값을 그대로 HTML에
+# 꽂으므로, YAML 안에서 실제 줄바꿈 대신 `\n` 두 글자를 쓰고 싶으면 큰따옴표
+# 문자열로 감싸야 한다 — 아래 항목들은 모두 실제 줄바꿈으로 문단을 나눴다).
+#
+# 세 테마(main/developer/terminal) 모두 신랑/신부 이름·날짜·장소처럼 폼에서 받는
+# 값은 여기 없다 — 그건 여전히 generateInvitation.ts가 직접 계산한다. 이 파일은
+# "폼과 무관하게 모든 청첩장에 공통으로 뜨는 고정 문구"만 담는다.
+
+main:
+  releaseBanner: "🌿 저희 부부가 되었어요 - 감사 인사 보기"
+  greeting: |
+    <p>
+      서로 다른 길을 걸어온 두 사람이 만나<br />
+      이제 같은 곳을 바라보며<br />
+      인생이라는 긴 여정을<br />
+      함께 시작하려 합니다.
+    </p>
+    <p>
+      기쁠 때나 슬플 때나<br />
+      서로의 가장 든든한 동반자가 되어<br />
+      믿음과 사랑으로 걸어가겠습니다.
+    </p>
+    <p class="soft">
+      저희의 새로운 시작을 알리는 자리에<br />
+      귀한 걸음 하시어 축복해 주시면<br />
+      더없는 기쁨으로 간직하겠습니다.
+    </p>
+  giftNote: |
+    참석이 어려우신 분들을 위해 기재했습니다.<br />
+    전해주시는 따뜻한 마음, 소중히 간직하겠습니다.
+  blessNote: |
+    버튼 한 번이면 충분해요.<br />
+    저희에게 큰 힘이 됩니다.
+  blessHint: "입력하지 않으시면 랜덤한 축하 메세지가 발송됩니다."
+  blessPlaceholder: "축하 한마디 (선택, 최대 50자)"
+  footerThanks: "저희 두 사람을 축복해 주셔서 감사합니다"
+  footerNote: |
+    신랑과 신부 모두 개발자로 일하고 있어, 저희다운 방식으로 결혼을 기념하고자 개발자 버전 청첩장을 만들어 보았습니다.<br />
+    신랑이 개발과 배포를, 신부가 기획과 QA를 맡아 함께 완성했습니다.<br />
+    재미로 준비한 페이지이니 편하게 둘러봐 주세요!
+
+developer:
+  releaseBanner: "🎉 deploy 완료! — RELEASE NOTES v1.0.0 보기 →"
+  readme: |
+    <p>
+      서로 다른 환경에서<br />
+      각자의 <span class="hl-g">branch</span>에 코드를 쓰던 두 사람이<br />
+      이제 하나의 <span class="hl-g">repository</span>로<br />
+      함께 <span class="hl-b">merge</span>하기로 했습니다.
+    </p>
+    <p>
+      버그 같은 날엔 함께 <span class="hl-b">debug</span>하고<br />
+      좋은 날엔 <span class="hl-g">git log</span>를 보고 기뻐하며<br />
+      서로의 든든한 <span class="hl-g">pair</span>로<br />
+      정성껏 <span class="hl-b">commit</span>하겠습니다.
+    </p>
+    <p class="small">
+      저희의 첫 <span class="hl-b">deploy</span>에<br />
+      귀한 걸음으로 <span class="hl-g">LGTM approve</span> 해주시면<br />
+      더없는 기쁨으로 간직하겠습니다.
+    </p>
+  giftNote: |
+    참석이 어려우신 분들을 위해 기재했습니다.<br />
+    전해주시는 따뜻한 마음, 소중히 간직하겠습니다.
+  deployIntro: |
+    저희 두 사람의 시작을<br />축하의 마음으로 approve해 주세요.
+  deployHint: "// 입력하지 않으시면 랜덤한 축하 메세지가 발송됩니다"
+  deployPlaceholder: "echo '축하 한마디' (선택, 최대 50자)"
+
+terminal:
+  bodyText: |
+    <p>
+      서로 다른 <span class="hl">address space</span>에서<br />
+      각자 실행되던 두 <span class="hl">process</span>가<br />
+      이제 같은 <span class="hl">memory</span>를<br />
+      함께 <span class="hl-r">mmap</span> 하기로 했습니다.
+    </p>
+    <p>
+      <span class="hl-r">panic</span>이 나는 날엔<br />
+      서로의 <span class="hl">stack</span>을 같이 따라 내려가고<br />
+      좋은 날엔 같은 <span class="hl">clock</span>에 맞춰 뛰며<br />
+      단 하나의 <span class="hl-r">mutex</span>로 평생을 <span class="hl">sync</span> 하겠습니다.
+    </p>
+    <p class="small">
+      저희의 첫 <span class="hl-r">boot</span>와도 같은 이 순간에<br />
+      귀한 <span class="hl">interrupt</span> 한 번 넣어 주시면<br />
+      <span class="hl">register</span>에 깊이 새겨 간직하겠습니다.
+    </p>
+    <div class="quote">"두 <span class="hl">pointer</span>가 같은 주소를 가리키기까지,<br />단 한 번의 <span class="hl-r">segfault</span>도 없었습니다."</div>
+  giftNote: "참석이 어려우신 분들을 위해 기재했습니다.<br />전해주시는 따뜻한 마음, 소중히 간직하겠습니다."
+  rsvpIntro: "저희 두 사람의 시작을<br />축하의 마음으로 approve해 주세요."
+  rsvpHint: "# 입력하지 않으시면 랜덤한 축하 메세지가 발송됩니다"
+  rsvpPlaceholder: "echo '축하 한마디' (선택, 최대 50자)"

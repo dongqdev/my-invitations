@@ -45,6 +45,9 @@
       {{GROOM_NAME}}<span class="and">♥</span>{{BRIDE_NAME}}
     </h1>
 
+    <!-- 폼의 "제목" 입력(예: "저희 결혼합니다") — 표지에 짧은 태그라인으로 노출한다. -->
+    <div class="cover-venue rv in">{{TITLE}}</div>
+
     <div class="cover-date rv in">{{WEDDING_DATETIME_KO}}</div>
     <div class="cover-venue rv in">{{VENUE_NAME}} {{VENUE_HALL}}<br />{{VENUE_ADDRESS_FULL}}</div>
 
@@ -53,7 +56,7 @@
 
     <!-- hidden page 입구. 예식 후에 노출된다. -->
     <a class="release-banner" id="releaseBanner" href="release.html">
-      🌿 저희 부부가 되었어요 - 감사 인사 보기
+      {{COPY_MAIN_RELEASE_BANNER}}
     </a>
   </section>
 
@@ -66,22 +69,9 @@
     <div class="label-title rv">소중한 분들을 초대합니다</div>
 
     <div class="greeting rv d1">
-      <p>
-        서로 다른 길을 걸어온 두 사람이 만나<br />
-        이제 같은 곳을 바라보며<br />
-        인생이라는 긴 여정을<br />
-        함께 시작하려 합니다.
-      </p>
-      <p>
-        기쁠 때나 슬플 때나<br />
-        서로의 가장 든든한 동반자가 되어<br />
-        믿음과 사랑으로 걸어가겠습니다.
-      </p>
-      <p class="soft">
-        저희의 새로운 시작을 알리는 자리에<br />
-        귀한 걸음 하시어 축복해 주시면<br />
-        더없는 기쁨으로 간직하겠습니다.
-      </p>
+      {{COPY_MAIN_GREETING}}
+      <!-- 폼의 "내용" 입력(하객에게 전하고 싶은 인사말) — 위 고정 인사말 뒤에 이어 붙인다. -->
+      <p>{{CONTENT}}</p>
     </div>
 
     <!-- 가족 소개 -->
@@ -217,8 +207,7 @@
     <div class="label-title rv">마음 전하실 곳</div>
 
     <p class="gift-note rv">
-      참석이 어려우신 분들을 위해 기재했습니다.<br />
-      전해주시는 따뜻한 마음, 소중히 간직하겠습니다.
+      {{COPY_MAIN_GIFT_NOTE}}
     </p>
 
     <!-- 계좌는 invitation.conf 에만 있다.
@@ -245,13 +234,12 @@
 
     <!-- '마음 전하실 곳'의 안내문(.gift-note)과 글씨체, 색, 자간, 하단 간격(22px)을 맞춘다. -->
     <p class="gift-note rv">
-      버튼 한 번이면 충분해요.<br />
-      저희에게 큰 힘이 됩니다.
+      {{COPY_MAIN_BLESS_NOTE}}
     </p>
 
     <input class="bless-input rv d1" id="blessInput" type="text" maxlength="50"
-           placeholder="축하 한마디 (선택, 최대 50자)" autocomplete="off" />
-    <p class="input-hint rv d1">입력하지 않으시면 랜덤한 축하 메세지가 발송됩니다.</p>
+           placeholder="{{COPY_MAIN_BLESS_PLACEHOLDER}}" autocomplete="off" />
+    <p class="input-hint rv d1">{{COPY_MAIN_BLESS_HINT}}</p>
     <button class="bless-btn rv d1" id="blessBtn" type="button">축하의 마음 전하기 ❀</button>
     <div class="bless-msg" id="blessMsg"></div>
 
@@ -272,13 +260,11 @@
 
   <!-- footer -->
   <footer>
-    <div class="thanks-line">저희 두 사람을 축복해 주셔서 감사합니다</div>
+    <div class="thanks-line">{{COPY_MAIN_FOOTER_THANKS}}</div>
     <div>{{GROOM_NAME}}, {{BRIDE_NAME}}</div>
     <button class="share-btn" id="shareBtn" type="button">📤 청첩장 공유하기</button>
     <div class="version-note">
-      신랑과 신부 모두 개발자로 일하고 있어, 저희다운 방식으로 결혼을 기념하고자 개발자 버전 청첩장을 만들어 보았습니다.<br />
-      신랑이 개발과 배포를, 신부가 기획과 QA를 맡아 함께 완성했습니다.<br />
-      재미로 준비한 페이지이니 편하게 둘러봐 주세요!
+      {{COPY_MAIN_FOOTER_NOTE}}
     </div>
     <div class="version-links">
       <a class="version-link" href="developer.html">&lt;/&gt; 개발자 버전</a>

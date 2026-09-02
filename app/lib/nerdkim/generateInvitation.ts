@@ -1,5 +1,7 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { convert as romanizeHangul } from 'hangul-romanization';
+import { parse as parseYaml } from 'yaml';
 
 /**
  * nerdkim/wedding-invitation-for-nerds(MIT) 정적 템플릿(main/developer/terminal)에
@@ -23,6 +25,46 @@ function getTemplatesDir(): string {
   return (
     process.env.MY_INVITATIONS_TEMPLATES_DIR ?? path.join(process.cwd(), 'lib', 'nerdkim-templates')
   );
+}
+
+/**
+ * `lib/nerdkim-templates/config.yaml`의 스키마. 세 테마 공통으로 폼과 무관하게
+ * 고정으로 뜨는 "감성 문구"만 담는다(신랑/신부 이름·날짜·장소 등 폼에서 받는
+ * 값은 여전히 이 파일이 직접 계산 — config.yaml에는 없다).
+ */
+interface TemplateCopy {
+  main: {
+    releaseBanner: string;
+    greeting: string;
+    giftNote: string;
+    blessNote: string;
+    blessHint: string;
+    blessPlaceholder: string;
+    footerThanks: string;
+    footerNote: string;
+  };
+  developer: {
+    releaseBanner: string;
+    readme: string;
+    giftNote: string;
+    deployIntro: string;
+    deployHint: string;
+    deployPlaceholder: string;
+  };
+  terminal: {
+    bodyText: string;
+    giftNote: string;
+    rsvpIntro: string;
+    rsvpHint: string;
+    rsvpPlaceholder: string;
+  };
+}
+
+/** 매 생성마다 `config.yaml`을 새로 읽는다 — 파일 하나 읽는 비용은 무시할 만하고,
+ * 문구를 고친 직후 서버 재시작 없이 바로 반영되는 쪽이 캐싱보다 유용하다. */
+async function loadTemplateCopy(): Promise<TemplateCopy> {
+  const raw = await fs.readFile(path.join(getTemplatesDir(), 'config.yaml'), 'utf-8');
+  return parseYaml(raw) as TemplateCopy;
 }
 
 const PAGE_BASE_URL =
@@ -81,12 +123,44 @@ function br(value: string): string {
   return escapeHtml(value).replace(/\\n/g, '<br />');
 }
 
+/** `br()`과 동일하지만 textarea가 실제로 주는 개행 문자(\n)를 변환한다 — `br()`은
+ * 리터럴 "\n" 두 글자만 변환해 textarea 입력에는 안 맞는다(harness-mnr 당시
+ * INFO_* 필드에 남은 미해결 항목, `app/create/types.ts` 주석 참고). CONTENT는
+ * 이번에 새로 연결하는 토큰이라 처음부터 올바르게 만든다. */
+function brFromTextarea(value: string): string {
+  return escapeHtml(value).replace(/\n/g, '<br />');
+}
+
 function firstName(name: string): string {
   return name.trim().split(/\s+/)[0] ?? '';
 }
 
 function handle(name: string): string {
   return firstName(name).toLowerCase().replace(/-/g, '');
+}
+
+const HANGUL_RE = /[가-힣]/;
+
+function capitalize(word: string): string {
+  return word ? word.charAt(0).toUpperCase() + word.slice(1) : word;
+}
+
+/**
+ * 이름을 "이름 성" 순서의 서구식 로마자 표기로 바꾼다(`slug.ts`와 같은
+ * `hangul-romanization` 의존, 성은 첫 글자 하나로 가정 — 복성은 부정확할 수 있음).
+ * `GROOM_EN_FIRST`/`GROOM_HANDLE`(및 config.js의 `.en.split(' ')[0]`)이 첫
+ * 토큰을 "이름"으로 취급하므로 순서가 중요하다. 이미 영문 이름이면 그대로 쓴다.
+ */
+function romanizeNameEn(name: string): string {
+  const trimmed = name.trim();
+  if (!trimmed) return '';
+  if (!HANGUL_RE.test(trimmed)) return trimmed;
+
+  const surname = trimmed.charAt(0);
+  const given = trimmed.slice(1);
+  const surnameEn = capitalize(romanizeHangul(surname));
+  if (!given) return surnameEn;
+  return `${capitalize(romanizeHangul(given))} ${surnameEn}`;
 }
 
 interface DateParts {
@@ -133,14 +207,14 @@ function pad2(n: number): string {
   return String(n).padStart(2, '0');
 }
 
-/** groom/bride 한쪽의 nerdkim `person` JSON 조각. 이름 외 항목은 폼에서 안 받으므로 빈 값. */
-function personJson(name: string, parentsCsv: string) {
+/** groom/bride 한쪽의 nerdkim `person` JSON 조각. 이름/역할 외 항목은 폼에서 안 받으므로 빈 값. */
+function personJson(name: string, parentsCsv: string, nameEn: string, role: string) {
   return {
     name,
     short: name,
-    en: '',
+    en: nameEn,
     initial: name.charAt(0) || '',
-    role: '',
+    role,
     parents: parentsCsv
       .split(',')
       .map((s) => s.trim())
@@ -192,6 +266,7 @@ const THEME_FILES: { file: string; ogTokenKey: string }[] = [
 export async function generateNerdkimInvitation(
   input: NerdkimInvitationInput,
 ): Promise<GeneratedInvitation> {
+  const copy = await loadTemplateCopy();
   const parts = parseDateTimeParts(input.weddingDateTime);
   if (!parts) {
     throw new Error(`weddingDateTime을 해석할 수 없습니다: ${input.weddingDateTime}`);
@@ -215,33 +290,44 @@ export async function generateNerdkimInvitation(
   const groomParentsCsv = [input.groomFatherName, input.groomMotherName].filter(Boolean).join(',');
   const brideParentsCsv = [input.brideFatherName, input.brideMotherName].filter(Boolean).join(',');
 
+  // 영문 이름은 별도 입력칸이 없다 — slug.ts와 동일하게 hangul-romanization으로
+  // 자동 변환한다("이름 성" 순서. GROOM_ROLE/BRIDE_ROLE은 신랑/신부 구분 자체가
+  // role이므로 폼 입력 없이 고정값).
+  const groomNameEn = romanizeNameEn(input.groomName);
+  const brideNameEn = romanizeNameEn(input.brideName);
+  const GROOM_ROLE = '신랑';
+  const BRIDE_ROLE = '신부';
+
   const host = new URL(PAGE_BASE_URL).host;
 
   // {{TOKEN}} 표 — HTML 3종에 실제로 등장하는 토큰 전부.
   const baseTokens: Record<string, string> = {
+    TITLE: input.title,
+    CONTENT: brFromTextarea(input.content),
+
     GROOM_NAME: input.groomName,
     GROOM_NAME_SHORT: input.groomName,
-    GROOM_NAME_EN: '',
-    GROOM_ROLE: '',
+    GROOM_NAME_EN: groomNameEn,
+    GROOM_ROLE,
     GROOM_PARENTS: groomParents,
     GROOM_PARENTS_0: nth(groomParentsCsv, 0),
     GROOM_PARENTS_1: nth(groomParentsCsv, 1),
     GROOM_RANK_KO: '',
     GROOM_RANK_EXPR: '',
-    GROOM_EN_FIRST: firstName(''),
-    GROOM_HANDLE: handle(''),
+    GROOM_EN_FIRST: firstName(groomNameEn),
+    GROOM_HANDLE: handle(groomNameEn),
 
     BRIDE_NAME: input.brideName,
     BRIDE_NAME_SHORT: input.brideName,
-    BRIDE_NAME_EN: '',
-    BRIDE_ROLE: '',
+    BRIDE_NAME_EN: brideNameEn,
+    BRIDE_ROLE,
     BRIDE_PARENTS: brideParents,
     BRIDE_PARENTS_0: nth(brideParentsCsv, 0),
     BRIDE_PARENTS_1: nth(brideParentsCsv, 1),
     BRIDE_RANK_KO: '',
     BRIDE_RANK_EXPR: '',
-    BRIDE_EN_FIRST: firstName(''),
-    BRIDE_HANDLE: handle(''),
+    BRIDE_EN_FIRST: firstName(brideNameEn),
+    BRIDE_HANDLE: handle(brideNameEn),
 
     VENUE_NAME: input.venueName,
     VENUE_HALL: input.venueHall,
@@ -269,19 +355,48 @@ export async function generateNerdkimInvitation(
     INFO_MEAL: br(input.infoMeal),
 
     HOST: host,
+
+    // config.yaml에서 읽은 고정 문구. INFO_*와 같은 이유로 이스케이프 대상에서
+    // 제외한다(아래 escapedTokens 계산 참고) — 개발자가 직접 관리하는 신뢰된
+    // HTML(<br />, <span> 등)이 이미 값 안에 포함돼 있다.
+    COPY_MAIN_RELEASE_BANNER: copy.main.releaseBanner,
+    COPY_MAIN_GREETING: copy.main.greeting,
+    COPY_MAIN_GIFT_NOTE: copy.main.giftNote,
+    COPY_MAIN_BLESS_NOTE: copy.main.blessNote,
+    COPY_MAIN_BLESS_HINT: copy.main.blessHint,
+    COPY_MAIN_BLESS_PLACEHOLDER: copy.main.blessPlaceholder,
+    COPY_MAIN_FOOTER_THANKS: copy.main.footerThanks,
+    COPY_MAIN_FOOTER_NOTE: copy.main.footerNote,
+
+    COPY_DEV_RELEASE_BANNER: copy.developer.releaseBanner,
+    COPY_DEV_README: copy.developer.readme,
+    COPY_DEV_GIFT_NOTE: copy.developer.giftNote,
+    COPY_DEV_DEPLOY_INTRO: copy.developer.deployIntro,
+    COPY_DEV_DEPLOY_HINT: copy.developer.deployHint,
+    COPY_DEV_DEPLOY_PLACEHOLDER: copy.developer.deployPlaceholder,
+
+    COPY_TERMINAL_BODY_TEXT: copy.terminal.bodyText,
+    COPY_TERMINAL_GIFT_NOTE: copy.terminal.giftNote,
+    COPY_TERMINAL_RSVP_INTRO: copy.terminal.rsvpIntro,
+    COPY_TERMINAL_RSVP_HINT: copy.terminal.rsvpHint,
+    COPY_TERMINAL_RSVP_PLACEHOLDER: copy.terminal.rsvpPlaceholder,
   };
 
-  // 사람 입력이 그대로 HTML 텍스트로 들어가는 토큰은 이스케이프한다(br()이 처리한 INFO_*는 제외).
+  // 사람 입력이 그대로 HTML 텍스트로 들어가는 토큰은 이스케이프한다(br()/brFromTextarea가
+  // 이미 이스케이프까지 마친 INFO_*·CONTENT, config.yaml에서 그대로 가져온 COPY_*는 제외).
+  const PRE_ESCAPED_KEYS = new Set(['CONTENT']);
   const escapedTokens: Record<string, string> = {};
   for (const [key, value] of Object.entries(baseTokens)) {
-    escapedTokens[key] = key.startsWith('INFO_') ? value : escapeHtml(value);
+    const alreadyEscaped =
+      key.startsWith('INFO_') || key.startsWith('COPY_') || PRE_ESCAPED_KEYS.has(key);
+    escapedTokens[key] = alreadyEscaped ? value : escapeHtml(value);
   }
 
   const weddingJson = {
     at: `${y}-${pad2(m)}-${pad2(d)}T${pad2(h24)}:${pad2(mi)}:00+09:00`,
     firstMetAt: `${y}-${pad2(m)}-${pad2(d)}T${pad2(h24)}:${pad2(mi)}:00+09:00`,
-    groom: personJson(input.groomName, groomParentsCsv),
-    bride: personJson(input.brideName, brideParentsCsv),
+    groom: personJson(input.groomName, groomParentsCsv, groomNameEn, GROOM_ROLE),
+    bride: personJson(input.brideName, brideParentsCsv, brideNameEn, BRIDE_ROLE),
     venue: {
       name: input.venueName,
       hall: input.venueHall,

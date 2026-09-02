@@ -25,7 +25,8 @@ export interface GalleryImage {
   previewUrl: string;
 }
 
-export type ParentKey = 'groomFather' | 'groomMother' | 'brideFather' | 'brideMother';
+export type ParentKey =
+  'groomOwn' | 'brideOwn' | 'groomFather' | 'groomMother' | 'brideFather' | 'brideMother';
 
 export interface InvitationFormData {
   mainImage: File | null;
@@ -37,6 +38,8 @@ export interface InvitationFormData {
   weddingDateTime: string;
   groomName: string;
   brideName: string;
+  groomOwn: ParentInfo;
+  brideOwn: ParentInfo;
   groomFather: ParentInfo;
   groomMother: ParentInfo;
   brideFather: ParentInfo;
@@ -67,6 +70,8 @@ export interface InvitationFormData {
 }
 
 export const PARENT_KEYS: ParentKey[] = [
+  'groomOwn',
+  'brideOwn',
   'groomFather',
   'groomMother',
   'brideFather',
@@ -74,6 +79,8 @@ export const PARENT_KEYS: ParentKey[] = [
 ];
 
 export const PARENT_LABELS: Record<ParentKey, string> = {
+  groomOwn: '신랑 본인',
+  brideOwn: '신부 본인',
   groomFather: '신랑측 아버지',
   groomMother: '신랑측 어머니',
   brideFather: '신부측 아버지',
@@ -97,6 +104,8 @@ export function createEmptyInvitationFormData(): InvitationFormData {
     weddingDateTime: '',
     groomName: '',
     brideName: '',
+    groomOwn: createEmptyParent(),
+    brideOwn: createEmptyParent(),
     groomFather: createEmptyParent(),
     groomMother: createEmptyParent(),
     brideFather: createEmptyParent(),

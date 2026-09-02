@@ -77,24 +77,7 @@
     <section id="invite">
       <div class="sec">section: <b>invitation — boot/init.S</b></div>
       <div class="body-text rv">
-        <p>
-          서로 다른 <span class="hl">address space</span>에서<br />
-          각자 실행되던 두 <span class="hl">process</span>가<br />
-          이제 같은 <span class="hl">memory</span>를<br />
-          함께 <span class="hl-r">mmap</span> 하기로 했습니다.
-        </p>
-        <p>
-          <span class="hl-r">panic</span>이 나는 날엔<br />
-          서로의 <span class="hl">stack</span>을 같이 따라 내려가고<br />
-          좋은 날엔 같은 <span class="hl">clock</span>에 맞춰 뛰며<br />
-          단 하나의 <span class="hl-r">mutex</span>로 평생을 <span class="hl">sync</span> 하겠습니다.
-        </p>
-        <p class="small">
-          저희의 첫 <span class="hl-r">boot</span>와도 같은 이 순간에<br />
-          귀한 <span class="hl">interrupt</span> 한 번 넣어 주시면<br />
-          <span class="hl">register</span>에 깊이 새겨 간직하겠습니다.
-        </p>
-        <div class="quote">"두 <span class="hl">pointer</span>가 같은 주소를 가리키기까지,<br />단 한 번의 <span class="hl-r">segfault</span>도 없었습니다."</div>
+        {{COPY_TERMINAL_BODY_TEXT}}
       </div>
     </section>
 
@@ -159,7 +142,7 @@
     <!-- 마음 전하실 곳 -->
     <section id="gift">
       <div class="sec">section: <b>gift — 마음 전하실 곳</b></div>
-      <p class="note">참석이 어려우신 분들을 위해 기재했습니다.<br />전해주시는 따뜻한 마음, 소중히 간직하겠습니다.</p>
+      <p class="note">{{COPY_TERMINAL_GIFT_NOTE}}</p>
 
       <!-- 계좌는 invitation.conf 에만 있다.
            심어 둔 난독화 blob을 js/private.js가 풀어 그리며, 정적 파일에는 평문이 없다.
@@ -177,7 +160,7 @@
     <section id="rsvp">
       <div class="sec">section: <b>rsvp — approve</b></div>
       <div class="rsvp">
-        <p class="body-text" style="margin-bottom: 4px">저희 두 사람의 시작을<br />축하의 마음으로 approve해 주세요.</p>
+        <p class="body-text" style="margin-bottom: 4px">{{COPY_TERMINAL_RSVP_INTRO}}</p>
 
         <div class="ai rv">
           <div class="ai-head">// AI agent들의 축하가 먼저 도착했습니다</div>
@@ -187,9 +170,9 @@
         <div class="rsvp-line rv">
           <span class="rsvp-prompt" aria-hidden="true">$</span>
           <input class="rsvp-input" id="rsvpInput" type="text" maxlength="50"
-                 placeholder="echo '축하 한마디' (선택, 최대 50자)" autocomplete="off" />
+                 placeholder="{{COPY_TERMINAL_RSVP_PLACEHOLDER}}" autocomplete="off" />
         </div>
-        <p class="input-hint rv"># 입력하지 않으시면 랜덤한 축하 메세지가 발송됩니다</p>
+        <p class="input-hint rv">{{COPY_TERMINAL_RSVP_HINT}}</p>
         <button class="rsvp-btn rv" id="rsvpBtn" type="button">$ approve --deploy wedding</button>
         <div class="rsvp-msg" id="rsvpMsg"></div>
 

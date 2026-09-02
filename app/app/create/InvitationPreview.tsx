@@ -16,18 +16,21 @@ const POLL_INTERVAL_MS = 5000;
 const MAX_POLL_ATTEMPTS = 24;
 
 /**
- * 부모님 계좌 정보(`ParentInfo.account`)를 `/api/confirm`이 받는 `WeddingAccounts`
- * 형태로 바꾼다. `app/create/validation.ts`의 `validateParentGroup`과 동일한 규칙 —
- * 네 칸(성함/은행/예금주/계좌번호)이 전부 채워진 그룹만 계좌로 포함한다. 폼 제출
- * 시점에 이미 이 검증을 통과했어야 하지만(반쯤 채워진 그룹은 제출 자체가 막힘),
- * 여기서도 다시 확인해 방어적으로 걸러낸다 — 실수로 빈 계좌 오브젝트가 저장소에
- * 들어가는 일을 막기 위함.
+ * 신랑/신부 본인 + 부모님 계좌 정보(`ParentInfo.account`)를 `/api/confirm`이 받는
+ * `WeddingAccounts` 형태로 바꾼다(`groomOwn`/`brideOwn`은 `WeddingAccounts`의
+ * `groom`/`bride` 키로 매핑). `app/create/validation.ts`의 `validateParentGroup`과
+ * 동일한 규칙 — 네 칸(성함/은행/예금주/계좌번호)이 전부 채워진 그룹만 계좌로
+ * 포함한다. 폼 제출 시점에 이미 이 검증을 통과했어야 하지만(반쯤 채워진 그룹은
+ * 제출 자체가 막힘), 여기서도 다시 확인해 방어적으로 걸러낸다 — 실수로 빈 계좌
+ * 오브젝트가 저장소에 들어가는 일을 막기 위함.
  */
 function buildAccountsPayload(data: InvitationFormData): WeddingAccounts {
   const accounts: WeddingAccounts = {};
 
   (
     [
+      ['groom', data.groomOwn],
+      ['bride', data.brideOwn],
       ['groomFather', data.groomFather],
       ['groomMother', data.groomMother],
       ['brideFather', data.brideFather],

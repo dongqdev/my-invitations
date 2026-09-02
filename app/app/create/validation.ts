@@ -22,6 +22,8 @@ export interface FieldErrors {
   brideName?: string;
   venueName?: string;
   venueAddress?: string;
+  groomOwn?: ParentFieldErrors;
+  brideOwn?: ParentFieldErrors;
   groomFather?: ParentFieldErrors;
   groomMother?: ParentFieldErrors;
   brideFather?: ParentFieldErrors;
@@ -31,8 +33,8 @@ export interface FieldErrors {
 /**
  * 최상위 필수 항목만 검사한다. 대표 이미지 / 제목 / 내용 / 예식 일시 /
  * 신랑·신부 성함 / 예식장 이름·주소 — 이 여덟 개는 항상 필수다. 제출 버튼
- * 활성화 여부는 이 결과만으로 결정한다(부모님 계좌 섹션은 항목 전체가
- * 선택이므로 버튼을 막지 않는다 — 아래 validateParentGroup 참고). 예식장
+ * 활성화 여부는 이 결과만으로 결정한다(신랑·신부 본인 및 부모님 계좌 섹션은
+ * 항목 전체가 선택이므로 버튼을 막지 않는다 — 아래 validateParentGroup 참고). 예식장
  * 상세 정보 중 홀/층/지하철/지도좌표는 선택 입력이다 — 지도좌표(위도·경도·
  * 확대 레벨)가 비어 있으면 지도 없이 텍스트 안내만 노출하는 게 원본
  * nerdkim 템플릿의 설계다.
@@ -51,9 +53,9 @@ export function validateRequiredFields(data: InvitationFormData): FieldErrors {
 }
 
 /**
- * 부모님 성함+계좌 한 세트는 통째로 선택 항목이다(계좌를 공개하지 않는
- * 가정도 있으므로). 다만 하나라도 입력을 시작했다면 그 세트는 네 칸을
- * 전부 채워야 한다 — 반쯤 채워진 계좌 정보를 그대로 두지 않기 위함.
+ * 신랑/신부 본인 또는 부모님 성함+계좌 한 세트는 통째로 선택 항목이다(계좌를
+ * 공개하지 않는 가정도 있으므로). 다만 하나라도 입력을 시작했다면 그 세트는
+ * 네 칸을 전부 채워야 한다 — 반쯤 채워진 계좌 정보를 그대로 두지 않기 위함.
  */
 export function validateParentGroup(parent: ParentInfo): ParentFieldErrors | undefined {
   const filled = {

@@ -47,7 +47,7 @@ interface ConfirmRequestBody {
   infoMeal?: unknown;
   /** 확정되면 링크를 받을 이메일. 선택 — 없으면 발송 안 함. */
   email?: unknown;
-  /** 신랑측/신부측 부모님 계좌(4그룹). 전부 선택 — 채워진 그룹만 온다. */
+  /** 신랑/신부 본인 + 신랑측/신부측 부모님 계좌(최대 6그룹). 전부 선택 — 채워진 그룹만 온다. */
   accounts?: unknown;
 }
 

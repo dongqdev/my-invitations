@@ -80,7 +80,7 @@
 
     <!-- hidden page 입구. 예식 시각이 지나면 JS가 노출한다. -->
     <a class="release-banner" id="releaseBanner" href="release.html">
-      🎉 deploy 완료! — RELEASE NOTES v1.0.0 보기 →
+      {{COPY_DEV_RELEASE_BANNER}}
     </a>
 
     <!-- main 웨딩 사진 (image viewer frame) -->
@@ -99,23 +99,7 @@
     <div class="sec-label rv">section: invitation — README.md</div>
 
     <div class="readme rv d1">
-      <p>
-        서로 다른 환경에서<br />
-        각자의 <span class="hl-g">branch</span>에 코드를 쓰던 두 사람이<br />
-        이제 하나의 <span class="hl-g">repository</span>로<br />
-        함께 <span class="hl-b">merge</span>하기로 했습니다.
-      </p>
-      <p>
-        버그 같은 날엔 함께 <span class="hl-b">debug</span>하고<br />
-        좋은 날엔 <span class="hl-g">git log</span>를 보고 기뻐하며<br />
-        서로의 든든한 <span class="hl-g">pair</span>로<br />
-        정성껏 <span class="hl-b">commit</span>하겠습니다.
-      </p>
-      <p class="small">
-        저희의 첫 <span class="hl-b">deploy</span>에<br />
-        귀한 걸음으로 <span class="hl-g">LGTM approve</span> 해주시면<br />
-        더없는 기쁨으로 간직하겠습니다.
-      </p>
+      {{COPY_DEV_README}}
     </div>
   </section>
 
@@ -266,8 +250,7 @@
   <section id="gift">
     <div class="sec-label rv">section: gift — 마음 전하실 곳</div>
     <p class="gift-note rv">
-      참석이 어려우신 분들을 위해 기재했습니다.<br />
-      전해주시는 따뜻한 마음, 소중히 간직하겠습니다.
+      {{COPY_DEV_GIFT_NOTE}}
     </p>
 
     <!-- 계좌는 invitation.conf 에만 있다.
@@ -288,7 +271,7 @@
   <section id="deploy">
     <div class="sec-label rv">section: rsvp — 마지막 승인</div>
     <p class="readme rv d1" style="font-size: 18px">
-      저희 두 사람의 시작을<br />축하의 마음으로 approve해 주세요.
+      {{COPY_DEV_DEPLOY_INTRO}}
     </p>
 
     <!-- AI agent들의 축하. SVG 캐릭터가 차례로 한 마디씩 한다(js/developer.js에서 생성). -->
@@ -301,9 +284,9 @@
     <div class="deploy-line rv d3">
       <span class="deploy-prompt" aria-hidden="true">$</span>
       <input class="deploy-input" id="deployInput" type="text" maxlength="50"
-             placeholder="echo '축하 한마디' (선택, 최대 50자)" autocomplete="off" />
+             placeholder="{{COPY_DEV_DEPLOY_PLACEHOLDER}}" autocomplete="off" />
     </div>
-    <p class="input-hint rv d3">// 입력하지 않으시면 랜덤한 축하 메세지가 발송됩니다</p>
+    <p class="input-hint rv d3">{{COPY_DEV_DEPLOY_HINT}}</p>
     <button class="deploy-btn rv d3" id="deployBtn" type="button">$ approve --deploy wedding</button>
     <div class="deploy-msg" id="deployMsg"></div>
 
