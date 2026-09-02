@@ -851,7 +851,8 @@ details.gift .acc-list {
   color: var(--soft);
 }
 
-.acc button {
+.acc button,
+.acc .acc-call-btn {
   flex: none;
   margin-left: auto;
   padding: 7px 12px;
@@ -862,9 +863,11 @@ details.gift .acc-list {
   color: var(--soft);
   cursor: pointer;
   transition: all 0.25s;
+  text-decoration: none; /* .acc-call-btn은 <a href="tel:">라 밑줄이 붙는다 */
 }
 
-.acc button:hover {
+.acc button:hover,
+.acc .acc-call-btn:hover {
   color: var(--rose);
   border-color: var(--rose);
 }
@@ -1739,6 +1742,26 @@ section {
   <div class="divider">✿</div>
 
 
+  <!-- 연락처 -->
+  <section>
+    <div class="label rv">CONTACT</div>
+    <div class="label-title rv">연락처</div>
+
+    <!-- 계좌와 동일한 규약(private.js 참고) — 펼칠 때에만 fetch+render된다. -->
+    <details class="gift rv d1">
+      <summary>신랑 측 연락처 <span class="arrow">›</span></summary>
+      <div class="acc-list" data-contact="groom" data-copy-label="복사"></div>
+    </details>
+
+    <details class="gift rv d2">
+      <summary>신부 측 연락처 <span class="arrow">›</span></summary>
+      <div class="acc-list" data-contact="bride" data-copy-label="복사"></div>
+    </details>
+  </section>
+
+  <div class="divider">❀</div>
+
+
   <!-- 마음 전하실 곳 -->
   <section>
     <div class="label rv">WITH LOVE</div>
@@ -1829,7 +1852,7 @@ section {
 </div>
 
 <script>
-window.__WEDDING__={"at":"2026-09-05T12:10:00+09:00","firstMetAt":"2026-09-05T12:10:00+09:00","groom":{"name":"최제훈","short":"최제훈","en":"Jehun Choe","initial":"최","role":"신랑","parents":["최봉수","이율희"],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"bride":{"name":"손미나","short":"손미나","en":"Mina Son","initial":"손","role":"신부","parents":["손영균","안남수"],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"venue":{"name":"라포에트","hall":"","address":"경기 광명시 광명역로 21 (고속철도 광명역)","floor":"지하 1층","addressCopy":"경기 광명시 광명역로 21 (고속철도 광명역) 지하 1층","subway":"광명역(1호선)","subwayShort":"광명역(1호선)","lat":37.41678942949079,"lng":126.88594552701782,"zoom":17},"map":{"naver":"https://map.naver.com/p/search/%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8?c=126.88594552701782,37.41678942949079,17,0,0,0,dh","kakao":"https://map.kakao.com/link/map/%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8,37.41678942949079,126.88594552701782"},"photos":{"main":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","mainDev":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","bless":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","gallery":["https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/19dabfef-027e-46bd-847d-2df6815ba185/01cf2af7-50d9-43fa-88bb-696fa42e58eb.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/1d44a172-38d8-445e-a52f-e86fe1b1075f/1e378a5d-1603-43ab-93c5-cc179672eb5f.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/7780b21f-abe7-467c-b9f4-f526a29e884b/3d6e1cea-feef-47d8-b900-cb41639817b1.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/9b8ab5bf-388d-4cc1-8787-8376eb9580f0/6a095b83-c80c-4b30-bfa2-c1edf273436d.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/050a69a6-479c-43ab-bc77-55c7a190b733/42e9e095-e6c5-4fd2-8adf-c13ce7c9e7a1.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/c73e7eeb-9b64-4f81-949a-a9519b4fadc3/70e85a08-e872-4e30-91ad-a9db11552203.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/1ca4434d-4624-4e3a-bee6-610d4742320a/76e5a9dd-e997-4def-9233-41d73ad3c777.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/e7813a53-f984-40b1-aa5a-aee2273c5961/86d7e8f7-7925-4228-bb29-73abb540cbe0.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/06e086d5-70be-4b9e-bebd-bf59f5f8caac/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/67771e66-263b-4eb2-b6bb-be31f08ebd17/225f5bb7-6a45-48f3-bab7-de533f72e620.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/2d6998a1-a0d2-47c2-9cf6-00bc34c8dd5e/317cf734-6b10-45a8-86b8-6dce441ce45b.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/b8047415-9d99-4a90-97c7-2413b0f92811/37329f10-2623-4624-a3ab-ea123ffcb8d2.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/0664c4bd-27fe-416e-9bd7-33e6bc994dd3/b5065fb6-7318-4466-b63d-9b046af00920.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/f5479ed0-dd21-409f-8bea-0eec449d9c4b/c077bdef-836b-4092-8c3a-2a111977bd76.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/b883253b-84c9-45c9-9ccb-0a989c5dc295/dbb337cf-f011-4462-b59d-2c1ccb23c807.jpg"],"galleryPageOrder":{}}};window.__SLUG__="choejehun_sonmina";window.__ACCOUNTS_API_BASE__="https://invite.dongq.dev";window.__NO_API__=true;
+window.__WEDDING__={"at":"2026-09-05T12:10:00+09:00","firstMetAt":"2026-09-05T12:10:00+09:00","groom":{"name":"최제훈","short":"최제훈","en":"Jehun Choe","initial":"최","role":"신랑","parents":["최봉수","이율희"],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"bride":{"name":"손미나","short":"손미나","en":"Mina Son","initial":"손","role":"신부","parents":["손영균","안남수"],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"venue":{"name":"라포에트","hall":"","address":"경기 광명시 광명역로 21 (고속철도 광명역)","floor":"지하 1층","addressCopy":"경기 광명시 광명역로 21 (고속철도 광명역) 지하 1층","subway":"광명역(1호선)","subwayShort":"광명역(1호선)","lat":37.41678942949079,"lng":126.88594552701782,"zoom":17},"map":{"naver":"https://map.naver.com/p/search/%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8?c=126.88594552701782,37.41678942949079,17,0,0,0,dh","kakao":"https://map.kakao.com/link/map/%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8,37.41678942949079,126.88594552701782"},"photos":{"main":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","mainDev":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","bless":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","gallery":["https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/19dabfef-027e-46bd-847d-2df6815ba185/01cf2af7-50d9-43fa-88bb-696fa42e58eb.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/1d44a172-38d8-445e-a52f-e86fe1b1075f/1e378a5d-1603-43ab-93c5-cc179672eb5f.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/7780b21f-abe7-467c-b9f4-f526a29e884b/3d6e1cea-feef-47d8-b900-cb41639817b1.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/9b8ab5bf-388d-4cc1-8787-8376eb9580f0/6a095b83-c80c-4b30-bfa2-c1edf273436d.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/050a69a6-479c-43ab-bc77-55c7a190b733/42e9e095-e6c5-4fd2-8adf-c13ce7c9e7a1.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/c73e7eeb-9b64-4f81-949a-a9519b4fadc3/70e85a08-e872-4e30-91ad-a9db11552203.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/1ca4434d-4624-4e3a-bee6-610d4742320a/76e5a9dd-e997-4def-9233-41d73ad3c777.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/e7813a53-f984-40b1-aa5a-aee2273c5961/86d7e8f7-7925-4228-bb29-73abb540cbe0.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/06e086d5-70be-4b9e-bebd-bf59f5f8caac/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/67771e66-263b-4eb2-b6bb-be31f08ebd17/225f5bb7-6a45-48f3-bab7-de533f72e620.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/2d6998a1-a0d2-47c2-9cf6-00bc34c8dd5e/317cf734-6b10-45a8-86b8-6dce441ce45b.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/b8047415-9d99-4a90-97c7-2413b0f92811/37329f10-2623-4624-a3ab-ea123ffcb8d2.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/0664c4bd-27fe-416e-9bd7-33e6bc994dd3/b5065fb6-7318-4466-b63d-9b046af00920.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/f5479ed0-dd21-409f-8bea-0eec449d9c4b/c077bdef-836b-4092-8c3a-2a111977bd76.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/b883253b-84c9-45c9-9ccb-0a989c5dc295/dbb337cf-f011-4462-b59d-2c1ccb23c807.jpg"],"galleryPageOrder":{}}};window.__SLUG__="choejehun_sonmina";window.__ACCOUNTS_API_BASE__="https://invite.dongq.dev";window.__CONTACTS_API_BASE__="https://invite.dongq.dev";window.__NO_API__=true;
 </script>
 <script>
 /*
@@ -2774,10 +2797,16 @@ document.addEventListener('DOMContentLoaded', function () {
    각각 리스트로 묶어 원본과 같은 모양으로 바꿔 준다.
 
    HTML container 규약(원본과 동일, 변경 없음):
-     [data-acc="groom|bride"]   계좌 목록을 채울 곳
-     data-copy-label="복사"      복사 button 글자. theme마다 복사, copy, cp를 쓴다.
-     data-open                  tap이나 펼침 없이 즉시 render(terminal version)
-     data-reveal-label="..."    펼침 button 글자. details 안에 있으면 필요 없다.
+     [data-acc="groom|bride"]      계좌 목록을 채울 곳
+     [data-contact="groom|bride"]  연락처 목록을 채울 곳(계좌와 완전히 같은 규약,
+                                    별도 API `/api/contacts/<slug>` — 아래 참고)
+     data-copy-label="복사"         복사(계좌)/전화(연락처) button 글자. theme마다 복사, copy, cp를 쓴다.
+     data-open                     tap이나 펼침 없이 즉시 render(terminal version)
+     data-reveal-label="..."       펼침 button 글자. details 안에 있으면 필요 없다.
+
+   연락처는 window.__CONTACTS_API_BASE__ + '/api/contacts/' + window.__SLUG__ 로
+   fetch한다 — 계좌와 마찬가지로 개인정보라 git에 넣지 않고 서버 로컬에 저장해
+   두므로(`lib/contactStore.ts`), 정적 파일에는 전화번호 평문이 존재하지 않는다.
  */
 (function () {
   'use strict';
@@ -2816,6 +2845,48 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
     return fetchPromise;
+  }
+
+  /* 연락처(전화번호) — 계좌와 완전히 같은 패턴(별도 API/저장소, 펼칠 때에만 fetch). */
+  var CONTACTS_API_BASE = (typeof window !== 'undefined' && window.__CONTACTS_API_BASE__) || '';
+  var CONTACT_LABELS = {
+    groom: '신랑',
+    groomFather: '아버지',
+    groomMother: '어머니',
+    bride: '신부',
+    brideFather: '아버지',
+    brideMother: '어머니',
+  };
+
+  function shapeContactsForSide(side, raw) {
+    if (!raw) return [];
+    var keys =
+      side === 'groom'
+        ? ['groom', 'groomFather', 'groomMother']
+        : ['bride', 'brideFather', 'brideMother'];
+    var list = [];
+    keys.forEach(function (key) {
+      if (raw[key]) list.push({ label: CONTACT_LABELS[key], phone: raw[key] });
+    });
+    return list;
+  }
+
+  var contactsFetchPromise = null;
+  function fetchContacts() {
+    if (!SLUG) return Promise.resolve(null);
+    if (!contactsFetchPromise) {
+      contactsFetchPromise = fetch(
+        CONTACTS_API_BASE + '/api/contacts/' + encodeURIComponent(SLUG),
+      )
+        .then(function (res) {
+          if (!res.ok) throw new Error('contacts fetch failed: ' + res.status);
+          return res.json();
+        })
+        .catch(function () {
+          return null;
+        });
+    }
+    return contactsFetchPromise;
   }
 
   /* clipboard 복사 (theme의 flashCopied 가 있으면 그대로 사용) */
@@ -2887,14 +2958,60 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   }
 
-  /* 펼치거나 tap할 때에만 fetch+render한다 — 계좌 API 요청 자체가 사용자 의도적
-     행동 뒤에만 나가게 해서, 페이지를 열기만 해도 계좌 서버에 요청이 가지 않게 한다. */
+  /* 한 줄(.acc) 만들기: 이름, 전화번호, tel: 링크 button. row()와 같은 DOM 모양(.nm/.no)을
+     쓰되, 복사 대신 바로 전화 거는 <a href="tel:">를 마지막 자리에 둔다. */
+  function contactRow(label, phone, callLabel) {
+    var el = document.createElement('div');
+    el.className = 'acc';
+
+    var nm = document.createElement('span');
+    nm.className = 'nm';
+    nm.textContent = label;
+
+    var no = document.createElement('span');
+    no.className = 'no';
+    no.textContent = phone;
+
+    var call = document.createElement('a');
+    call.className = 'acc-call-btn';
+    call.href = 'tel:' + phone;
+    call.textContent = callLabel;
+
+    el.append(nm, no, call);
+    return el;
+  }
+
+  function renderContacts(container, data) {
+    var list = shapeContactsForSide(container.dataset.contact, data);
+    var copyLabel = container.dataset.copyLabel || '복사';
+    var callLabel = copyLabel === 'cp' ? 'call' : copyLabel === 'copy' ? 'call' : '전화';
+    if (list.length === 0) {
+      var note = document.createElement('div');
+      note.className = 'acc-note';
+      note.textContent = '등록된 연락처가 없습니다.';
+      container.appendChild(note);
+      return;
+    }
+    list.forEach(function (c) {
+      container.appendChild(contactRow(c.label, c.phone, callLabel));
+    });
+  }
+
+  /* 펼치거나 tap할 때에만 fetch+render한다 — 계좌/연락처 API 요청 자체가 사용자
+     의도적 행동 뒤에만 나가게 해서, 페이지를 열기만 해도 서버에 요청이 가지 않게
+     한다. container가 data-acc면 계좌를, data-contact면 연락처를 그린다. */
   function doRender(container) {
     if (container.dataset.filled) return;
     container.dataset.filled = '1';
-    fetchAccounts().then(function (data) {
-      renderAccounts(container, data);
-    });
+    if (container.dataset.contact) {
+      fetchContacts().then(function (data) {
+        renderContacts(container, data);
+      });
+    } else {
+      fetchAccounts().then(function (data) {
+        renderAccounts(container, data);
+      });
+    }
   }
 
   function gate(container) {
@@ -2924,6 +3041,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
   function init() {
     var accs = document.querySelectorAll('[data-acc]');
+    var contacts = document.querySelectorAll('[data-contact]');
     if (!SLUG) {
       [].forEach.call(accs, function (c) {
         var n = document.createElement('div');
@@ -2931,9 +3049,16 @@ document.addEventListener('DOMContentLoaded', function () {
         n.textContent = '계좌는 서버에서 안전하게 제공됩니다.';
         c.appendChild(n);
       });
+      [].forEach.call(contacts, function (c) {
+        var n = document.createElement('div');
+        n.className = 'acc-note';
+        n.textContent = '연락처는 서버에서 안전하게 제공됩니다.';
+        c.appendChild(n);
+      });
       return;
     }
     [].forEach.call(accs, gate);
+    [].forEach.call(contacts, gate);
   }
 
   if (document.readyState === 'loading') {
