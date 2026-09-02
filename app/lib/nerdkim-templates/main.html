@@ -294,37 +294,6 @@
   // CONFIG는 config.js의 최상위 `const`다. window 속성이 아니므로 직접 참조한다.
   if (!box || typeof CONFIG === 'undefined' || !CONFIG.profile) return;
 
-  function photoEl(p) {
-    var wrap = document.createElement('div');
-    wrap.className = 'pf-photo';
-    if (p.photo) {
-      var img = document.createElement('img');
-      img.src = photoSrc(p.photo);   // 배포별 ?v= cache busting(다른 사진과 통일)
-      img.alt = p.name || '';
-      // profile 사진은 2장뿐이라 eager로 load한다. 신랑 사진에는 아래 transform:scale이 붙는데,
-      // lazy와 transform을 함께 쓰면 첫 load(scroll 최상단)에서 load trigger를 놓쳐
-      // 새로고침 전까지 사진이 안 뜨는 문제가 있었다.
-      img.loading = 'eager';
-      img.decoding = 'async';
-      // 세로 4:5 frame으로 crop한다. 초점(object-position)은 config.photoFocus를 쓴다.
-      // 전신컷은 photoZoom(scale)으로 같은 초점을 기준 삼아 얼굴부터 상반신을 더 크게 잡는다.
-      if (p.photoFocus) img.style.objectPosition = p.photoFocus;
-      if (p.photoZoom) {
-        img.style.transform = 'scale(' + p.photoZoom + ')';
-        img.style.transformOrigin = p.photoFocus || '50% 30%';
-      }
-      img.addEventListener('error', function () {
-        wrap.classList.add('is-empty');
-        wrap.textContent = p.initial || '';   // 사진이 없으면 이니셜 원형으로 대체한다
-      });
-      wrap.appendChild(img);
-    } else {
-      wrap.classList.add('is-empty');
-      wrap.textContent = p.initial || '';
-    }
-    return wrap;
-  }
-
   function rowEl(k, v) {
     var row = document.createElement('div');
     row.className = 'pf-row';
@@ -341,7 +310,6 @@
   function cardEl(p) {
     var card = document.createElement('figure');
     card.className = 'pf-card';
-    card.appendChild(photoEl(p));
 
     var cap = document.createElement('figcaption');
 

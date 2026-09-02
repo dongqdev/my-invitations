@@ -1338,33 +1338,6 @@ body::before {
   text-align: center;
 }
 
-/* 세로 4:5 frame. object-fit:cover로 신랑과 신부의 높이를 맞춘다. */
-.pf-photo {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #f3e6ea; /* image load 전 배경 */
-}
-
-.pf-photo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* frame에 꽉 차게 crop */
-  object-position: 50% 20%; /* 기본 crop 초점. 개별값은 config.photoFocus로 덮어쓴다. */
-}
-
-/* 사진이 없을 때만 쓰는 이니셜. 4:5 box는 그대로 유지한다. */
-.pf-photo.is-empty {
-  display: grid;
-  place-items: center;
-  background: linear-gradient(150deg, #f8ebe9, #f3e6ea); /* 사진 없을 때만 배경(이니셜) */
-  font-family: var(--display);
-  font-size: 44px;
-  color: var(--rose);
-}
-
 .pf-card figcaption {
   width: 100%;
   margin-top: 12px;
@@ -1454,9 +1427,6 @@ body::before {
   }
   .pf-name {
     font-size: 23px;
-  }
-  .pf-photo.is-empty {
-    font-size: 36px;
   }
 }
 
