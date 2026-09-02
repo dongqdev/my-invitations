@@ -20,15 +20,14 @@ const bodyFont = Noto_Sans_KR({
 export default function Home() {
   return (
     <div className={`${displayFont.variable} ${bodyFont.variable} ${styles.page}`}>
-      {/* 실제 청첩장 뷰어(app/invite/_components/Hero.tsx)의 이미지+구분선+이름 구조를
-          장식용으로 축소 재현한 목업. 실 데이터가 필요한 Hero를 그대로 끌어오지 않고,
-          완성물이 어떤 느낌인지만 예시로 보여준다 — 예시 이름/날짜는 실제 값이 아니므로
-          스크린리더에는 노출하지 않는다(아래 텍스트 카드가 같은 의미를 이미 전달). */}
+      {/* 실제 청첩장(예: /i/<slug>)의 이미지+구분선+이름 구조를 장식용으로 축소
+          재현한 목업. 실 데이터를 끌어오지 않고, 완성물이 어떤 느낌인지만 예시로
+          보여준다 — 예시 이름/날짜는 실제 값이 아니므로 스크린리더에는 노출하지
+          않는다(아래 텍스트 카드가 같은 의미를 이미 전달). */}
       <div className={styles.preview} aria-hidden="true">
         <div className={styles.previewCard}>
           <div className={styles.previewImageFrame}>
-            {/* eslint-disable-next-line @next/next/no-img-element -- 데모용 정적 이미지,
-                app/invite/_components/Hero.tsx와 동일 컨벤션.
+            {/* eslint-disable-next-line @next/next/no-img-element -- 데모용 정적 이미지.
                 사진: Icons8 Team, Unsplash License (unsplash.com/photos/IsRIjvgpj5Y) */}
             <img src="/demo/sample-main.jpg" alt="" className={styles.previewImage} />
           </div>

@@ -13,14 +13,15 @@ import { saveInvitationMeta } from '@/lib/invitationMeta';
 import { sendInvitationEmail } from '@/lib/sendInvitationEmail';
 
 /**
- * 미리보기 화면의 '확정' 버튼이 호출하는 지점 — 정적 페이지 생성 파이프라인
- * (harness-8lh.5.2)과 git commit/push(harness-8lh.5.3)의 실제 구현.
+ * 미리보기 화면의 '확정' 버튼이 호출하는 지점.
  *
  * 흐름: 요청 바디 검증 → 슬러그 확정(`resolveInvitationSlug`) → 계좌/연락처 정보가
- * 있으면 git 워크트리 밖에 별도 저장(`saveAccounts`/`saveContacts`) → 정적 HTML 조립(`renderInvitationHtml`)
- * → `custom/<slug>/index.html`에 씀 → `publishStaticPage`로 그 파일을 git
- * commit+push. push 대상 저장소/원격/브랜치/토큰은 전부 `lib/gitPublish.ts`가
- * 환경변수에서 읽으므로 이 라우트는 무엇을(경로/메시지) 커밋할지만 안다.
+ * 있으면 git 워크트리 밖에 별도 저장(`saveAccounts`/`saveContacts`) → `InviteConfig`
+ * 조립 → `custom/<slug>/config.yaml`에 씀(harness-a04q.4.2) → `publishStaticPage`로 그
+ * 파일을 git commit+push. `/i/<slug>`(harness-a04q.1~.3)가 이 config.yaml을 요청마다
+ * 읽어 서버 렌더링하므로, 여기서는 완성 HTML을 만들지 않는다 — push 대상 저장소/원격/
+ * 브랜치/토큰은 전부 `lib/gitPublish.ts`가 환경변수에서 읽으므로 이 라우트는
+ * 무엇을(경로/메시지) 커밋할지만 안다.
  */
 
 interface ConfirmRequestBody {
@@ -292,17 +293,20 @@ export async function POST(request: Request) {
   }
 
   if (data.email) {
-    const pageBaseUrl =
-      process.env.MY_INVITATIONS_PUBLISH_BASE_URL ?? 'https://blog.dongq.dev/my-invitations/custom';
+    // harness-a04q.4.2부터 청첩장은 GitHub Pages 정적 파일이 아니라 이 앱 자신이
+    // `/i/<slug>`(harness-a04q.1~.3)로 서버 렌더링한다 — MY_INVITATIONS_API_BASE_URL과
+    // 같은 오리진(invite.dongq.dev)이므로 그대로 재사용한다(빈 값이면 상대 경로가
+    // 되어 이메일 안에서는 못 여는 링크가 되므로, 개발 편의용 fallback만 붙인다).
+    const siteBaseUrl = process.env.MY_INVITATIONS_API_BASE_URL || 'http://localhost:3000';
     void sendInvitationEmail({
       to: data.email,
       groomName: data.groomName,
       brideName: data.brideName,
-      indexUrl: `${pageBaseUrl}/${slug}/`,
+      indexUrl: `${siteBaseUrl}/i/${slug}`,
       themeUrls: {
-        main: `${pageBaseUrl}/${slug}/main.html`,
-        developer: `${pageBaseUrl}/${slug}/developer.html`,
-        terminal: `${pageBaseUrl}/${slug}/terminal.html`,
+        main: `${siteBaseUrl}/i/${slug}`,
+        developer: `${siteBaseUrl}/i/${slug}/developer`,
+        terminal: `${siteBaseUrl}/i/${slug}/terminal`,
       },
     }).catch((error) => console.error('청첩장 이메일 발송 실패(무시)', error));
   }
