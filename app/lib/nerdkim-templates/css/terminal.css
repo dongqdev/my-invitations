@@ -630,7 +630,8 @@ section {
   color: var(--fg);
 }
 
-.acc button {
+.acc button,
+.acc .acc-call-btn {
   margin-left: auto;
   flex: none;
   font-family: var(--mono);
@@ -641,15 +642,19 @@ section {
   padding: 4px 8px;
   cursor: pointer;
   transition: all 0.2s;
+  text-decoration: none;
 }
 
-.acc button::before {
+.acc button::before,
+.acc .acc-call-btn::before {
   content: '[';
 }
-.acc button::after {
+.acc button::after,
+.acc .acc-call-btn::after {
   content: ']';
 }
-.acc button:hover {
+.acc button:hover,
+.acc .acc-call-btn:hover {
   color: var(--accent);
   border-color: var(--accent);
 }

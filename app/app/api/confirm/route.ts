@@ -3,6 +3,8 @@ import path from 'path';
 import { NextResponse } from 'next/server';
 import type { WeddingAccounts } from '@/lib/accountTypes';
 import { saveAccounts } from '@/lib/accountStore';
+import type { WeddingContacts } from '@/lib/contactTypes';
+import { saveContacts } from '@/lib/contactStore';
 import { getCustomDir, resolveInvitationSlug } from '@/lib/slug';
 import { generateNerdkimInvitation } from '@/lib/nerdkim/generateInvitation';
 import { publishStaticPage } from '@/lib/gitPublish';
@@ -13,8 +15,8 @@ import { sendInvitationEmail } from '@/lib/sendInvitationEmail';
  * 미리보기 화면의 '확정' 버튼이 호출하는 지점 — 정적 페이지 생성 파이프라인
  * (harness-8lh.5.2)과 git commit/push(harness-8lh.5.3)의 실제 구현.
  *
- * 흐름: 요청 바디 검증 → 슬러그 확정(`resolveInvitationSlug`) → 계좌 정보가 있으면
- * git 워크트리 밖에 별도 저장(`saveAccounts`) → 정적 HTML 조립(`renderInvitationHtml`)
+ * 흐름: 요청 바디 검증 → 슬러그 확정(`resolveInvitationSlug`) → 계좌/연락처 정보가
+ * 있으면 git 워크트리 밖에 별도 저장(`saveAccounts`/`saveContacts`) → 정적 HTML 조립(`renderInvitationHtml`)
  * → `custom/<slug>/index.html`에 씀 → `publishStaticPage`로 그 파일을 git
  * commit+push. push 대상 저장소/원격/브랜치/토큰은 전부 `lib/gitPublish.ts`가
  * 환경변수에서 읽으므로 이 라우트는 무엇을(경로/메시지) 커밋할지만 안다.
@@ -49,6 +51,8 @@ interface ConfirmRequestBody {
   email?: unknown;
   /** 신랑/신부 본인 + 신랑측/신부측 부모님 계좌(최대 6그룹). 전부 선택 — 채워진 그룹만 온다. */
   accounts?: unknown;
+  /** 신랑/신부 본인 + 신랑측/신부측 부모님 연락처(최대 6명). 전부 선택. */
+  contacts?: unknown;
 }
 
 interface ValidatedConfirmData {
@@ -79,6 +83,7 @@ interface ValidatedConfirmData {
   /** 형식 검증만 하고 존재 여부 확인은 안 한다 — 발송 실패는 confirm 자체를 막지 않는다. */
   email: string;
   accounts: WeddingAccounts;
+  contacts: WeddingContacts;
 }
 
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -144,6 +149,17 @@ function validateBody(body: ConfirmRequestBody): ValidatedConfirmData | null {
     });
   }
 
+  const contacts: WeddingContacts = {};
+  if (body.contacts && typeof body.contacts === 'object') {
+    const rawContacts = body.contacts as Record<string, unknown>;
+    (
+      ['groom', 'bride', 'groomFather', 'groomMother', 'brideFather', 'brideMother'] as const
+    ).forEach((key) => {
+      const candidate = rawContacts[key];
+      if (isNonEmptyString(candidate)) contacts[key] = candidate;
+    });
+  }
+
   return {
     title: body.title,
     content: body.content,
@@ -174,6 +190,7 @@ function validateBody(body: ConfirmRequestBody): ValidatedConfirmData | null {
     infoParking: toStr(body.infoParking),
     infoMeal: toStr(body.infoMeal),
     accounts,
+    contacts,
   };
 }
 
@@ -201,6 +218,10 @@ export async function POST(request: Request) {
 
   if (Object.keys(data.accounts).length > 0) {
     await saveAccounts(slug, data.accounts);
+  }
+
+  if (Object.keys(data.contacts).length > 0) {
+    await saveContacts(slug, data.contacts);
   }
 
   let generated: Awaited<ReturnType<typeof generateNerdkimInvitation>>;

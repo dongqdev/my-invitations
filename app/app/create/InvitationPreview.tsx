@@ -2,7 +2,8 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { WeddingAccounts } from '@/lib/accountTypes';
-import type { InvitationFormData, ParentInfo } from './types';
+import type { WeddingContacts } from '@/lib/contactTypes';
+import type { InvitationFormData, ParentInfo, PhoneKey } from './types';
 import styles from './InvitationPreview.module.css';
 
 /**
@@ -48,6 +49,16 @@ function buildAccountsPayload(data: InvitationFormData): WeddingAccounts {
   });
 
   return accounts;
+}
+
+/** 연락처는 계좌와 달리 필드 하나(전화번호)뿐이라 트림 후 채워진 것만 옮기면 된다. */
+function buildContactsPayload(data: InvitationFormData): WeddingContacts {
+  const contacts: WeddingContacts = {};
+  (Object.keys(data.phones) as PhoneKey[]).forEach((key) => {
+    const value = data.phones[key].trim();
+    if (value) contacts[key] = value;
+  });
+  return contacts;
 }
 
 interface InvitationPreviewProps {
@@ -200,6 +211,7 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
           infoMeal: data.infoMeal,
           email: email.trim(),
           accounts: buildAccountsPayload(data),
+          contacts: buildContactsPayload(data),
         }),
       });
       if (!response.ok) throw new Error(`unexpected status ${response.status}`);

@@ -12,10 +12,11 @@ import { parse as parseYaml } from 'yaml';
  * 옮긴 것이다 — 토큰 표는 `app/lib/nerdkim-templates/*.html`에 실제 등장하는
  * `{{TOKEN}}` 전체를 대상으로 한다(`grep -ho '{{[A-Z0-9_]*}}' *.html | sort -u`로 확인).
  *
- * 계좌는 이 함수의 입력에 없다 — `renderInvitationHtml.ts`와 동일한 이유(계좌
- * 평문이 파일에 존재할 방법 자체를 없앤다)로, 계좌 관련 토큰(`__GIFT__`)도 만들지
- * 않는다. 대신 `window.__ACCOUNTS_API_BASE__`/`window.__SLUG__`만 주입하고,
- * `js/private.js`(어댑터 버전)가 그 값으로 `/api/accounts/<slug>`를 fetch한다.
+ * 계좌/연락처는 이 함수의 입력에 없다 — `renderInvitationHtml.ts`와 동일한 이유(평문이
+ * 파일에 존재할 방법 자체를 없앤다)로, 관련 토큰(`__GIFT__`)도 만들지 않는다. 대신
+ * `window.__ACCOUNTS_API_BASE__`/`window.__CONTACTS_API_BASE__`/`window.__SLUG__`만
+ * 주입하고, `js/private.js`(어댑터 버전)가 그 값으로 `/api/accounts/<slug>`·
+ * `/api/contacts/<slug>`를 각각 fetch한다.
  */
 
 /** `next start`/`next dev` 프로세스는 항상 `app/` 안에서 실행된다(`lib/slug.ts`의
@@ -484,6 +485,7 @@ async function inlineJs(
     `window.__WEDDING__=${embedJson(weddingJson)};` +
     `window.__SLUG__=${embedJson(slug)};` +
     `window.__ACCOUNTS_API_BASE__=${embedJson(getApiBaseUrl())};` +
+    `window.__CONTACTS_API_BASE__=${embedJson(getApiBaseUrl())};` +
     `window.__NO_API__=true;`;
 
   const scriptBlock =

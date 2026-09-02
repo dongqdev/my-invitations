@@ -816,7 +816,8 @@ details.gift .acc-list {
   color: var(--soft);
 }
 
-.acc button {
+.acc button,
+.acc .acc-call-btn {
   flex: none;
   margin-left: auto;
   padding: 7px 12px;
@@ -827,9 +828,11 @@ details.gift .acc-list {
   color: var(--soft);
   cursor: pointer;
   transition: all 0.25s;
+  text-decoration: none; /* .acc-call-btn은 <a href="tel:">라 밑줄이 붙는다 */
 }
 
-.acc button:hover {
+.acc button:hover,
+.acc .acc-call-btn:hover {
   color: var(--rose);
   border-color: var(--rose);
 }

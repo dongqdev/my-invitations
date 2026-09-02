@@ -28,6 +28,11 @@ export interface GalleryImage {
 export type ParentKey =
   'groomOwn' | 'brideOwn' | 'groomFather' | 'groomMother' | 'brideFather' | 'brideMother';
 
+/** `@/lib/contactTypes`의 `ContactKey`와 동일한 키 집합(그쪽은 서버 전용 모듈이라
+ * 클라이언트 폼에서 바로 import할 수 없어 여기 따로 둔다 — 값은 항상 같이 맞춘다). */
+export type PhoneKey =
+  'groom' | 'bride' | 'groomFather' | 'groomMother' | 'brideFather' | 'brideMother';
+
 export interface InvitationFormData {
   mainImage: File | null;
   mainImagePreviewUrl: string | null;
@@ -64,6 +69,8 @@ export interface InvitationFormData {
   infoBus: string;
   infoParking: string;
   infoMeal: string;
+  /** 연락처(전화번호). 계좌와 마찬가지로 전부 선택이며 git에 들어가지 않는다(`contactStore.ts`). */
+  phones: Record<PhoneKey, string>;
 }
 
 export const PARENT_KEYS: ParentKey[] = [
@@ -78,6 +85,24 @@ export const PARENT_KEYS: ParentKey[] = [
 export const PARENT_LABELS: Record<ParentKey, string> = {
   groomOwn: '신랑 본인',
   brideOwn: '신부 본인',
+  groomFather: '신랑측 아버지',
+  groomMother: '신랑측 어머니',
+  brideFather: '신부측 아버지',
+  brideMother: '신부측 어머니',
+};
+
+export const PHONE_KEYS: PhoneKey[] = [
+  'groom',
+  'bride',
+  'groomFather',
+  'groomMother',
+  'brideFather',
+  'brideMother',
+];
+
+export const PHONE_LABELS: Record<PhoneKey, string> = {
+  groom: '신랑 본인',
+  bride: '신부 본인',
   groomFather: '신랑측 아버지',
   groomMother: '신랑측 어머니',
   brideFather: '신부측 아버지',
@@ -116,6 +141,14 @@ export function createEmptyInvitationFormData(): InvitationFormData {
     venueLat: 0,
     venueLng: 0,
     venueMapZoom: 0,
+    phones: {
+      groom: '',
+      bride: '',
+      groomFather: '',
+      groomMother: '',
+      brideFather: '',
+      brideMother: '',
+    },
     infoSubway: '',
     infoBus: '',
     infoParking: '',

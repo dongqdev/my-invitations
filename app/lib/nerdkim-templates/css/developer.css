@@ -1406,7 +1406,8 @@ details.gift .acc-list {
   color: var(--text);
 } /* 번호는 조금 더 또렷하게 */
 
-.acc button {
+.acc button,
+.acc .acc-call-btn {
   flex: none;
   margin-left: auto;
   padding: 7px 11px;
@@ -1418,9 +1419,11 @@ details.gift .acc-list {
   color: var(--text-dim);
   cursor: pointer;
   transition: all 0.25s;
+  text-decoration: none;
 }
 
-.acc button:hover {
+.acc button:hover,
+.acc .acc-call-btn:hover {
   color: var(--mint);
   border-color: var(--mint);
 }

@@ -4,9 +4,11 @@ import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 
 import {
   createEmptyInvitationFormData,
   PARENT_LABELS,
+  PHONE_LABELS,
   type InvitationFormData,
   type ParentInfo,
   type ParentKey,
+  type PhoneKey,
 } from './types';
 import { isReadyToSubmit, toSummaryMessages, validateInvitationForm } from './validation';
 import { GalleryUpload, MainImageUpload } from './ImageUploads';
@@ -318,6 +320,10 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
 
   function updateParent(key: ParentKey, next: ParentInfo) {
     setFormData((prev) => ({ ...prev, [key]: next }));
+  }
+
+  function updatePhone(key: PhoneKey, value: string) {
+    setFormData((prev) => ({ ...prev, phones: { ...prev.phones, [key]: value } }));
   }
 
   async function handleAddressSearch() {
@@ -822,6 +828,57 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
                     {errors.brideName}
                   </p>
                 )}
+              </div>
+            </div>
+          </Section>
+
+          <Section
+            title="연락처"
+            description="하객이 전화로 연락드릴 수 있게 남겨두는 번호예요. 계좌와 마찬가지로 전부 선택이고, 남겨두지 않은 분은 그냥 비워두시면 돼요."
+          >
+            <div className={styles.parentGroup}>
+              <h3 className={`${styles.parentGroupTitle} ${styles.parentGroupTitleGroom}`}>
+                신랑측
+              </h3>
+              <div className={styles.parentGrid}>
+                {(['groom', 'groomFather', 'groomMother'] as PhoneKey[]).map((key) => (
+                  <div className={styles.field} key={key}>
+                    <label htmlFor={`phone-${key}`} className={styles.label}>
+                      {PHONE_LABELS[key]}
+                    </label>
+                    <input
+                      id={`phone-${key}`}
+                      type="tel"
+                      value={formData.phones[key]}
+                      onChange={(event) => updatePhone(key, event.target.value)}
+                      placeholder="예: 010-1234-5678"
+                      className={styles.input}
+                    />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className={styles.parentGroup}>
+              <h3 className={`${styles.parentGroupTitle} ${styles.parentGroupTitleBride}`}>
+                신부측
+              </h3>
+              <div className={styles.parentGrid}>
+                {(['bride', 'brideFather', 'brideMother'] as PhoneKey[]).map((key) => (
+                  <div className={styles.field} key={key}>
+                    <label htmlFor={`phone-${key}`} className={styles.label}>
+                      {PHONE_LABELS[key]}
+                    </label>
+                    <input
+                      id={`phone-${key}`}
+                      type="tel"
+                      value={formData.phones[key]}
+                      onChange={(event) => updatePhone(key, event.target.value)}
+                      placeholder="예: 010-1234-5678"
+                      className={styles.input}
+                    />
+                  </div>
+                ))}
               </div>
             </div>
           </Section>

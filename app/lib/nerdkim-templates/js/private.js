@@ -16,10 +16,16 @@
    각각 리스트로 묶어 원본과 같은 모양으로 바꿔 준다.
 
    HTML container 규약(원본과 동일, 변경 없음):
-     [data-acc="groom|bride"]   계좌 목록을 채울 곳
-     data-copy-label="복사"      복사 button 글자. theme마다 복사, copy, cp를 쓴다.
-     data-open                  tap이나 펼침 없이 즉시 render(terminal version)
-     data-reveal-label="..."    펼침 button 글자. details 안에 있으면 필요 없다.
+     [data-acc="groom|bride"]      계좌 목록을 채울 곳
+     [data-contact="groom|bride"]  연락처 목록을 채울 곳(계좌와 완전히 같은 규약,
+                                    별도 API `/api/contacts/<slug>` — 아래 참고)
+     data-copy-label="복사"         복사(계좌)/전화(연락처) button 글자. theme마다 복사, copy, cp를 쓴다.
+     data-open                     tap이나 펼침 없이 즉시 render(terminal version)
+     data-reveal-label="..."       펼침 button 글자. details 안에 있으면 필요 없다.
+
+   연락처는 window.__CONTACTS_API_BASE__ + '/api/contacts/' + window.__SLUG__ 로
+   fetch한다 — 계좌와 마찬가지로 개인정보라 git에 넣지 않고 서버 로컬에 저장해
+   두므로(`lib/contactStore.ts`), 정적 파일에는 전화번호 평문이 존재하지 않는다.
  */
 (function () {
   'use strict';
@@ -58,6 +64,46 @@
         });
     }
     return fetchPromise;
+  }
+
+  /* 연락처(전화번호) — 계좌와 완전히 같은 패턴(별도 API/저장소, 펼칠 때에만 fetch). */
+  var CONTACTS_API_BASE = (typeof window !== 'undefined' && window.__CONTACTS_API_BASE__) || '';
+  var CONTACT_LABELS = {
+    groom: '신랑',
+    groomFather: '아버지',
+    groomMother: '어머니',
+    bride: '신부',
+    brideFather: '아버지',
+    brideMother: '어머니',
+  };
+
+  function shapeContactsForSide(side, raw) {
+    if (!raw) return [];
+    var keys =
+      side === 'groom'
+        ? ['groom', 'groomFather', 'groomMother']
+        : ['bride', 'brideFather', 'brideMother'];
+    var list = [];
+    keys.forEach(function (key) {
+      if (raw[key]) list.push({ label: CONTACT_LABELS[key], phone: raw[key] });
+    });
+    return list;
+  }
+
+  var contactsFetchPromise = null;
+  function fetchContacts() {
+    if (!SLUG) return Promise.resolve(null);
+    if (!contactsFetchPromise) {
+      contactsFetchPromise = fetch(CONTACTS_API_BASE + '/api/contacts/' + encodeURIComponent(SLUG))
+        .then(function (res) {
+          if (!res.ok) throw new Error('contacts fetch failed: ' + res.status);
+          return res.json();
+        })
+        .catch(function () {
+          return null;
+        });
+    }
+    return contactsFetchPromise;
   }
 
   /* clipboard 복사 (theme의 flashCopied 가 있으면 그대로 사용) */
@@ -129,14 +175,60 @@
     });
   }
 
-  /* 펼치거나 tap할 때에만 fetch+render한다 — 계좌 API 요청 자체가 사용자 의도적
-     행동 뒤에만 나가게 해서, 페이지를 열기만 해도 계좌 서버에 요청이 가지 않게 한다. */
+  /* 한 줄(.acc) 만들기: 이름, 전화번호, tel: 링크 button. row()와 같은 DOM 모양(.nm/.no)을
+     쓰되, 복사 대신 바로 전화 거는 <a href="tel:">를 마지막 자리에 둔다. */
+  function contactRow(label, phone, callLabel) {
+    var el = document.createElement('div');
+    el.className = 'acc';
+
+    var nm = document.createElement('span');
+    nm.className = 'nm';
+    nm.textContent = label;
+
+    var no = document.createElement('span');
+    no.className = 'no';
+    no.textContent = phone;
+
+    var call = document.createElement('a');
+    call.className = 'acc-call-btn';
+    call.href = 'tel:' + phone;
+    call.textContent = callLabel;
+
+    el.append(nm, no, call);
+    return el;
+  }
+
+  function renderContacts(container, data) {
+    var list = shapeContactsForSide(container.dataset.contact, data);
+    var copyLabel = container.dataset.copyLabel || '복사';
+    var callLabel = copyLabel === 'cp' ? 'call' : copyLabel === 'copy' ? 'call' : '전화';
+    if (list.length === 0) {
+      var note = document.createElement('div');
+      note.className = 'acc-note';
+      note.textContent = '등록된 연락처가 없습니다.';
+      container.appendChild(note);
+      return;
+    }
+    list.forEach(function (c) {
+      container.appendChild(contactRow(c.label, c.phone, callLabel));
+    });
+  }
+
+  /* 펼치거나 tap할 때에만 fetch+render한다 — 계좌/연락처 API 요청 자체가 사용자
+     의도적 행동 뒤에만 나가게 해서, 페이지를 열기만 해도 서버에 요청이 가지 않게
+     한다. container가 data-acc면 계좌를, data-contact면 연락처를 그린다. */
   function doRender(container) {
     if (container.dataset.filled) return;
     container.dataset.filled = '1';
-    fetchAccounts().then(function (data) {
-      renderAccounts(container, data);
-    });
+    if (container.dataset.contact) {
+      fetchContacts().then(function (data) {
+        renderContacts(container, data);
+      });
+    } else {
+      fetchAccounts().then(function (data) {
+        renderAccounts(container, data);
+      });
+    }
   }
 
   function gate(container) {
@@ -166,6 +258,7 @@
 
   function init() {
     var accs = document.querySelectorAll('[data-acc]');
+    var contacts = document.querySelectorAll('[data-contact]');
     if (!SLUG) {
       [].forEach.call(accs, function (c) {
         var n = document.createElement('div');
@@ -173,9 +266,16 @@
         n.textContent = '계좌는 서버에서 안전하게 제공됩니다.';
         c.appendChild(n);
       });
+      [].forEach.call(contacts, function (c) {
+        var n = document.createElement('div');
+        n.className = 'acc-note';
+        n.textContent = '연락처는 서버에서 안전하게 제공됩니다.';
+        c.appendChild(n);
+      });
       return;
     }
     [].forEach.call(accs, gate);
+    [].forEach.call(contacts, gate);
   }
 
   if (document.readyState === 'loading') {
