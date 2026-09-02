@@ -1,0 +1,31 @@
+title: ""
+content: ""
+groomName: "김목업"
+brideName: "임시"
+weddingDateTime: "2026-11-11T11:11"
+mainImageUrl: "https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/e5a39cf0-ce9a-4371-baa6-c7947294733a/demo-main.jpg"
+galleryImageUrls:
+  - "https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/72cbbe3b-631e-4c66-bc09-2c37689baed9/demo-g1.jpg"
+  - "https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/8bf9455d-5910-4c56-a5cb-e66c2ed2cfec/demo-g2.jpg"
+  - "https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/63fa7924-13bf-429c-a53b-01e010766fbf/demo-g3.jpg"
+groomFatherName: "김빌드"
+groomMotherName: "박컴파일"
+brideFatherName: "임배포"
+brideMotherName: "최머지"
+venueName: "스테이징 웨딩홀"
+venueHall: "QA 스위트"
+venueAddress: "서울특별시 강남구 테스트로 42"
+venueFloor: "3층 (프로덕션 직전)"
+venueSubway: "2호선 배포역 3번 출구에서 도보 5분"
+venueSubwayShort: "배포역"
+venueLat: 37.4979
+venueLng: 127.0276
+venueMapZoom: 17
+infoSubway: |-
+  2호선 배포역 3번 출구로 나오시면 됩니다.
+  출구 앞에서 빌드가 완료되어 있어요.
+infoBus: "메인 브랜치행 간선버스를 이용해주세요."
+infoParking: |-
+  지하 1층 스테이징 전용 주차장이 있습니다.
+  예식 3시간 무료 (캐시 초기화 후 재이용 가능).
+infoMeal: "머지 완료 기념 뷔페가 3층에 준비되어 있습니다."

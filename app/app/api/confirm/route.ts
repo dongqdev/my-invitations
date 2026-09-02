@@ -1,12 +1,13 @@
 import { promises as fs } from 'fs';
 import path from 'path';
+import { stringify as stringifyYaml } from 'yaml';
 import { NextResponse } from 'next/server';
 import type { WeddingAccounts } from '@/lib/accountTypes';
 import { saveAccounts } from '@/lib/accountStore';
 import type { WeddingContacts } from '@/lib/contactTypes';
 import { saveContacts } from '@/lib/contactStore';
 import { getCustomDir, resolveInvitationSlug } from '@/lib/slug';
-import { generateNerdkimInvitation } from '@/lib/nerdkim/generateInvitation';
+import type { InviteConfig } from '@/lib/nerdkim/inviteConfig';
 import { publishStaticPage } from '@/lib/gitPublish';
 import { saveInvitationMeta } from '@/lib/invitationMeta';
 import { sendInvitationEmail } from '@/lib/sendInvitationEmail';
@@ -224,59 +225,45 @@ export async function POST(request: Request) {
     await saveContacts(slug, data.contacts);
   }
 
-  let generated: Awaited<ReturnType<typeof generateNerdkimInvitation>>;
-  try {
-    generated = await generateNerdkimInvitation({
-      slug,
-      title: data.title,
-      content: data.content,
-      groomName: data.groomName,
-      brideName: data.brideName,
-      weddingDateTime: data.weddingDateTime,
-      mainImageUrl: data.mainImageUrl,
-      galleryImageUrls: data.galleryImageUrls,
-      groomFatherName: data.groomFatherName,
-      groomMotherName: data.groomMotherName,
-      brideFatherName: data.brideFatherName,
-      brideMotherName: data.brideMotherName,
-      venueName: data.venueName,
-      venueHall: data.venueHall,
-      venueAddress: data.venueAddress,
-      venueFloor: data.venueFloor,
-      venueSubway: data.venueSubway,
-      venueSubwayShort: data.venueSubwayShort,
-      venueLat: data.venueLat,
-      venueLng: data.venueLng,
-      venueMapZoom: data.venueMapZoom,
-      infoSubway: data.infoSubway,
-      infoBus: data.infoBus,
-      infoParking: data.infoParking,
-      infoMeal: data.infoMeal,
-    });
-  } catch (error) {
-    console.error('정적 페이지 생성 실패', error);
-    return NextResponse.json(
-      { error: '정적 페이지를 생성하는 중 오류가 발생했습니다.' },
-      { status: 500 },
-    );
-  }
+  // harness-a04q(config.yaml 서버 렌더링 전환) 이후로는 완성 HTML을 만들어 커밋하지
+  // 않는다 — 이 config.yaml 하나가 청첩장의 유일한 소스이고, `/i/<slug>`(M1/M2,
+  // harness-a04q.2/.3)이 요청마다 이걸 읽어 렌더링한다.
+  const config: InviteConfig = {
+    title: data.title,
+    content: data.content,
+    groomName: data.groomName,
+    brideName: data.brideName,
+    weddingDateTime: data.weddingDateTime,
+    mainImageUrl: data.mainImageUrl,
+    galleryImageUrls: data.galleryImageUrls,
+    groomFatherName: data.groomFatherName,
+    groomMotherName: data.groomMotherName,
+    brideFatherName: data.brideFatherName,
+    brideMotherName: data.brideMotherName,
+    venueName: data.venueName,
+    venueHall: data.venueHall,
+    venueAddress: data.venueAddress,
+    venueFloor: data.venueFloor,
+    venueSubway: data.venueSubway,
+    venueSubwayShort: data.venueSubwayShort,
+    venueLat: data.venueLat,
+    venueLng: data.venueLng,
+    venueMapZoom: data.venueMapZoom,
+    infoSubway: data.infoSubway,
+    infoBus: data.infoBus,
+    infoParking: data.infoParking,
+    infoMeal: data.infoMeal,
+  };
 
   const targetDir = path.join(getCustomDir(), slug);
-  // 디렉터리 전체를 커밋 대상으로 삼는다 — index/main/developer/terminal.html 4개가
-  // 이 한 슬러그의 산출물이다(publishStaticPage는 경로 하나만 받지만 git add는
-  // 디렉터리도 그대로 받는다).
-  const relativePath = `custom/${slug}/`;
+  const relativePath = `custom/${slug}/config.yaml`;
   try {
     await fs.mkdir(targetDir, { recursive: true });
-    await Promise.all(
-      Array.from(generated.files.entries()).map(([filename, content]) =>
-        fs.writeFile(path.join(targetDir, filename), content, 'utf-8'),
-      ),
-    );
+    await fs.writeFile(path.join(targetDir, 'config.yaml'), stringifyYaml(config), 'utf-8');
   } catch (error) {
-    console.error('정적 페이지 파일 쓰기 실패', error);
+    console.error('config.yaml 쓰기 실패', error);
     return NextResponse.json(
-      { error: '정적 페이지 파일을 쓰는 중 오류가 발생했습니다.' },
+      { error: 'config.yaml을 쓰는 중 오류가 발생했습니다.' },
       { status: 500 },
     );
   }
@@ -286,9 +273,9 @@ export async function POST(request: Request) {
     const result = await publishStaticPage(relativePath, `chore(invite): publish ${slug}`);
     commitSha = result.commitSha;
   } catch (error) {
-    console.error('정적 페이지 git publish 실패', error);
+    console.error('config.yaml git publish 실패', error);
     return NextResponse.json(
-      { error: '정적 페이지를 git에 게시하는 중 오류가 발생했습니다.' },
+      { error: 'config.yaml을 git에 게시하는 중 오류가 발생했습니다.' },
       { status: 500 },
     );
   }
