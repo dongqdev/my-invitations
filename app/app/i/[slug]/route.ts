@@ -16,13 +16,31 @@ import { generateNerdkimInvitation } from '@/lib/nerdkim/generateInvitation';
 export async function GET(request: Request, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
-  const input = await loadInviteConfig(slug);
+  let input;
+  try {
+    input = await loadInviteConfig(slug);
+  } catch (error) {
+    console.error('config.yaml 조회 실패', error);
+    return NextResponse.json(
+      { error: '청첩장 정보를 조회하는 중 오류가 발생했습니다.' },
+      { status: 500 },
+    );
+  }
   if (!input) {
     return NextResponse.json({ error: `청첩장을 찾을 수 없습니다: ${slug}` }, { status: 404 });
   }
 
-  const generated = await generateNerdkimInvitation(input);
-  const html = generated.files.get('main.html');
+  let html: string | undefined;
+  try {
+    const generated = await generateNerdkimInvitation(input);
+    html = generated.files.get('main.html');
+  } catch (error) {
+    console.error('청첩장 생성 실패', error);
+    return NextResponse.json(
+      { error: '청첩장을 생성하는 중 오류가 발생했습니다.' },
+      { status: 500 },
+    );
+  }
   if (!html) {
     return NextResponse.json(
       { error: '청첩장을 생성하는 중 오류가 발생했습니다.' },
