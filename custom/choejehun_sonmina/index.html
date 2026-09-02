@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
 
   <title>최제훈 ❤️ 손미나 결혼합니다 🎉</title>
-  <meta name="description" content="2026년 9월 5일 토요일 오후 12시 10분  라포에트 . 최제훈 ♥ 손미나 결혼합니다." />
+  <meta name="description" content="2026년 9월 5일 토요일 오후 12시 10분 라포에트 . 최제훈 ♥ 손미나 결혼합니다." />
 
   <!-- 카카오톡/SNS 공유 미리보기 (Open Graph)
        주의: og:image는 반드시 절대 URL이어야 카카오톡이 썸네일을 읽습니다.
@@ -16,7 +16,7 @@
   <meta property="og:site_name" content="최제훈 ❤️ 손미나 결혼합니다 🎉" />
   <meta property="og:locale" content="ko_KR" />
   <meta property="og:title" content="최제훈 ❤️ 손미나 결혼합니다 🎉" />
-  <meta property="og:description" content="2026년 9월 5일 토요일 오후 12시 10분  라포에트 " />
+  <meta property="og:description" content="2026년 9월 5일 토요일 오후 12시 10분 라포에트 " />
   <meta property="og:url" content="https://blog.dongq.dev/my-invitations/custom/choejehun_sonmina/main.html" />
   <meta property="og:image" content="https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg" />
   <meta property="og:image:type" content="image/jpeg" />
@@ -1373,33 +1373,6 @@ body::before {
   text-align: center;
 }
 
-/* 세로 4:5 frame. object-fit:cover로 신랑과 신부의 높이를 맞춘다. */
-.pf-photo {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  overflow: hidden;
-  border-radius: 16px;
-  background: #f3e6ea; /* image load 전 배경 */
-}
-
-.pf-photo img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover; /* frame에 꽉 차게 crop */
-  object-position: 50% 20%; /* 기본 crop 초점. 개별값은 config.photoFocus로 덮어쓴다. */
-}
-
-/* 사진이 없을 때만 쓰는 이니셜. 4:5 box는 그대로 유지한다. */
-.pf-photo.is-empty {
-  display: grid;
-  place-items: center;
-  background: linear-gradient(150deg, #f8ebe9, #f3e6ea); /* 사진 없을 때만 배경(이니셜) */
-  font-family: var(--display);
-  font-size: 44px;
-  color: var(--rose);
-}
-
 .pf-card figcaption {
   width: 100%;
   margin-top: 12px;
@@ -1489,9 +1462,6 @@ body::before {
   }
   .pf-name {
     font-size: 23px;
-  }
-  .pf-photo.is-empty {
-    font-size: 36px;
   }
 }
 
@@ -1597,8 +1567,11 @@ section {
       최제훈<span class="and">♥</span>손미나
     </h1>
 
+    <!-- 폼의 "제목" 입력(예: "저희 결혼합니다") — 표지에 짧은 태그라인으로 노출한다. -->
+    <div class="cover-venue rv in"></div>
+
     <div class="cover-date rv in">2026년 9월 5일 토요일 오후 12시 10분</div>
-    <div class="cover-venue rv in"> 라포에트 <br />경기 광명시 광명역로 21 (고속철도 광명역) 지하 1층</div>
+    <div class="cover-venue rv in">라포에트 <br />경기 광명시 광명역로 21 (고속철도 광명역) 지하 1층</div>
 
     <!-- main 사진 (아치 frame) -->
     <div class="arch-photo rv d1" id="mainPhoto"></div>
@@ -1619,21 +1592,24 @@ section {
 
     <div class="greeting rv d1">
       <p>
-        서로 다른 길을 걸어온 두 사람이 만나<br />
-        이제 같은 곳을 바라보며<br />
-        인생이라는 긴 여정을<br />
-        함께 시작하려 합니다.
-      </p>
-      <p>
-        기쁠 때나 슬플 때나<br />
-        서로의 가장 든든한 동반자가 되어<br />
-        믿음과 사랑으로 걸어가겠습니다.
-      </p>
-      <p class="soft">
-        저희의 새로운 시작을 알리는 자리에<br />
-        귀한 걸음 하시어 축복해 주시면<br />
-        더없는 기쁨으로 간직하겠습니다.
-      </p>
+  서로 다른 길을 걸어온 두 사람이 만나<br />
+  이제 같은 곳을 바라보며<br />
+  인생이라는 긴 여정을<br />
+  함께 시작하려 합니다.
+</p>
+<p>
+  기쁠 때나 슬플 때나<br />
+  서로의 가장 든든한 동반자가 되어<br />
+  믿음과 사랑으로 걸어가겠습니다.
+</p>
+<p class="soft">
+  저희의 새로운 시작을 알리는 자리에<br />
+  귀한 걸음 하시어 축복해 주시면<br />
+  더없는 기쁨으로 간직하겠습니다.
+</p>
+
+      <!-- 폼의 "내용" 입력(하객에게 전하고 싶은 인사말) — 위 고정 인사말 뒤에 이어 붙인다. -->
+      <p></p>
     </div>
 
     <!-- 가족 소개 -->
@@ -1642,7 +1618,7 @@ section {
         <span class="parents">최봉수, 이율희</span><span class="rel">의 </span> <b>최제훈</b>
       </div>
       <div>
-        <span class="parents">손영균, 안남</span><span class="rel">의 </span> <b>손미나</b>
+        <span class="parents">손영균, 안남수</span><span class="rel">의 </span> <b>손미나</b>
       </div>
     </div>
   </section>
@@ -1700,14 +1676,14 @@ section {
     <div class="label-title rv">오시는 길</div>
 
     <div class="venue-card rv d1">
-      <div class="vc-name"> 라포에트 <small></small></div>
+      <div class="vc-name">라포에트 <small></small></div>
       <div class="vc-addr">경기 광명시 광명역로 21 (고속철도 광명역) 지하 1층</div>
       <div class="vc-sub">지하철 광명역(1호선) 인근</div>
     </div>
 
     <div class="btn-row rv d2">
-      <a class="btn" href="https://map.naver.com/p/search/%20%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8?c=126.88594552701782,37.41678942949079,17,0,0,0,dh" target="_blank" rel="noopener">네이버 지도</a>
-      <a class="btn" href="https://map.kakao.com/link/map/%20%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8,37.41678942949079,126.88594552701782" target="_blank" rel="noopener">카카오맵</a>
+      <a class="btn" href="https://map.naver.com/p/search/%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8?c=126.88594552701782,37.41678942949079,17,0,0,0,dh" target="_blank" rel="noopener">네이버 지도</a>
+      <a class="btn" href="https://map.kakao.com/link/map/%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8,37.41678942949079,126.88594552701782" target="_blank" rel="noopener">카카오맵</a>
       <button class="btn" id="copyAddr" type="button">주소 복사</button>
     </div>
 
@@ -1723,14 +1699,7 @@ section {
 
     <div class="parking-note rv d3">
       <div class="pn-title">🚌 버스</div>
-      [신랑 측 대절버스]
-하나로 322, 중앙체육공원 제2주차장 앞 종가집 맞은편
-08:30 출발
-아름다운관광
-[신부 측 대절버스]
-상거리 안터마을 09:20분 출발
-상거리 마을회관 09:30분 출발
-여일관광
+      [신랑 측 대절버스]<br />하나로 322, 중앙체육공원 제2주차장 앞 종가집 맞은편<br />08:30 출발<br />아름다운관광<br />[신부 측 대절버스]<br />상거리 안터마을 09:20분 출발<br />상거리 마을회관 09:30분 출발<br />여일관광
     </div>
 
     <div class="parking-note rv d3">
@@ -1777,7 +1746,8 @@ section {
 
     <p class="gift-note rv">
       참석이 어려우신 분들을 위해 기재했습니다.<br />
-      전해주시는 따뜻한 마음, 소중히 간직하겠습니다.
+전해주시는 따뜻한 마음, 소중히 간직하겠습니다.
+
     </p>
 
     <!-- 계좌는 invitation.conf 에만 있다.
@@ -1805,7 +1775,8 @@ section {
     <!-- '마음 전하실 곳'의 안내문(.gift-note)과 글씨체, 색, 자간, 하단 간격(22px)을 맞춘다. -->
     <p class="gift-note rv">
       버튼 한 번이면 충분해요.<br />
-      저희에게 큰 힘이 됩니다.
+저희에게 큰 힘이 됩니다.
+
     </p>
 
     <input class="bless-input rv d1" id="blessInput" type="text" maxlength="50"
@@ -1836,8 +1807,9 @@ section {
     <button class="share-btn" id="shareBtn" type="button">📤 청첩장 공유하기</button>
     <div class="version-note">
       신랑과 신부 모두 개발자로 일하고 있어, 저희다운 방식으로 결혼을 기념하고자 개발자 버전 청첩장을 만들어 보았습니다.<br />
-      신랑이 개발과 배포를, 신부가 기획과 QA를 맡아 함께 완성했습니다.<br />
-      재미로 준비한 페이지이니 편하게 둘러봐 주세요!
+신랑이 개발과 배포를, 신부가 기획과 QA를 맡아 함께 완성했습니다.<br />
+재미로 준비한 페이지이니 편하게 둘러봐 주세요!
+
     </div>
     <div class="version-links">
       <a class="version-link" href="developer.html">&lt;/&gt; 개발자 버전</a>
@@ -1857,7 +1829,7 @@ section {
 </div>
 
 <script>
-window.__WEDDING__={"at":"2026-09-05T12:10:00+09:00","firstMetAt":"2026-09-05T12:10:00+09:00","groom":{"name":"최제훈","short":"최제훈","en":"","initial":"최","role":"","parents":["최봉수","이율희"],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"bride":{"name":"손미나","short":"손미나","en":"","initial":"손","role":"","parents":["손영균","안남"],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"venue":{"name":" 라포에트","hall":"","address":"경기 광명시 광명역로 21 (고속철도 광명역)","floor":"지하 1층","addressCopy":"경기 광명시 광명역로 21 (고속철도 광명역) 지하 1층","subway":"광명역(1호선)","subwayShort":"광명역(1호선)","lat":37.41678942949079,"lng":126.88594552701782,"zoom":17},"map":{"naver":"https://map.naver.com/p/search/%20%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8?c=126.88594552701782,37.41678942949079,17,0,0,0,dh","kakao":"https://map.kakao.com/link/map/%20%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8,37.41678942949079,126.88594552701782"},"photos":{"main":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","mainDev":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","bless":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","gallery":["https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/19dabfef-027e-46bd-847d-2df6815ba185/01cf2af7-50d9-43fa-88bb-696fa42e58eb.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/1d44a172-38d8-445e-a52f-e86fe1b1075f/1e378a5d-1603-43ab-93c5-cc179672eb5f.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/7780b21f-abe7-467c-b9f4-f526a29e884b/3d6e1cea-feef-47d8-b900-cb41639817b1.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/9b8ab5bf-388d-4cc1-8787-8376eb9580f0/6a095b83-c80c-4b30-bfa2-c1edf273436d.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/050a69a6-479c-43ab-bc77-55c7a190b733/42e9e095-e6c5-4fd2-8adf-c13ce7c9e7a1.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/c73e7eeb-9b64-4f81-949a-a9519b4fadc3/70e85a08-e872-4e30-91ad-a9db11552203.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/1ca4434d-4624-4e3a-bee6-610d4742320a/76e5a9dd-e997-4def-9233-41d73ad3c777.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/e7813a53-f984-40b1-aa5a-aee2273c5961/86d7e8f7-7925-4228-bb29-73abb540cbe0.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/06e086d5-70be-4b9e-bebd-bf59f5f8caac/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/67771e66-263b-4eb2-b6bb-be31f08ebd17/225f5bb7-6a45-48f3-bab7-de533f72e620.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/2d6998a1-a0d2-47c2-9cf6-00bc34c8dd5e/317cf734-6b10-45a8-86b8-6dce441ce45b.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/b8047415-9d99-4a90-97c7-2413b0f92811/37329f10-2623-4624-a3ab-ea123ffcb8d2.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/0664c4bd-27fe-416e-9bd7-33e6bc994dd3/b5065fb6-7318-4466-b63d-9b046af00920.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/f5479ed0-dd21-409f-8bea-0eec449d9c4b/c077bdef-836b-4092-8c3a-2a111977bd76.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/b883253b-84c9-45c9-9ccb-0a989c5dc295/dbb337cf-f011-4462-b59d-2c1ccb23c807.jpg"],"galleryPageOrder":{}}};window.__SLUG__="choejehun_sonmina";window.__ACCOUNTS_API_BASE__="https://invite.dongq.dev";window.__NO_API__=true;
+window.__WEDDING__={"at":"2026-09-05T12:10:00+09:00","firstMetAt":"2026-09-05T12:10:00+09:00","groom":{"name":"최제훈","short":"최제훈","en":"Jehun Choe","initial":"최","role":"신랑","parents":["최봉수","이율희"],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"bride":{"name":"손미나","short":"손미나","en":"Mina Son","initial":"손","role":"신부","parents":["손영균","안남수"],"rankKo":"","rank":"","mbti":"","hobby":"","note":"","photo":"","photoFocus":"50% 30%","photoZoom":1},"venue":{"name":"라포에트","hall":"","address":"경기 광명시 광명역로 21 (고속철도 광명역)","floor":"지하 1층","addressCopy":"경기 광명시 광명역로 21 (고속철도 광명역) 지하 1층","subway":"광명역(1호선)","subwayShort":"광명역(1호선)","lat":37.41678942949079,"lng":126.88594552701782,"zoom":17},"map":{"naver":"https://map.naver.com/p/search/%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8?c=126.88594552701782,37.41678942949079,17,0,0,0,dh","kakao":"https://map.kakao.com/link/map/%EB%9D%BC%ED%8F%AC%EC%97%90%ED%8A%B8,37.41678942949079,126.88594552701782"},"photos":{"main":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","mainDev":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","bless":"https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/a66e400e-d721-4a50-978d-b99b98213403/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","gallery":["https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/19dabfef-027e-46bd-847d-2df6815ba185/01cf2af7-50d9-43fa-88bb-696fa42e58eb.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/1d44a172-38d8-445e-a52f-e86fe1b1075f/1e378a5d-1603-43ab-93c5-cc179672eb5f.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/7780b21f-abe7-467c-b9f4-f526a29e884b/3d6e1cea-feef-47d8-b900-cb41639817b1.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/9b8ab5bf-388d-4cc1-8787-8376eb9580f0/6a095b83-c80c-4b30-bfa2-c1edf273436d.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/050a69a6-479c-43ab-bc77-55c7a190b733/42e9e095-e6c5-4fd2-8adf-c13ce7c9e7a1.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/c73e7eeb-9b64-4f81-949a-a9519b4fadc3/70e85a08-e872-4e30-91ad-a9db11552203.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/1ca4434d-4624-4e3a-bee6-610d4742320a/76e5a9dd-e997-4def-9233-41d73ad3c777.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/e7813a53-f984-40b1-aa5a-aee2273c5961/86d7e8f7-7925-4228-bb29-73abb540cbe0.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/06e086d5-70be-4b9e-bebd-bf59f5f8caac/93cbdc46-25b9-4eec-a41b-4063634af4ca.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/67771e66-263b-4eb2-b6bb-be31f08ebd17/225f5bb7-6a45-48f3-bab7-de533f72e620.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/2d6998a1-a0d2-47c2-9cf6-00bc34c8dd5e/317cf734-6b10-45a8-86b8-6dce441ce45b.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/b8047415-9d99-4a90-97c7-2413b0f92811/37329f10-2623-4624-a3ab-ea123ffcb8d2.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/0664c4bd-27fe-416e-9bd7-33e6bc994dd3/b5065fb6-7318-4466-b63d-9b046af00920.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/f5479ed0-dd21-409f-8bea-0eec449d9c4b/c077bdef-836b-4092-8c3a-2a111977bd76.jpg","https://pub-82dd28b7c0a8473dae2955ceaec9accc.r2.dev/my-invitations/b883253b-84c9-45c9-9ccb-0a989c5dc295/dbb337cf-f011-4462-b59d-2c1ccb23c807.jpg"],"galleryPageOrder":{}}};window.__SLUG__="choejehun_sonmina";window.__ACCOUNTS_API_BASE__="";window.__NO_API__=true;
 </script>
 <script>
 /*
@@ -3565,37 +3537,6 @@ if (isWeddingDeployed()) {
   // CONFIG는 config.js의 최상위 `const`다. window 속성이 아니므로 직접 참조한다.
   if (!box || typeof CONFIG === 'undefined' || !CONFIG.profile) return;
 
-  function photoEl(p) {
-    var wrap = document.createElement('div');
-    wrap.className = 'pf-photo';
-    if (p.photo) {
-      var img = document.createElement('img');
-      img.src = photoSrc(p.photo);   // 배포별 ?v= cache busting(다른 사진과 통일)
-      img.alt = p.name || '';
-      // profile 사진은 2장뿐이라 eager로 load한다. 신랑 사진에는 아래 transform:scale이 붙는데,
-      // lazy와 transform을 함께 쓰면 첫 load(scroll 최상단)에서 load trigger를 놓쳐
-      // 새로고침 전까지 사진이 안 뜨는 문제가 있었다.
-      img.loading = 'eager';
-      img.decoding = 'async';
-      // 세로 4:5 frame으로 crop한다. 초점(object-position)은 config.photoFocus를 쓴다.
-      // 전신컷은 photoZoom(scale)으로 같은 초점을 기준 삼아 얼굴부터 상반신을 더 크게 잡는다.
-      if (p.photoFocus) img.style.objectPosition = p.photoFocus;
-      if (p.photoZoom) {
-        img.style.transform = 'scale(' + p.photoZoom + ')';
-        img.style.transformOrigin = p.photoFocus || '50% 30%';
-      }
-      img.addEventListener('error', function () {
-        wrap.classList.add('is-empty');
-        wrap.textContent = p.initial || '';   // 사진이 없으면 이니셜 원형으로 대체한다
-      });
-      wrap.appendChild(img);
-    } else {
-      wrap.classList.add('is-empty');
-      wrap.textContent = p.initial || '';
-    }
-    return wrap;
-  }
-
   function rowEl(k, v) {
     var row = document.createElement('div');
     row.className = 'pf-row';
@@ -3612,7 +3553,6 @@ if (isWeddingDeployed()) {
   function cardEl(p) {
     var card = document.createElement('figure');
     card.className = 'pf-card';
-    card.appendChild(photoEl(p));
 
     var cap = document.createElement('figcaption');
 
