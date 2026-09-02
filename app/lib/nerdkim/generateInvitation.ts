@@ -437,11 +437,14 @@ export async function generateNerdkimInvitation(
     html = await inlineCss(html, theme.file);
     html = await inlineJs(html, theme.file, input.slug, weddingJson);
 
-    // developer.js/config.js가 상대경로로 참조하는 assets(kakao.png, assets/ai/*.svg)의
-    // base. 모든 테마 파일이 custom/<slug>/ 아래 같은 깊이이므로 '../_shared'로 고정된다.
+    // developer.js/config.js가 참조하는 assets(kakao.png, assets/ai/*.svg)의 base.
+    // 예전엔 GitHub Pages에서 custom/<slug>/theme.html과 같은 깊이인
+    // custom/_shared/를 상대경로('../_shared')로 가리켰다 — `/i/<slug>`와
+    // `/i/<slug>/developer`는 깊이가 서로 달라 그 가정이 깨진다. 이제 이 파일들은
+    // Next.js가 직접 서빙하는 app/public/shared/에 있으므로 절대 경로로 고정한다.
     html = html.replace(
       '<head>',
-      `<head>\n  <script>window.__INV__='../_shared';window.__PHOTOS__='';</script>`,
+      `<head>\n  <script>window.__INV__='/shared';window.__PHOTOS__='';</script>`,
     );
 
     files.set(theme.file, html);

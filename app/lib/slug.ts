@@ -1,9 +1,8 @@
-import { promises as fs } from 'fs';
-import path from 'path';
 import { convert as romanizeHangul } from 'hangul-romanization';
+import { inviteConfigExists } from './nerdkim/inviteConfig';
 
 /**
- * 확정된 청첩장의 URL 슬러그(`custom/<슬러그>/`의 디렉터리명이자 최종 URL 경로)를
+ * 확정된 청첩장의 URL 슬러그(`/i/<슬러그>` 경로이자 청첩장 데이터 저장소의 키)를
  * 만들고, 이미 존재하는 슬러그와 충돌했을 때 사용 가능한 이름을 찾는다.
  *
  * 신랑/신부 성함은 거의 항상 한글이다(`InvitationFormData.groomName`/`brideName`).
@@ -87,42 +86,12 @@ export async function resolveSlug(baseSlug: string, checkExists: SlugExistsCheck
 }
 
 /**
- * `custom/<slug>/` 디렉터리 존재 여부로 충돌을 판단하는 기본 `checkExists` 구현.
- *
- * `custom/`은 이 워크트리 시점에는 아직 없을 수 있다(harness-8lh.5.2가 처음
- * 만든다) — 그 경우 항상 "존재하지 않음"으로 취급한다. 저장 위치는
- * `app/lib/accountStore.ts`와 같은 패턴으로 환경변수(`MY_INVITATIONS_CUSTOM_DIR`)로
- * 재정의할 수 있게 해서 테스트에서 임시 디렉터리를 가리킬 수 있게 한다.
- *
- * `process.cwd()` 기반 기본값은 Next.js 프로세스가 항상 `app/` 안에서
- * 실행된다는 가정에 의존한다(`npm run dev`/`build`/`start`는 전부 `app/`
- * 디렉터리 안에서 실행하는 게 Next.js의 표준 컨벤션이고, 루트
- * `repos.json`의 게이트도 `cd app && npm run build`로 이 가정을 그대로 쓴다).
- * 이 함수를 export해서 정적 페이지 생성(harness-8lh.5.2, `/api/confirm`)이
- * 슬러그 충돌 검사와 **동일한 계산 결과**로 `custom/<slug>/index.html`을 쓰게
- * 한다 — 검사와 쓰기가 서로 다른 경로를 가리키면 충돌 검사가 무의미해진다.
- */
-export function getCustomDir(): string {
-  return process.env.MY_INVITATIONS_CUSTOM_DIR ?? path.join(process.cwd(), '..', 'custom');
-}
-
-export async function customSlugExists(slug: string): Promise<boolean> {
-  try {
-    const stat = await fs.stat(path.join(getCustomDir(), slug));
-    return stat.isDirectory();
-  } catch (err) {
-    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return false;
-    throw err;
-  }
-}
-
-/**
- * 신랑/신부 성함으로부터, `custom/` 안에서 실제로 사용 가능한(충돌 없는)
- * 최종 슬러그를 만든다. `generateSlug` + `resolveSlug` + `customSlugExists`를
- * 묶은 편의 함수 — 확정 파이프라인(harness-8lh.5.2/5.3)이 이 함수 하나만
- * 호출하면 되게 하기 위함.
+ * 신랑/신부 성함으로부터, 청첩장 데이터 저장소(`lib/nerdkim/inviteConfig.ts`,
+ * harness-a04q 이후 서버 로컬) 안에서 실제로 사용 가능한(충돌 없는) 최종 슬러그를
+ * 만든다. `generateSlug` + `resolveSlug` + `inviteConfigExists`를 묶은 편의 함수 —
+ * 확정 파이프라인(`/api/confirm`)이 이 함수 하나만 호출하면 되게 하기 위함.
  */
 export async function resolveInvitationSlug(groomName: string, brideName: string): Promise<string> {
   const baseSlug = generateSlug(groomName, brideName);
-  return resolveSlug(baseSlug, customSlugExists);
+  return resolveSlug(baseSlug, inviteConfigExists);
 }

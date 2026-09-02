@@ -1,27 +1,22 @@
-import { promises as fs } from 'fs';
-import path from 'path';
-import { stringify as stringifyYaml } from 'yaml';
 import { NextResponse } from 'next/server';
 import type { WeddingAccounts } from '@/lib/accountTypes';
 import { saveAccounts } from '@/lib/accountStore';
 import type { WeddingContacts } from '@/lib/contactTypes';
 import { saveContacts } from '@/lib/contactStore';
-import { getCustomDir, resolveInvitationSlug } from '@/lib/slug';
+import { resolveInvitationSlug } from '@/lib/slug';
 import type { InviteConfig } from '@/lib/nerdkim/inviteConfig';
-import { publishStaticPage } from '@/lib/gitPublish';
+import { saveInviteConfig } from '@/lib/nerdkim/inviteConfig';
 import { saveInvitationMeta } from '@/lib/invitationMeta';
 import { sendInvitationEmail } from '@/lib/sendInvitationEmail';
 
 /**
  * 미리보기 화면의 '확정' 버튼이 호출하는 지점.
  *
- * 흐름: 요청 바디 검증 → 슬러그 확정(`resolveInvitationSlug`) → 계좌/연락처 정보가
- * 있으면 git 워크트리 밖에 별도 저장(`saveAccounts`/`saveContacts`) → `InviteConfig`
- * 조립 → `custom/<slug>/config.yaml`에 씀(harness-a04q.4.2) → `publishStaticPage`로 그
- * 파일을 git commit+push. `/i/<slug>`(harness-a04q.1~.3)가 이 config.yaml을 요청마다
- * 읽어 서버 렌더링하므로, 여기서는 완성 HTML을 만들지 않는다 — push 대상 저장소/원격/
- * 브랜치/토큰은 전부 `lib/gitPublish.ts`가 환경변수에서 읽으므로 이 라우트는
- * 무엇을(경로/메시지) 커밋할지만 안다.
+ * 흐름: 요청 바디 검증 → 슬러그 확정(`resolveInvitationSlug`) → 계좌/연락처/청첩장
+ * 데이터를 전부 서버 로컬에 저장(`saveAccounts`/`saveContacts`/`saveInviteConfig`).
+ * 셋 다 같은 저장소 패턴이라 git에는 전혀 안 들어간다 — 계좌/연락처만 git 밖에
+ * 두던 것을 청첩장 데이터까지 통일했다(git에는 코드만 남는다). `/i/<slug>`가 이
+ * 데이터를 요청마다 읽어 서버 렌더링하므로, 여기서는 완성 HTML을 만들지 않는다.
  */
 
 interface ConfirmRequestBody {
@@ -226,9 +221,8 @@ export async function POST(request: Request) {
     await saveContacts(slug, data.contacts);
   }
 
-  // harness-a04q(config.yaml 서버 렌더링 전환) 이후로는 완성 HTML을 만들어 커밋하지
-  // 않는다 — 이 config.yaml 하나가 청첩장의 유일한 소스이고, `/i/<slug>`(M1/M2,
-  // harness-a04q.2/.3)이 요청마다 이걸 읽어 렌더링한다.
+  // 완성 HTML을 만들어 커밋하지 않는다 — 이 데이터 하나가 청첩장의 유일한
+  // 소스이고, `/i/<slug>`가 요청마다 이걸 읽어 렌더링한다.
   const config: InviteConfig = {
     title: data.title,
     content: data.content,
@@ -256,27 +250,12 @@ export async function POST(request: Request) {
     infoMeal: data.infoMeal,
   };
 
-  const targetDir = path.join(getCustomDir(), slug);
-  const relativePath = `custom/${slug}/config.yaml`;
   try {
-    await fs.mkdir(targetDir, { recursive: true });
-    await fs.writeFile(path.join(targetDir, 'config.yaml'), stringifyYaml(config), 'utf-8');
+    await saveInviteConfig(slug, config);
   } catch (error) {
-    console.error('config.yaml 쓰기 실패', error);
+    console.error('청첩장 데이터 저장 실패', error);
     return NextResponse.json(
-      { error: 'config.yaml을 쓰는 중 오류가 발생했습니다.' },
-      { status: 500 },
-    );
-  }
-
-  let commitSha: string;
-  try {
-    const result = await publishStaticPage(relativePath, `chore(invite): publish ${slug}`);
-    commitSha = result.commitSha;
-  } catch (error) {
-    console.error('config.yaml git publish 실패', error);
-    return NextResponse.json(
-      { error: 'config.yaml을 git에 게시하는 중 오류가 발생했습니다.' },
+      { error: '청첩장 데이터를 저장하는 중 오류가 발생했습니다.' },
       { status: 500 },
     );
   }
@@ -311,5 +290,5 @@ export async function POST(request: Request) {
     }).catch((error) => console.error('청첩장 이메일 발송 실패(무시)', error));
   }
 
-  return NextResponse.json({ status: 'ok', slug, path: relativePath, commitSha }, { status: 200 });
+  return NextResponse.json({ status: 'ok', slug }, { status: 200 });
 }
