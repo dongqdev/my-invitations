@@ -59,10 +59,7 @@ export interface InvitationFormData {
   venueLng: number;
   /** 지도 초기 확대 레벨 */
   venueMapZoom: number;
-  /**
-   * 오시는 길 안내 문구. nerdkim 원본은 이 필드들 안의 리터럴 "\n"을 줄바꿈으로 해석해
-   * 여러 줄 안내를 넣는다 — 실제 여러 줄 입력(textarea) 처리는 다음 태스크 몫이다.
-   */
+  /** 오시는 길 안내 문구. textarea의 실제 개행 문자를 `generateInvitation.ts`의 `br()`이 `<br />`로 바꾼다. */
   infoSubway: string;
   infoBus: string;
   infoParking: string;

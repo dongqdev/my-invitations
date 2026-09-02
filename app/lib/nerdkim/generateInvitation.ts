@@ -118,16 +118,10 @@ function embedJson(value: unknown): string {
   return JSON.stringify(value).replace(/</g, '\\u003c');
 }
 
-/** `\n` 리터럴을 `<br />`로 바꾼다. build.sh의 `br()`과 동일 — 태그 문자는 먼저 이스케이프한다. */
+/** textarea가 실제로 주는 개행 문자(\n)를 `<br />`로 바꾼다. 태그 문자는 먼저 이스케이프한다.
+ * (예전엔 리터럴 "\n" 두 글자만 매칭하는 정규식이라 실제 textarea 개행에는 안 맞았다 — 이
+ * 페이지에서 다중 줄 오시는 길 안내를 쓴 청첩장들이 전부 한 줄로 붙어 나온 원인이었다.) */
 function br(value: string): string {
-  return escapeHtml(value).replace(/\\n/g, '<br />');
-}
-
-/** `br()`과 동일하지만 textarea가 실제로 주는 개행 문자(\n)를 변환한다 — `br()`은
- * 리터럴 "\n" 두 글자만 변환해 textarea 입력에는 안 맞는다(harness-mnr 당시
- * INFO_* 필드에 남은 미해결 항목, `app/create/types.ts` 주석 참고). CONTENT는
- * 이번에 새로 연결하는 토큰이라 처음부터 올바르게 만든다. */
-function brFromTextarea(value: string): string {
   return escapeHtml(value).replace(/\n/g, '<br />');
 }
 
@@ -303,7 +297,7 @@ export async function generateNerdkimInvitation(
   // {{TOKEN}} 표 — HTML 3종에 실제로 등장하는 토큰 전부.
   const baseTokens: Record<string, string> = {
     TITLE: input.title,
-    CONTENT: brFromTextarea(input.content),
+    CONTENT: br(input.content),
 
     GROOM_NAME: input.groomName,
     GROOM_NAME_SHORT: input.groomName,
@@ -382,8 +376,8 @@ export async function generateNerdkimInvitation(
     COPY_TERMINAL_RSVP_PLACEHOLDER: copy.terminal.rsvpPlaceholder,
   };
 
-  // 사람 입력이 그대로 HTML 텍스트로 들어가는 토큰은 이스케이프한다(br()/brFromTextarea가
-  // 이미 이스케이프까지 마친 INFO_*·CONTENT, config.yaml에서 그대로 가져온 COPY_*는 제외).
+  // 사람 입력이 그대로 HTML 텍스트로 들어가는 토큰은 이스케이프한다(br()이 이미
+  // 이스케이프까지 마친 INFO_*·CONTENT, config.yaml에서 그대로 가져온 COPY_*는 제외).
   const PRE_ESCAPED_KEYS = new Set(['CONTENT']);
   const escapedTokens: Record<string, string> = {};
   for (const [key, value] of Object.entries(baseTokens)) {
