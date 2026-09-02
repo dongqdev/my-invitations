@@ -327,29 +327,6 @@
   text-align: center;
 }
 
-.statusRow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
-.spinner {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  border: 2px solid var(--color-border-strong);
-  border-top-color: var(--color-primary);
-  animation: spin 800ms linear infinite;
-  flex-shrink: 0;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
 .statusMessage {
   margin: 0;
   font-size: 13.5px;
@@ -357,16 +334,9 @@
   color: var(--color-ink-soft);
 }
 
-.statusHint {
-  margin: 0;
-  font-size: 12px;
-  color: var(--color-ink-faint);
-}
-
-/* 링크 복사 / 다시 확인 버튼 — actionBar의 confirmButton/editButton과 같은
-   높이·타이포 규칙을 재사용해서 톤이 갈라지지 않게 한다. */
-.linkCopyButton,
-.retryButton {
+/* 링크 복사 버튼 — actionBar의 confirmButton/editButton과 같은 높이·타이포
+   규칙을 재사용해서 톤이 갈라지지 않게 한다. */
+.linkCopyButton {
   width: 100%;
   font-family: var(--font-body), sans-serif;
   font-weight: 700;
@@ -379,9 +349,6 @@
   transition:
     transform 120ms var(--ease-out),
     background-color 160ms var(--ease-out);
-}
-
-.linkCopyButton {
   background: var(--color-primary);
   color: var(--color-primary-contrast);
 }
@@ -390,23 +357,11 @@
   background: var(--color-primary-dark);
 }
 
-.retryButton {
-  background: var(--color-bg);
-  color: var(--color-ink);
-  border: 1px solid var(--color-border-strong);
-}
-
-.retryButton:hover {
-  border-color: var(--color-gold);
-}
-
-.linkCopyButton:active,
-.retryButton:active {
+.linkCopyButton:active {
   transform: scale(0.96);
 }
 
-.linkCopyButton:focus-visible,
-.retryButton:focus-visible {
+.linkCopyButton:focus-visible {
   outline: 2px solid var(--color-primary-dark);
   outline-offset: 2px;
 }
@@ -449,20 +404,14 @@
 @media (prefers-reduced-motion: reduce) {
   .editButton,
   .confirmButton,
-  .linkCopyButton,
-  .retryButton {
+  .linkCopyButton {
     transition: background-color 160ms var(--ease-out);
   }
 
   .editButton:active,
   .confirmButton:active:not(:disabled),
-  .linkCopyButton:active,
-  .retryButton:active {
+  .linkCopyButton:active {
     transform: none;
-  }
-
-  .spinner {
-    animation-duration: 1600ms;
   }
 
   .copyToast {

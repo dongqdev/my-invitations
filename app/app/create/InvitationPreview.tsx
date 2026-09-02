@@ -7,16 +7,6 @@ import type { InvitationFormData, ParentInfo, PhoneKey } from './types';
 import styles from './InvitationPreview.module.css';
 
 /**
- * 배포 상태 폴링 설정(harness-8lh.5.4) — git push 이후 GitHub Pages 재빌드가
- * 끝나 실제로 링크가 열람 가능해지기까지 서버(`/api/publish-status/<slug>`)를
- * 주기적으로 확인한다. 5초 간격 * 24회 = 최대 2분까지만 기다리고, 그 이상은
- * 타임아웃으로 전환해 사용자가 수동으로 다시 확인할 수 있게 한다(과하게 오래
- * 기다리게 하지 않는다).
- */
-const POLL_INTERVAL_MS = 5000;
-const MAX_POLL_ATTEMPTS = 24;
-
-/**
  * 신랑/신부 본인 + 부모님 계좌 정보(`ParentInfo.account`)를 `/api/confirm`이 받는
  * `WeddingAccounts` 형태로 바꾼다(`groomOwn`/`brideOwn`은 `WeddingAccounts`의
  * `groom`/`bride` 키로 매핑). `app/create/validation.ts`의 `validateParentGroup`과
@@ -68,14 +58,13 @@ interface InvitationPreviewProps {
 
 /**
  * - idle: 확정 전.
- * - confirming: `/api/confirm` 요청 진행 중(정적 페이지 생성 + git commit/push).
- * - publishing: push는 끝났고, GitHub Pages 재빌드로 링크가 실제로 열람
- *   가능해지길 기다리며 `/api/publish-status/<slug>`를 폴링하는 중.
- * - ready: 폴링으로 200 확인 완료 — 링크 복사 버튼을 보여준다.
- * - timeout: 폴링 상한(MAX_POLL_ATTEMPTS)에 도달 — 수동 재확인을 안내한다.
+ * - confirming: `/api/confirm` 요청 진행 중(config.yaml 생성 + git commit/push,
+ *   harness-a04q.4.2). 서버 렌더링(`/i/<slug>`)이라 GitHub Pages 재빌드 대기가
+ *   없다 — 응답이 오면 바로 ready다.
+ * - ready: 확정 성공 — 링크 복사 버튼을 보여준다.
  * - error: `/api/confirm` 요청 자체가 실패.
  */
-type ConfirmState = 'idle' | 'confirming' | 'publishing' | 'ready' | 'timeout' | 'error';
+type ConfirmState = 'idle' | 'confirming' | 'ready' | 'error';
 
 /** `<input type="datetime-local">` 값을 사람이 읽는 한국어 문장으로 바꾼다. */
 function formatWeddingDateTime(value: string): string {
@@ -94,93 +83,34 @@ function formatWeddingDateTime(value: string): string {
 
 export default function InvitationPreview({ data, onEdit }: InvitationPreviewProps) {
   const [confirmState, setConfirmState] = useState<ConfirmState>('idle');
-  // 확정 응답이 준 slug — 폴링 API 경로(/api/publish-status/<slug>)를 만드는 데 쓴다.
-  const [slug, setSlug] = useState<string | null>(null);
-  // 폴링이 ready로 끝났을 때 서버가 함께 준 공개 URL. 클라이언트에서 별도로
-  // `https://blog.dongq.dev/...` 문자열을 다시 조립하지 않고 서버 응답을 그대로
-  // 써서, base URL이 바뀌어도(테스트 등) 표시/복사되는 링크가 항상 서버가 실제로
-  // 200을 확인한 그 URL과 일치하게 한다.
+  // 확정 성공 시 조립하는 공개 URL(`/i/<slug>`) — 서버 렌더링이라 별도 준비 대기가
+  // 없다(harness-a04q.4.2).
   const [publishedUrl, setPublishedUrl] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
   // 확정되면 링크를 받을 이메일(선택) — 확정 화면에서만 물어본다. 청첩장
   // 자체와는 무관한 배송용 정보라 InvitationFormData에는 넣지 않는다.
   const [email, setEmail] = useState('');
 
-  const pollTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const pollAttemptRef = useRef(0);
   const copyResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const formattedDateTime = formatWeddingDateTime(data.weddingDateTime);
 
   useEffect(() => {
     return () => {
-      if (pollTimeoutRef.current !== null) clearTimeout(pollTimeoutRef.current);
       if (copyResetTimerRef.current !== null) clearTimeout(copyResetTimerRef.current);
     };
   }, []);
 
-  function stopPolling() {
-    if (pollTimeoutRef.current !== null) {
-      clearTimeout(pollTimeoutRef.current);
-      pollTimeoutRef.current = null;
-    }
-  }
-
-  /**
-   * `/api/publish-status/<slug>`를 한 번 확인하고, 아직 준비 안 됐으면
-   * `POLL_INTERVAL_MS` 뒤 스스로를 다시 예약한다. 상한(`MAX_POLL_ATTEMPTS`)에
-   * 도달하면 'timeout'으로 전환하고 멈춘다. 네트워크 오류는 일시적일 수 있으니
-   * 즉시 실패 처리하지 않고 다음 시도로 넘어간다(브라우저에서 blog.dongq.dev로
-   * 직접 fetch하지 않는 이유는 CORS — 이 확인은 항상 같은 오리진의 이 API를
-   * 통해서만 한다).
-   */
-  async function pollOnce(targetSlug: string) {
-    try {
-      const response = await fetch(`/api/publish-status/${encodeURIComponent(targetSlug)}`);
-      if (response.ok) {
-        const result = (await response.json()) as { ready: boolean; url: string };
-        if (result.ready) {
-          setPublishedUrl(result.url);
-          setConfirmState('ready');
-          return;
-        }
-      }
-    } catch (error) {
-      console.error('배포 상태 폴링 실패', error);
-    }
-
-    pollAttemptRef.current += 1;
-    if (pollAttemptRef.current >= MAX_POLL_ATTEMPTS) {
-      setConfirmState('timeout');
-      return;
-    }
-    pollTimeoutRef.current = setTimeout(() => void pollOnce(targetSlug), POLL_INTERVAL_MS);
-  }
-
-  function startPolling(targetSlug: string) {
-    stopPolling();
-    pollAttemptRef.current = 0;
-    setConfirmState('publishing');
-    pollTimeoutRef.current = setTimeout(() => void pollOnce(targetSlug), POLL_INTERVAL_MS);
-  }
-
-  /** 타임아웃 이후 사용자가 '다시 확인' 버튼을 눌렀을 때 — 시도 횟수를 리셋하고 재개. */
-  function handleRetryPolling() {
-    if (!slug) return;
-    startPolling(slug);
-  }
-
   async function handleConfirm() {
     setConfirmState('confirming');
     try {
-      // M5(정적 페이지 생성 + R2 업로드 + 배포) 파이프라인을 트리거하는 지점.
-      // 이미지 업로드(R2)는 InvitationForm.tsx의 handleSubmit에서 이미 끝났으므로
-      // 여기 도달한 시점에 mainImagePreviewUrl/galleryImages[].previewUrl은 R2
-      // 공개 URL이다(harness-8lh.5.2). 서버(app/app/api/confirm/route.ts)가
-      // 슬러그 확정 → 계좌 별도 저장 → custom/<slug>/index.html 정적 생성 →
-      // git commit/push(harness-8lh.5.3)까지 수행한다. push까지 끝나도 GitHub
-      // Pages 재빌드가 남아있으므로, 여기서는 바로 'ready'로 두지 않고 폴링을
-      // 시작한다(harness-8lh.5.4).
+      // 발행 파이프라인을 트리거하는 지점. 이미지 업로드(R2)는 InvitationForm.tsx의
+      // handleSubmit에서 이미 끝났으므로 여기 도달한 시점에
+      // mainImagePreviewUrl/galleryImages[].previewUrl은 R2 공개 URL이다.
+      // 서버(app/app/api/confirm/route.ts)가 슬러그 확정 → 계좌/연락처 별도 저장 →
+      // custom/<slug>/config.yaml 커밋+push까지 수행한다(harness-a04q.4.2). `/i/<slug>`가
+      // 매 요청 서버 렌더링이라 GitHub Pages 재빌드 대기가 없다 — 응답이 오면 바로
+      // ready로 전환한다(과거 harness-8lh.5.4의 폴링은 harness-a04q에서 제거됨).
       const response = await fetch('/api/confirm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -216,8 +146,8 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
       });
       if (!response.ok) throw new Error(`unexpected status ${response.status}`);
       const result = (await response.json()) as { slug: string };
-      setSlug(result.slug);
-      startPolling(result.slug);
+      setPublishedUrl(`${window.location.origin}/i/${result.slug}`);
+      setConfirmState('ready');
     } catch (error) {
       console.error('확정 요청 실패', error);
       setConfirmState('error');
@@ -336,18 +266,6 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
           </p>
         )}
 
-        {confirmState === 'publishing' && (
-          <div className={styles.statusPanel} role="status">
-            {/* push(harness-8lh.5.3)까지는 끝났지만, GitHub Pages 재빌드로 실제
-                링크가 열람 가능해지기까지는 지연이 있다 — 그 대기를 보여준다. */}
-            <div className={styles.statusRow}>
-              <span className={styles.spinner} aria-hidden="true" />
-              <p className={styles.statusMessage}>청첩장 페이지를 배포하는 중이에요…</p>
-            </div>
-            <p className={styles.statusHint}>페이지가 반영되기까지 최대 2분 정도 걸릴 수 있어요.</p>
-          </div>
-        )}
-
         {confirmState === 'ready' && publishedUrl && (
           <div className={styles.statusPanel} role="status">
             <p className={styles.statusMessage}>청첩장이 배포됐어요!</p>
@@ -363,16 +281,6 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
                 링크 복사
               </button>
             </div>
-          </div>
-        )}
-
-        {confirmState === 'timeout' && (
-          <div className={styles.statusPanel} role="status">
-            <p className={styles.statusMessage}>배포 확인에 시간이 걸리고 있어요.</p>
-            <p className={styles.statusHint}>잠시 후 다시 확인해주세요.</p>
-            <button type="button" className={styles.retryButton} onClick={handleRetryPolling}>
-              다시 확인
-            </button>
           </div>
         )}
       </div>
