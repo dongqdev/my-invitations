@@ -61,123 +61,79 @@
   text-wrap: pretty;
 }
 
-/* ---------- Card ---------- */
+/* ---------- Phone frame (live iframe preview) ---------- */
 
-.card {
-  background: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-outer);
+/* 실제 청첩장(main.html)을 그대로 그리는 iframe을 감싸는 폰 베젤 장식.
+   템플릿 자체가 모바일 화면 폭을 가정하고 만들어져 있어(nerdkim 원본), 별도
+   축소(scale) 없이 1:1로 넣고 내부 스크롤만 iframe에 맡긴다. */
+.phone {
+  background: linear-gradient(165deg, #2b2a26, #1a1916);
+  border-radius: 40px;
+  padding: 14px 10px;
   box-shadow: var(--shadow-card);
-  overflow: hidden;
 }
 
-.hero {
+.phoneNotch {
+  width: 84px;
+  height: 18px;
+  margin: 0 auto 10px;
+  background: #000;
+  border-radius: 999px;
+}
+
+.phoneScreen {
   position: relative;
-  aspect-ratio: 4 / 5;
-  background: var(--color-border);
+  background: var(--color-bg);
+  border-radius: 26px;
+  overflow: hidden;
+  height: min(72vh, 700px);
 }
 
-.heroImage {
+.phoneFrame {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  border: none;
   display: block;
 }
 
-.heroPlaceholder {
+.phoneSkeleton {
   width: 100%;
   height: 100%;
   background: linear-gradient(160deg, var(--color-border), var(--color-border-strong));
 }
 
-.heroOverlay {
+.phoneLoading {
   position: absolute;
-  inset: auto 0 0 0;
-  padding: 28px 24px 22px;
-  background: linear-gradient(
-    180deg,
-    transparent,
-    rgba(20, 18, 12, 0.72) 65%,
-    rgba(20, 18, 12, 0.82)
-  );
-  color: #fffdf8;
-}
-
-.heroEyebrow {
-  margin: 0 0 6px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.16em;
-  opacity: 0.85;
-}
-
-.heroTitle {
-  margin: 0;
-  font-family: var(--font-display), serif;
-  font-size: clamp(20px, 5vw, 26px);
-  font-weight: 700;
-  line-height: 1.4;
-  text-wrap: balance;
-}
-
-.body {
-  padding: 28px 24px 32px;
-  display: flex;
-  flex-direction: column;
-  gap: 18px;
-}
-
-.names {
+  top: 12px;
+  right: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
-  font-family: var(--font-display), serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--color-ink);
-  text-align: center;
-}
-
-.namesHeart {
-  color: var(--color-gold);
-  font-size: 16px;
-}
-
-.dateTime {
-  margin: 0;
-  text-align: center;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--color-primary-dark);
-  background: var(--color-success-bg);
+  width: 28px;
+  height: 28px;
   border-radius: 999px;
-  padding: 8px 16px;
-  align-self: center;
+  background: rgba(20, 18, 12, 0.55);
 }
 
-.content {
-  margin: 0;
-  font-size: 14.5px;
-  line-height: 1.85;
-  color: var(--color-ink-soft);
-  white-space: pre-wrap;
-  text-align: center;
+.phoneLoadingDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  border: 2px solid rgba(255, 253, 248, 0.35);
+  border-top-color: #fffdf8;
+  animation: phoneLoadingSpin 700ms linear infinite;
 }
 
-.gallery {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
+@keyframes phoneLoadingSpin {
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-.galleryThumb {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: var(--radius-inner);
-  outline: 1px solid oklch(0 0 0 / 0.1);
-  outline-offset: -1px;
+@media (prefers-reduced-motion: reduce) {
+  .phoneLoadingDot {
+    animation: none;
+  }
 }
 
 .note {

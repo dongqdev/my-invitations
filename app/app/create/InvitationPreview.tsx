@@ -66,21 +66,6 @@ interface InvitationPreviewProps {
  */
 type ConfirmState = 'idle' | 'confirming' | 'ready' | 'error';
 
-/** `<input type="datetime-local">` 값을 사람이 읽는 한국어 문장으로 바꾼다. */
-function formatWeddingDateTime(value: string): string {
-  if (!value) return '';
-  const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return '';
-  return new Intl.DateTimeFormat('ko-KR', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    weekday: 'long',
-    hour: 'numeric',
-    minute: '2-digit',
-  }).format(date);
-}
-
 export default function InvitationPreview({ data, onEdit }: InvitationPreviewProps) {
   const [confirmState, setConfirmState] = useState<ConfirmState>('idle');
   // 확정 성공 시 조립하는 공개 URL(`/i/<slug>`) — 서버 렌더링이라 별도 준비 대기가
@@ -91,15 +76,77 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
   // 자체와는 무관한 배송용 정보라 InvitationFormData에는 넣지 않는다.
   const [email, setEmail] = useState('');
 
-  const copyResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // 실제 청첩장(main.html)을 그대로 렌더링해 iframe에 보여주는 라이브 미리보기.
+  // 예전엔 이 컴포넌트가 직접 그린 축소 카드였는데("계좌 정보 등은 다음 단계에서")
+  // 실제 완성물과 형태가 많이 달라 "부실하다"는 피드백을 받았다 — `/api/preview`가
+  // 같은 생성 함수(generateNerdkimInvitation)로 만든 진짜 HTML을 돌려준다.
+  const [previewHtml, setPreviewHtml] = useState<string | null>(null);
+  const [previewLoading, setPreviewLoading] = useState(true);
 
-  const formattedDateTime = formatWeddingDateTime(data.weddingDateTime);
+  const copyResetTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const previewDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
     return () => {
       if (copyResetTimerRef.current !== null) clearTimeout(copyResetTimerRef.current);
+      if (previewDebounceRef.current !== null) clearTimeout(previewDebounceRef.current);
     };
   }, []);
+
+  async function fetchPreviewHtml() {
+    setPreviewLoading(true);
+    try {
+      const response = await fetch('/api/preview', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: data.title,
+          content: data.content,
+          groomName: data.groomName,
+          brideName: data.brideName,
+          weddingDateTime: data.weddingDateTime,
+          mainImageUrl: data.mainImagePreviewUrl,
+          galleryImageUrls: data.galleryImages.map((image) => image.previewUrl),
+          groomFatherName: data.groomFather.name,
+          groomMotherName: data.groomMother.name,
+          brideFatherName: data.brideFather.name,
+          brideMotherName: data.brideMother.name,
+          venueName: data.venueName,
+          venueHall: data.venueHall,
+          venueAddress: data.venueAddress,
+          venueFloor: data.venueFloor,
+          venueSubway: data.venueSubway,
+          venueSubwayShort: data.venueSubwayShort,
+          venueLat: data.venueLat,
+          venueLng: data.venueLng,
+          venueMapZoom: data.venueMapZoom,
+          infoSubway: data.infoSubway,
+          infoBus: data.infoBus,
+          infoParking: data.infoParking,
+          infoMeal: data.infoMeal,
+        }),
+      });
+      if (!response.ok) throw new Error(`unexpected status ${response.status}`);
+      setPreviewHtml(await response.text());
+    } catch (error) {
+      console.error('미리보기 생성 실패', error);
+    } finally {
+      setPreviewLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    if (previewDebounceRef.current !== null) clearTimeout(previewDebounceRef.current);
+    previewDebounceRef.current = setTimeout(() => {
+      void fetchPreviewHtml();
+    }, 350);
+    return () => {
+      if (previewDebounceRef.current !== null) clearTimeout(previewDebounceRef.current);
+    };
+    // data 전체를 얕게 비교할 방법이 마땅치 않아 그대로 의존성에 둔다 — 편집
+    // 화면을 오가며 바뀔 때만 재요청되면 충분하고, 키 입력마다는 debounce가 막는다.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
 
   async function handleConfirm() {
     setConfirmState('confirming');
@@ -177,51 +224,30 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
           하객분들께 실제로 보이는 화면과 비슷한 형태예요. 마음에 들면 확정해주세요.
         </p>
 
-        <article className={styles.card}>
-          <div className={styles.hero}>
-            {data.mainImagePreviewUrl ? (
-              // eslint-disable-next-line @next/next/no-img-element -- 로컬 blob 미리보기, next/image 최적화 대상 아님
-              <img src={data.mainImagePreviewUrl} alt="대표 이미지" className={styles.heroImage} />
+        <div className={styles.phone}>
+          <div className={styles.phoneNotch} aria-hidden="true" />
+          <div className={styles.phoneScreen}>
+            {previewHtml ? (
+              <iframe
+                key={previewHtml.length /* 내용이 바뀌면 스크롤 위치를 처음으로 되돌린다 */}
+                srcDoc={previewHtml}
+                title="청첩장 미리보기"
+                className={styles.phoneFrame}
+                sandbox="allow-scripts"
+              />
             ) : (
-              <div className={styles.heroPlaceholder} aria-hidden="true" />
+              <div className={styles.phoneSkeleton} aria-hidden="true" />
             )}
-            <div className={styles.heroOverlay}>
-              <p className={styles.heroEyebrow}>WEDDING INVITATION</p>
-              <h2 className={styles.heroTitle}>{data.title || '제목 없음'}</h2>
-            </div>
-          </div>
-
-          <div className={styles.body}>
-            <div className={styles.names}>
-              <span>{data.groomName || '신랑'}</span>
-              <span className={styles.namesHeart} aria-hidden="true">
-                ♥
-              </span>
-              <span>{data.brideName || '신부'}</span>
-            </div>
-
-            {formattedDateTime && <p className={styles.dateTime}>{formattedDateTime}</p>}
-
-            {data.content && <p className={styles.content}>{data.content}</p>}
-
-            {data.galleryImages.length > 0 && (
-              <div className={styles.gallery}>
-                {data.galleryImages.map((image) => (
-                  // eslint-disable-next-line @next/next/no-img-element -- 로컬 blob 미리보기
-                  <img
-                    key={image.id}
-                    src={image.previewUrl}
-                    alt="갤러리 이미지"
-                    className={styles.galleryThumb}
-                  />
-                ))}
+            {previewLoading && (
+              <div className={styles.phoneLoading} aria-hidden="true">
+                <span className={styles.phoneLoadingDot} />
               </div>
             )}
           </div>
-        </article>
+        </div>
 
         <p className={styles.note}>
-          계좌 정보 등 나머지 항목은 정식 템플릿(다음 단계) 연결 시 함께 표시돼요.
+          실제 청첩장 화면 그대로예요. 계좌·연락처는 확정 후 실제 링크에서 확인할 수 있어요.
         </p>
 
         {(confirmState === 'idle' || confirmState === 'confirming' || confirmState === 'error') && (
