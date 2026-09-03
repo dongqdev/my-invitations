@@ -172,6 +172,16 @@ export async function POST(request: Request) {
       );
     }
 
+    // main.html의 "개발자 버전"/"터미널 버전" 링크(footer, class="version-link")는
+    // 실제 발행본에서는 /i/<slug>/developer|terminal로 정상 이동하지만, 미리보기의
+    // 슬러그('preview')는 저장된 적이 없어 그대로 두면 404 JSON이 그대로 iframe에
+    // 노출된다. 클릭을 가로채 확정 후에 가능하다는 alert만 띄운다 — 이동은 막는다.
+    // alert()는 sandbox에 allow-modals가 있어야 뜨므로 iframe 쪽도 함께 맞춰야 한다.
+    html = html.replace(
+      '<head>',
+      `<head>\n<script>document.addEventListener('DOMContentLoaded',function(){document.querySelectorAll('a.version-link').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();alert('확정 후 실제 링크에서 확인할 수 있어요.');});});});</script>`,
+    );
+
     return new NextResponse(html, {
       status: 200,
       headers: { 'Content-Type': 'text/html; charset=utf-8', 'Cache-Control': 'no-store' },

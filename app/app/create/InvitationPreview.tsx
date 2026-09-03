@@ -233,7 +233,9 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
                 srcDoc={previewHtml}
                 title="청첩장 미리보기"
                 className={styles.phoneFrame}
-                sandbox="allow-scripts"
+                /* allow-modals: "개발자 버전"/"터미널 버전" 클릭을 가로채 보여주는
+                   alert()가 뜨려면 필요하다(/api/preview가 주입하는 안내). */
+                sandbox="allow-scripts allow-modals"
               />
             ) : (
               <div className={styles.phoneSkeleton} aria-hidden="true" />
