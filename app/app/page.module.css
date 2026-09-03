@@ -1,15 +1,15 @@
 .page {
-  /* app/create/InvitationForm.module.css, app/invite/layout.module.css 와 같은
-     팔레트(따뜻한 크림 배경 + 잉크색 + 금색 포인트) — 새 디자인 시스템을 만들지
-     않고 나머지 앱과 톤을 맞춘다. */
-  --color-bg: #fbf7f0;
+  /* app/create/InvitationForm.module.css와 같은 팔레트(중성 그레이 배경 + 잉크색 +
+     세이지 그린 포인트) — 새 디자인 시스템을 만들지 않고 나머지 앱과 톤을 맞춘다.
+     2026-09-03: 이전 크림+황토색 조합이 "누리끼리하다"는 사용자 피드백으로 교체. */
+  --color-bg: #f7f7f5;
   --color-surface: #ffffff;
   --color-ink: #2b2a26;
   --color-ink-soft: #6b6558;
   --color-ink-faint: #8f8878;
-  --color-gold: #b98b4e;
-  --color-border: #e6ddc9;
-  --color-border-strong: #d5c9ac;
+  --color-gold: #5f7554;
+  --color-border: #e3e3e0;
+  --color-border-strong: #cfcfc9;
   --shadow-card: 0 1px 2px rgba(43, 42, 38, 0.04), 0 24px 60px -28px rgba(43, 42, 38, 0.22);
 
   display: flex;
@@ -20,8 +20,8 @@
   gap: 28px;
   background: var(--color-bg);
   background-image:
-    radial-gradient(circle at 14% 10%, rgba(185, 139, 78, 0.1), transparent 42%),
-    radial-gradient(circle at 86% 90%, rgba(185, 139, 78, 0.08), transparent 45%);
+    radial-gradient(circle at 14% 10%, rgba(76, 122, 140, 0.07), transparent 42%),
+    radial-gradient(circle at 86% 90%, rgba(95, 117, 84, 0.08), transparent 45%);
   color: var(--color-ink);
   color-scheme: light;
   font-family: var(--font-body), 'Apple SD Gothic Neo', sans-serif;

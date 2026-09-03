@@ -1,5 +1,8 @@
 .page {
-  --color-bg: #fbf7f0;
+  /* InvitationForm.module.css와 같은 2026-09-03 팔레트 정리 — 크림/황토색 조합을
+     중성 그레이 배경 + 세이지 그린 단일 악센트로 교체(두 모듈이 각자 자기 .page에
+     이 토큰들을 중복 정의하는 기존 구조를 그대로 유지, 값만 맞춘다). */
+  --color-bg: #f7f7f5;
   --color-surface: #ffffff;
   --color-ink: #2b2a26;
   --color-ink-soft: #6b6558;
@@ -7,9 +10,9 @@
   --color-primary: #5f7554;
   --color-primary-dark: #43563a;
   --color-primary-contrast: #fffdf8;
-  --color-gold: #b98b4e;
-  --color-border: #e6ddc9;
-  --color-border-strong: #d5c9ac;
+  --color-gold: var(--color-primary);
+  --color-border: #e3e3e0;
+  --color-border-strong: #cfcfc9;
   --color-error: #b3261e;
   --color-error-bg: #fcecea;
   --color-success-bg: #eef2e7;
@@ -22,8 +25,8 @@
   min-height: 100vh;
   background: var(--color-bg);
   background-image:
-    radial-gradient(circle at 12% 8%, rgba(185, 139, 78, 0.08), transparent 40%),
-    radial-gradient(circle at 88% 92%, rgba(95, 117, 84, 0.08), transparent 45%);
+    radial-gradient(circle at 12% 8%, rgba(76, 122, 140, 0.06), transparent 40%),
+    radial-gradient(circle at 88% 92%, rgba(95, 117, 84, 0.07), transparent 45%);
   color: var(--color-ink);
   padding: 48px 20px 96px;
 }
