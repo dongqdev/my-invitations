@@ -136,7 +136,7 @@
         <a class="btn" href="{{MAP_KAKAO_URL}}" target="_blank" rel="noopener">kakao</a>
         <button class="btn" id="copyAddr" type="button">cp addr</button>
       </div>
-      <div class="note">// 지하철<br />{{INFO_SUBWAY}}<br /><br />// 버스<br />{{INFO_BUS}}<br /><br />// 주차 안내<br />{{INFO_PARKING}}</div>
+      <div class="note">{{#COND:INFO_SUBWAY}}// 지하철<br />{{INFO_SUBWAY}}<br /><br />{{/COND:INFO_SUBWAY}}{{#COND:INFO_BUS}}// 버스<br />{{INFO_BUS}}<br /><br />{{/COND:INFO_BUS}}{{#COND:INFO_PARKING}}// 주차 안내<br />{{INFO_PARKING}}{{/COND:INFO_PARKING}}</div>
     </section>
 
     <!-- 연락처 -->

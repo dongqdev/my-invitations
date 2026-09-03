@@ -126,6 +126,20 @@ function br(value: string): string {
   return escapeHtml(value).replace(/\n/g, '<br />');
 }
 
+/**
+ * `{{#COND:KEY}}...{{/COND:KEY}}`로 감싼 블록을 처리한다 — KEY가 `emptyKeys`에
+ * 있으면(그 선택 입력 필드가 비어 있으면) 마커와 내용 전부를 제거하고, 없으면
+ * 마커만 벗겨내고 내용은 그대로 둔다. 토큰 치환(`{{TOKEN}}`) 전에 먼저 돌아야
+ * 한다 — 블록 안의 `{{INFO_*}}`가 아직 리터럴이어야 이 정규식이 블록 경계를
+ * 정확히 찾는다.
+ */
+function applyConditionalBlocks(html: string, emptyKeys: Set<string>): string {
+  return html.replace(
+    /\{\{#COND:([A-Z_]+)\}\}([\s\S]*?)\{\{\/COND:\1\}\}/g,
+    (_match, key: string, inner: string) => (emptyKeys.has(key) ? '' : inner),
+  );
+}
+
 function firstName(name: string): string {
   return name.trim().split(/\s+/)[0] ?? '';
 }
@@ -414,10 +428,28 @@ export async function generateNerdkimInvitation(
     },
   };
 
+  // 오시는 길/식사 안내는 전부 선택 입력이다 — 비어 있는 항목은 "제목만 있고
+  // 내용은 없는" 상자를 보여주는 대신 그 항목(제목+내용) 전체를 감춘다.
+  // 템플릿의 {{#COND:KEY}}...{{/COND:KEY}} 블록이 이 표를 기준으로 사라지거나
+  // 마커만 벗겨진다.
+  const emptyInfoKeys = new Set(
+    (['INFO_SUBWAY', 'INFO_BUS', 'INFO_PARKING', 'INFO_MEAL'] as const).filter((key) => {
+      const raw = {
+        INFO_SUBWAY: input.infoSubway,
+        INFO_BUS: input.infoBus,
+        INFO_PARKING: input.infoParking,
+        INFO_MEAL: input.infoMeal,
+      }[key];
+      return raw.trim() === '';
+    }),
+  );
+
   const files = new Map<string, string>();
 
   for (const theme of THEME_FILES) {
     let html = await fs.readFile(path.join(getTemplatesDir(), theme.file), 'utf-8');
+
+    html = applyConditionalBlocks(html, emptyInfoKeys);
 
     const pageUrl = `${PAGE_BASE_URL}/${input.slug}/${theme.file}`;
     const tokens: Record<string, string> = {

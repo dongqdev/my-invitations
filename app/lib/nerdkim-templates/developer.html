@@ -233,16 +233,22 @@
     </div>
 
     <div class="envblock rv d3">
+      {{#COND:INFO_SUBWAY}}
       <div><span class="c"># 지하철 — subway</span></div>
       <div class="v">{{INFO_SUBWAY}}</div>
+      {{/COND:INFO_SUBWAY}}
+      {{#COND:INFO_BUS}}
       <div><span class="c"># 버스 — bus</span></div>
       <div class="v">{{INFO_BUS}}</div>
+      {{/COND:INFO_BUS}}
     </div>
 
+    {{#COND:INFO_PARKING}}
     <div class="envblock rv d3">
       <div><span class="c"># 주차 안내 — parking</span></div>
       <div class="v">{{INFO_PARKING}}</div>
     </div>
+    {{/COND:INFO_PARKING}}
   </section>
 
 

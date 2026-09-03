@@ -154,22 +154,29 @@
       <div class="map-note">네이버 지도 혹은 카카오맵 버튼으로 길찾기를 열어주세요</div>
     </div>
 
+    {{#COND:INFO_SUBWAY}}
     <div class="parking-note rv d3">
       <div class="pn-title">🚇 지하철</div>
       {{INFO_SUBWAY}}
     </div>
+    {{/COND:INFO_SUBWAY}}
 
+    {{#COND:INFO_BUS}}
     <div class="parking-note rv d3">
       <div class="pn-title">🚌 버스</div>
       {{INFO_BUS}}
     </div>
+    {{/COND:INFO_BUS}}
 
+    {{#COND:INFO_PARKING}}
     <div class="parking-note rv d3">
       <div class="pn-title">🚗 주차 안내</div>
       {{INFO_PARKING}}
     </div>
+    {{/COND:INFO_PARKING}}
   </section>
 
+  {{#COND:INFO_MEAL}}
   <div class="divider">✿</div>
 
 
@@ -183,6 +190,7 @@
       {{INFO_MEAL}}
     </div>
   </section>
+  {{/COND:INFO_MEAL}}
 
   <div class="divider">❀</div>
 
