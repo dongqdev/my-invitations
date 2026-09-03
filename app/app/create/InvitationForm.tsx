@@ -74,9 +74,10 @@ function countCompletedRequiredFields(data: InvitationFormData): number {
   return count;
 }
 
-/** 숫자 입력 필드(위도/경도/지도 확대 레벨)는 값이 비어 있으면 0으로 둔다 —
+/** 숫자 입력 필드(위도/경도)는 값이 비어 있으면 0으로 둔다 —
  * createEmptyInvitationFormData의 기본값과 같은 규약이며, 0은 "미입력"으로
- * 취급해 지도를 렌더링하지 않는다(원본 nerdkim 설계). */
+ * 취급해 지도를 렌더링하지 않는다(원본 nerdkim 설계). 지도 확대 레벨은 폼에서
+ * 안 받고 항상 기본값(generateInvitation.ts의 `venueMapZoom || 17`)을 쓴다. */
 function parseOptionalNumber(raw: string): number {
   if (raw.trim() === '') return 0;
   const parsed = Number(raw);
@@ -649,8 +650,8 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
               <summary className={styles.disclosureSummary}>지도 좌표 입력 (선택)</summary>
               <div className={styles.disclosureBody}>
                 <p className={styles.fieldHelp}>
-                  비워두면 지도 없이 주소/지하철 안내 텍스트만 보여줘요. 입력하려면 세 칸을 모두
-                  채워주세요.
+                  비워두면 지도 없이 주소/지하철 안내 텍스트만 보여줘요. 입력하려면 두 칸을 모두
+                  채워주세요 — 확대 레벨은 적당한 기본값으로 자동 설정돼요.
                 </p>
                 <div className={styles.venueMapRow}>
                   <div className={styles.field}>
@@ -684,23 +685,6 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
                         updateField('venueLng', parseOptionalNumber(event.target.value))
                       }
                       placeholder="예: 127.0276"
-                      className={styles.input}
-                    />
-                  </div>
-                  <div className={styles.field}>
-                    <label htmlFor="venueMapZoom" className={styles.label}>
-                      지도 확대 레벨
-                    </label>
-                    <input
-                      id="venueMapZoom"
-                      type="number"
-                      step="1"
-                      inputMode="numeric"
-                      value={formData.venueMapZoom === 0 ? '' : formData.venueMapZoom}
-                      onChange={(event) =>
-                        updateField('venueMapZoom', parseOptionalNumber(event.target.value))
-                      }
-                      placeholder="예: 17"
                       className={styles.input}
                     />
                   </div>

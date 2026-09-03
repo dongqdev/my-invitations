@@ -68,12 +68,27 @@ async function loadTemplateCopy(): Promise<TemplateCopy> {
   return parseYaml(raw) as TemplateCopy;
 }
 
-const PAGE_BASE_URL =
-  process.env.MY_INVITATIONS_PUBLISH_BASE_URL ?? 'https://blog.dongq.dev/my-invitations/custom';
-
 function getApiBaseUrl(): string {
   return (process.env.MY_INVITATIONS_API_BASE_URL ?? '').replace(/\/$/, '');
 }
+
+/**
+ * 청첩장이 실제로 서빙되는 오리진 — `/i/<slug>`(harness-a04q)와 계좌/연락처 API가
+ * 같은 오리진(invite.dongq.dev)을 쓰므로 `MY_INVITATIONS_API_BASE_URL`을 그대로
+ * 재사용한다. `og:url`·개발자 테마의 `{{HOST}}` 안내 문구·테마 간 이동 링크가
+ * 전부 이 값을 쓴다 — 예전엔 GitHub Pages 정적 경로(`blog.dongq.dev/.../<slug>/
+ * <theme>.html`)를 가리키는 별도 상수(`MY_INVITATIONS_PUBLISH_BASE_URL`)가
+ * 있었는데, 그 파일들이 더 이상 존재하지 않으므로(harness-a04q.5.3) 제거했다.
+ */
+function getSiteBaseUrl(): string {
+  return getApiBaseUrl() || 'http://localhost:3000';
+}
+
+const THEME_PATHS: Record<string, (slug: string) => string> = {
+  'main.html': (slug) => `/i/${slug}`,
+  'developer.html': (slug) => `/i/${slug}/developer`,
+  'terminal.html': (slug) => `/i/${slug}/terminal`,
+};
 
 export interface NerdkimInvitationInput {
   slug: string;
@@ -307,7 +322,7 @@ export async function generateNerdkimInvitation(
   const GROOM_ROLE = '신랑';
   const BRIDE_ROLE = '신부';
 
-  const host = new URL(PAGE_BASE_URL).host;
+  const host = new URL(getSiteBaseUrl()).host;
 
   // {{TOKEN}} 표 — HTML 3종에 실제로 등장하는 토큰 전부.
   const baseTokens: Record<string, string> = {
@@ -451,10 +466,14 @@ export async function generateNerdkimInvitation(
 
     html = applyConditionalBlocks(html, emptyInfoKeys);
 
-    const pageUrl = `${PAGE_BASE_URL}/${input.slug}/${theme.file}`;
+    const siteBaseUrl = getSiteBaseUrl();
+    const pageUrl = `${siteBaseUrl}${THEME_PATHS[theme.file](input.slug)}`;
     const tokens: Record<string, string> = {
       ...escapedTokens,
       PAGE_URL: pageUrl,
+      URL_MAIN: THEME_PATHS['main.html'](input.slug),
+      URL_DEVELOPER: THEME_PATHS['developer.html'](input.slug),
+      URL_TERMINAL: THEME_PATHS['terminal.html'](input.slug),
       OG_IMAGE_MAIN: '',
       OG_IMAGE_DEV: '',
       OG_IMAGE_TERMINAL: '',
