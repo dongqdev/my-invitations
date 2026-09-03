@@ -18,6 +18,36 @@ import styles from './InvitationForm.module.css';
 
 const REQUIRED_FIELD_COUNT = 8;
 
+/** "제목"/"내용" 예시 문구 4개 — 버튼 한 번으로 두 필드를 같이 채운다(글 쓰기가
+ * 막막한 사용자를 위한 출발점, 그대로 제출해도 되고 다듬어도 된다). 톤을
+ * 다르게 4개 둬서 원하는 분위기에 가까운 걸 고르게 한다. */
+const TITLE_CONTENT_PRESETS: { label: string; title: string; content: string }[] = [
+  {
+    label: '정중한 톤',
+    title: '저희, 결혼합니다',
+    content:
+      '오랜 시간 서로를 바라보며 걸어온 두 사람이,\n이제 하나의 이름으로 살아가려 합니다.\n저희의 새로운 시작을 축복해 주시면 감사하겠습니다.',
+  },
+  {
+    label: '따뜻한 톤',
+    title: '우리 결혼해요',
+    content:
+      '함께한 시간 속에서 서로가 서로에게\n가장 좋은 사람이라는 걸 알았습니다.\n사랑하는 분들을 모시고 저희 두 사람의\n새로운 시작을 함께 나누고 싶습니다.',
+  },
+  {
+    label: '담백한 톤',
+    title: '결혼합니다',
+    content:
+      '두 사람이 만나 한 가정을 이룹니다.\n바쁘시더라도 귀한 걸음 해주시어\n축복해 주시면 감사하겠습니다.',
+  },
+  {
+    label: '유쾌한 톤',
+    title: '저희 둘, 평생 함께하기로 했습니다',
+    content:
+      '다른 길을 걷던 두 사람이 만나\n같은 방향을 보기로 했습니다.\n오래오래 서로에게 좋은 사람이 되겠습니다.\n축하해 주세요!',
+  },
+];
+
 /** 카카오(다음) 우편번호 서비스 — https://postcode.map.kakao.com/guide
  * 별도 API key/도메인 등록 없이 쓸 수 있는 스크립트라 Kakao Maps JS SDK보다
  * 간단하다. 팝업으로 주소를 검색해 선택하면 예식장 주소 입력칸을 채운다. */
@@ -82,6 +112,17 @@ function parseOptionalNumber(raw: string): number {
   if (raw.trim() === '') return 0;
   const parsed = Number(raw);
   return Number.isFinite(parsed) ? parsed : 0;
+}
+
+/** 숫자만 남기고 010-1234-5678 형태(3-4-4)로 하이픈을 자동으로 붙인다 — 타이핑
+ * 중간 자리수마다 적당히 끊어 보여준다(3자리까지는 그대로, 7자리까지는
+ * 3-4, 11자리까지는 3-4-4). 11자리를 넘는 숫자는 자른다 — 휴대폰 번호가
+ * 대상이라 그 이상은 입력 실수로 본다. */
+function formatPhoneNumber(raw: string): string {
+  const digits = raw.replace(/[^0-9]/g, '').slice(0, 11);
+  if (digits.length <= 3) return digits;
+  if (digits.length <= 7) return `${digits.slice(0, 3)}-${digits.slice(3)}`;
+  return `${digits.slice(0, 3)}-${digits.slice(3, 7)}-${digits.slice(7)}`;
 }
 
 function Section({
@@ -324,7 +365,10 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
   }
 
   function updatePhone(key: PhoneKey, value: string) {
-    setFormData((prev) => ({ ...prev, phones: { ...prev.phones, [key]: value } }));
+    setFormData((prev) => ({
+      ...prev,
+      phones: { ...prev.phones, [key]: formatPhoneNumber(value) },
+    }));
   }
 
   async function handleAddressSearch() {
@@ -443,6 +487,25 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
           </Section>
 
           <Section title="청첩장 소개">
+            <div className={styles.presetRow}>
+              <span className={styles.presetRowLabel}>문구가 막막하다면 예시로 시작해보세요</span>
+              <div className={styles.presetButtonList}>
+                {TITLE_CONTENT_PRESETS.map((preset) => (
+                  <button
+                    key={preset.label}
+                    type="button"
+                    className={styles.presetButton}
+                    onClick={() => {
+                      updateField('title', preset.title);
+                      updateField('content', preset.content);
+                    }}
+                  >
+                    {preset.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
             <div className={styles.field}>
               <label htmlFor="title" className={styles.label}>
                 제목

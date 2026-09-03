@@ -27,12 +27,11 @@ export default function Home() {
       <div className={styles.preview} aria-hidden="true">
         <div className={styles.previewCard}>
           <div className={styles.previewImageFrame}>
-            {/* eslint-disable-next-line @next/next/no-img-element -- 데모용 정적 이미지.
-                사진: Icons8 Team, Unsplash License (unsplash.com/photos/IsRIjvgpj5Y) */}
+            {/* eslint-disable-next-line @next/next/no-img-element -- 데모용 정적 이미지. */}
             <img src="/demo/sample-main.jpg" alt="" className={styles.previewImage} />
           </div>
           <div className={styles.previewInfo}>
-            <span className={styles.previewNames}>건우 · 서연</span>
+            <span className={styles.previewNames}>이동규 · 장지영</span>
             <span className={styles.previewDivider} />
             <span className={styles.previewDate}>2026. 11. 14 SAT</span>
           </div>
