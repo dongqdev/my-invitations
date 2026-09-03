@@ -51,6 +51,14 @@
 
   var fetchPromise = null;
   function fetchAccounts() {
+    /* /create의 라이브 미리보기(harness 없음, my-invitations 자체 기능)는 슬러그가
+       확정되지 않아 서버에 저장된 계좌가 없다 — 대신 /api/preview가 지금 폼에
+       입력된 값을 이 창에 직접 심어 준다(window.__PREVIEW_ACCOUNTS__). 있으면
+       fetch를 건너뛰고 그 값을 그대로 쓴다 — 실제 발행된 청첩장(/i/<slug>)에는
+       이 값이 절대 심기지 않으므로 이 분기를 타지 않는다. */
+    if (typeof window !== 'undefined' && window.__PREVIEW_ACCOUNTS__) {
+      return Promise.resolve(shapeAccounts(window.__PREVIEW_ACCOUNTS__));
+    }
     if (!SLUG) return Promise.resolve(null);
     if (!fetchPromise) {
       fetchPromise = fetch(API_BASE + '/api/accounts/' + encodeURIComponent(SLUG))
@@ -92,6 +100,10 @@
 
   var contactsFetchPromise = null;
   function fetchContacts() {
+    /* fetchAccounts()와 같은 이유 — 미리보기 창에서는 fetch 대신 심어진 값을 쓴다. */
+    if (typeof window !== 'undefined' && window.__PREVIEW_CONTACTS__) {
+      return Promise.resolve(window.__PREVIEW_CONTACTS__);
+    }
     if (!SLUG) return Promise.resolve(null);
     if (!contactsFetchPromise) {
       contactsFetchPromise = fetch(CONTACTS_API_BASE + '/api/contacts/' + encodeURIComponent(SLUG))

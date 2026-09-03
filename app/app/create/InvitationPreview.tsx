@@ -123,6 +123,8 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
           infoBus: data.infoBus,
           infoParking: data.infoParking,
           infoMeal: data.infoMeal,
+          accounts: buildAccountsPayload(data),
+          contacts: buildContactsPayload(data),
         }),
       });
       if (!response.ok) throw new Error(`unexpected status ${response.status}`);
@@ -245,7 +247,7 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
         </div>
 
         <p className={styles.note}>
-          실제 청첩장 화면 그대로예요. 계좌·연락처는 확정 후 실제 링크에서 확인할 수 있어요.
+          실제 청첩장 화면 그대로예요. 계좌·연락처도 입력하신 내용이 그대로 보여요.
         </p>
 
         {(confirmState === 'idle' || confirmState === 'confirming' || confirmState === 'error') && (
