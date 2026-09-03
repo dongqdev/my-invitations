@@ -34,7 +34,6 @@ interface PreviewRequestBody {
   venueAddress?: unknown;
   venueFloor?: unknown;
   venueSubway?: unknown;
-  venueSubwayShort?: unknown;
   venueLat?: unknown;
   venueLng?: unknown;
   venueMapZoom?: unknown;
@@ -87,7 +86,6 @@ export async function POST(request: Request) {
       venueAddress: toStr(body.venueAddress),
       venueFloor: toStr(body.venueFloor),
       venueSubway: toStr(body.venueSubway),
-      venueSubwayShort: toStr(body.venueSubwayShort),
       venueLat: toNum(body.venueLat),
       venueLng: toNum(body.venueLng),
       venueMapZoom: toNum(body.venueMapZoom),

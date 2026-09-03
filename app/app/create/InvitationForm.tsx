@@ -674,39 +674,22 @@ export default function InvitationForm({ onSubmitSuccess }: InvitationFormProps)
               )}
             </div>
 
-            <div className={styles.coupleRow}>
-              <div className={styles.field}>
-                <label htmlFor="venueSubway" className={styles.label}>
-                  지하철 안내 (예식장 최인접역)
-                </label>
-                <p className={styles.fieldHelp}>
-                  청첩장 상단 요약에 짧게 노출돼요. 하객 대상 상세 대중교통 안내는 아래
-                  &ldquo;오시는 길 안내&rdquo; 섹션에 따로 입력해요.
-                </p>
-                <input
-                  id="venueSubway"
-                  type="text"
-                  value={formData.venueSubway}
-                  onChange={(event) => updateField('venueSubway', event.target.value)}
-                  placeholder="예: 2호선 강남역 3번 출구에서 도보 5분"
-                  className={styles.input}
-                />
-              </div>
-
-              <div className={styles.field}>
-                <label htmlFor="venueSubwayShort" className={styles.label}>
-                  지하철 안내 축약형
-                </label>
-                <p className={styles.fieldHelp}>지도 근처에 짧게 표시할 한 줄이에요.</p>
-                <input
-                  id="venueSubwayShort"
-                  type="text"
-                  value={formData.venueSubwayShort}
-                  onChange={(event) => updateField('venueSubwayShort', event.target.value)}
-                  placeholder="예: 2호선 강남역"
-                  className={styles.input}
-                />
-              </div>
+            <div className={styles.field}>
+              <label htmlFor="venueSubway" className={styles.label}>
+                지하철 안내 (예식장 최인접역)
+              </label>
+              <p className={styles.fieldHelp}>
+                청첩장 상단 요약과 지도 근처에 함께 노출돼요. 짧게 적어주세요. 하객 대상 상세
+                대중교통 안내는 아래 &ldquo;오시는 길 안내&rdquo; 섹션에 따로 입력해요.
+              </p>
+              <input
+                id="venueSubway"
+                type="text"
+                value={formData.venueSubway}
+                onChange={(event) => updateField('venueSubway', event.target.value)}
+                placeholder="예: 2호선 강남역"
+                className={styles.input}
+              />
             </div>
 
             <details className={styles.disclosure}>

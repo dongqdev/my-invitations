@@ -109,8 +109,10 @@ export interface NerdkimInvitationInput {
   venueHall: string;
   venueAddress: string;
   venueFloor: string;
+  /** 지하철 안내. 청첩장 상단 요약(main.html의 축약 표시)과 개발자 테마의 상세
+   * 표시에 같이 쓰인다 — 예전엔 두 필드(venueSubway/venueSubwayShort)로
+   * 나뉘어 있었는데 사용자 요청으로 하나로 합쳤다. */
   venueSubway: string;
-  venueSubwayShort: string;
   venueLat: number;
   venueLng: number;
   venueMapZoom: number;
@@ -356,7 +358,7 @@ export async function generateNerdkimInvitation(
     VENUE_NAME: input.venueName,
     VENUE_HALL: input.venueHall,
     VENUE_SUBWAY: input.venueSubway,
-    VENUE_SUBWAY_SHORT: input.venueSubwayShort,
+    VENUE_SUBWAY_SHORT: input.venueSubway,
     VENUE_ADDRESS_FULL: venueAddressFull,
 
     MAP_NAVER_URL: mapUrls.naver,
@@ -428,7 +430,7 @@ export async function generateNerdkimInvitation(
       floor: input.venueFloor,
       addressCopy: venueAddressFull,
       subway: input.venueSubway,
-      subwayShort: input.venueSubwayShort,
+      subwayShort: input.venueSubway,
       lat: input.venueLat,
       lng: input.venueLng,
       zoom: input.venueMapZoom || 17,

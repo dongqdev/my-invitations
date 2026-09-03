@@ -56,10 +56,9 @@ export interface InvitationFormData {
   venueAddress: string;
   /** 층 안내 (예: "지하 1층 주차, 3층 예식") */
   venueFloor: string;
-  /** 지하철 안내 전체 문구 */
+  /** 지하철 안내. 청첩장 상단 요약과 지도 근처 축약 표시에 같이 쓰인다(예전엔
+   * 두 칸으로 나뉘어 있었는데, 사용자 요청으로 하나로 합쳤다 — 짧게 적는 걸 권장). */
   venueSubway: string;
-  /** 지하철 안내 축약형 (예: "2호선 강남역") */
-  venueSubwayShort: string;
   venueLat: number;
   venueLng: number;
   /** 지도 초기 확대 레벨 */
@@ -137,7 +136,6 @@ export function createEmptyInvitationFormData(): InvitationFormData {
     venueAddress: '',
     venueFloor: '',
     venueSubway: '',
-    venueSubwayShort: '',
     venueLat: 0,
     venueLng: 0,
     venueMapZoom: 0,

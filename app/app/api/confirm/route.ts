@@ -36,7 +36,6 @@ interface ConfirmRequestBody {
   venueAddress?: unknown;
   venueFloor?: unknown;
   venueSubway?: unknown;
-  venueSubwayShort?: unknown;
   venueLat?: unknown;
   venueLng?: unknown;
   venueMapZoom?: unknown;
@@ -69,7 +68,6 @@ interface ValidatedConfirmData {
   venueAddress: string;
   venueFloor: string;
   venueSubway: string;
-  venueSubwayShort: string;
   venueLat: number;
   venueLng: number;
   venueMapZoom: number;
@@ -174,7 +172,6 @@ function validateBody(body: ConfirmRequestBody): ValidatedConfirmData | null {
     venueAddress: body.venueAddress,
     venueFloor: toStr(body.venueFloor),
     venueSubway: toStr(body.venueSubway),
-    venueSubwayShort: toStr(body.venueSubwayShort),
     venueLat: toNum(body.venueLat),
     venueLng: toNum(body.venueLng),
     venueMapZoom: toNum(body.venueMapZoom),
@@ -240,7 +237,6 @@ export async function POST(request: Request) {
     venueAddress: data.venueAddress,
     venueFloor: data.venueFloor,
     venueSubway: data.venueSubway,
-    venueSubwayShort: data.venueSubwayShort,
     venueLat: data.venueLat,
     venueLng: data.venueLng,
     venueMapZoom: data.venueMapZoom,
