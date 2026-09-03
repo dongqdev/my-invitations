@@ -249,6 +249,10 @@ export default function InvitationPreview({ data, onEdit }: InvitationPreviewPro
         <p className={styles.note}>
           실제 청첩장 화면 그대로예요. 계좌·연락처도 입력하신 내용이 그대로 보여요.
         </p>
+        <p className={styles.note}>
+          단, 지금은 &ldquo;일반 버전&rdquo;만 미리 볼 수 있어요. &ldquo;개발자
+          버전&rdquo;·&ldquo;터미널 버전&rdquo;은 확정 후 실제 링크에서 확인할 수 있어요.
+        </p>
 
         {(confirmState === 'idle' || confirmState === 'confirming' || confirmState === 'error') && (
           <div className={styles.emailField}>
